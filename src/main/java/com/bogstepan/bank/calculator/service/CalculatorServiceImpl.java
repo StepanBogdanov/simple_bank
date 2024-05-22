@@ -4,6 +4,7 @@ import com.bogstepan.bank.calculator.dto.CreditDto;
 import com.bogstepan.bank.calculator.dto.LoanOfferDto;
 import com.bogstepan.bank.calculator.dto.LoanStatementRequestDto;
 import com.bogstepan.bank.calculator.dto.ScoringDataDto;
+import com.bogstepan.bank.calculator.validation.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class CalculatorServiceImpl implements CalculatorService {
     private static final BigDecimal BASE_RATE = BigDecimal.valueOf(15);
 
     private final ScheduleService scheduleService;
+    private final ValidationService validationService;
 
     @Override
     public List<LoanOfferDto> calculateOffers(LoanStatementRequestDto loanStatementRequestDto) {
@@ -55,14 +57,15 @@ public class CalculatorServiceImpl implements CalculatorService {
     }
 
     private boolean preScoring(LoanStatementRequestDto loanStatementRequestDto) {
-        return true;
+        return validationService.isValidRequest(loanStatementRequestDto);
     }
 
     private boolean scoring(ScoringDataDto scoringDataDto) {
         return true;
     }
 
-    private LoanOfferDto calculateOffer(LoanStatementRequestDto loanStatementRequestDto, boolean isInsuranceEnabled, boolean isSalaryClient) {
+    private LoanOfferDto calculateOffer(LoanStatementRequestDto loanStatementRequestDto,
+                                        boolean isInsuranceEnabled, boolean isSalaryClient) {
         UUID uuid = UUID.randomUUID();
         var requestedAmount = loanStatementRequestDto.getAmount();
         var term = loanStatementRequestDto.getTerm();
@@ -110,6 +113,8 @@ public class CalculatorServiceImpl implements CalculatorService {
     }
 
     private BigDecimal calculatePsk(BigDecimal totalAmount, BigDecimal rate) {
-        return totalAmount.add((totalAmount.multiply(rate.divide(BigDecimal.valueOf(100), 5, RoundingMode.HALF_UP))));
+        return totalAmount.add(
+                (totalAmount.multiply(rate.divide(BigDecimal.valueOf(100), 5, RoundingMode.HALF_UP)))
+        ).setScale(2, RoundingMode.HALF_UP);
     }
 }
