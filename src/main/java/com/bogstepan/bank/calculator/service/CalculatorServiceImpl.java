@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -37,23 +39,24 @@ public class CalculatorServiceImpl implements CalculatorService {
 
     @Override
     public CreditDto calculateCredit(ScoringDataDto scoringDataDto) {
-        var rate = BASE_RATE;
-        var credit = new CreditDto();
+        var rate = calculateFinalRate(scoringDataDto);
         if (scoring(scoringDataDto)) {
             var totalAmount = calculateTotalAmount(scoringDataDto.getAmount(), scoringDataDto.getTerm(),
                     scoringDataDto.getIsInsuranceEnabled());
             var monthlyPayment = calculateMonthlyPayment(totalAmount, rate, scoringDataDto.getTerm());
-            credit.setAmount(totalAmount);
-            credit.setTerm(scoringDataDto.getTerm());
-            credit.setMonthlyPayment(monthlyPayment);
-            credit.setRate(rate);
-            credit.setPsk(calculatePsk(totalAmount, rate));
-            credit.setIsInsuranceEnabled(scoringDataDto.getIsInsuranceEnabled());
-            credit.setIsSalaryClient(scoringDataDto.getIsSalaryClient());
-            credit.setPaymentSchedule(scheduleService.getPaymentSchedule(totalAmount, monthlyPayment,
-                    rate, scoringDataDto.getTerm()));
+            return CreditDto.builder()
+                    .amount(totalAmount)
+                    .term(scoringDataDto.getTerm())
+                    .monthlyPayment(monthlyPayment)
+                    .rate(rate)
+                    .psk(calculatePsk(totalAmount, rate))
+                    .isInsuranceEnabled(scoringDataDto.getIsInsuranceEnabled())
+                    .isSalaryClient(scoringDataDto.getIsSalaryClient())
+                    .paymentSchedule(scheduleService.getPaymentSchedule(totalAmount, monthlyPayment,
+                    rate, scoringDataDto.getTerm()))
+                    .build();
         }
-        return credit;
+        return null;
     }
 
     private boolean preScoring(LoanStatementRequestDto loanStatementRequestDto) {
@@ -61,6 +64,14 @@ public class CalculatorServiceImpl implements CalculatorService {
     }
 
     private boolean scoring(ScoringDataDto scoringDataDto) {
+        if (scoringDataDto.getEmployment().getEmploymentStatus().name().equals("UNEMPLOYED") ||
+                scoringDataDto.getAmount().compareTo(scoringDataDto.getEmployment().getSalary().multiply(BigDecimal.valueOf(25))) > 0 ||
+                ChronoUnit.YEARS.between(scoringDataDto.getBirthDate(), LocalDate.now()) < 20 ||
+                ChronoUnit.YEARS.between(scoringDataDto.getBirthDate(),LocalDate.now()) > 65 ||
+                scoringDataDto.getEmployment().getWorkExperienceTotal() < 18 ||
+                scoringDataDto.getEmployment().getWorkExperienceCurrent() < 3) {
+            return false;
+        }
         return true;
     }
 
@@ -101,6 +112,38 @@ public class CalculatorServiceImpl implements CalculatorService {
         BigDecimal rate = BASE_RATE;
         if (isInsuranceEnabled) rate = rate.subtract(BigDecimal.valueOf(5));
         if (isSalaryClient) rate = rate.subtract(BigDecimal.valueOf(1));
+        return rate;
+    }
+
+    private BigDecimal calculateFinalRate(ScoringDataDto data) {
+        var rate = calculatePreliminaryRate(data.getIsInsuranceEnabled(), data.getIsSalaryClient());
+        switch (data.getEmployment().getEmploymentStatus()) {
+            case SELF_EMPLOYED -> rate = rate.add(BigDecimal.ONE);
+            case BUSINESS_OWNER -> rate = rate.add(BigDecimal.valueOf(2));
+        }
+        switch (data.getEmployment().getPosition()) {
+            case MIDDLE_MANAGER -> rate = rate.subtract(BigDecimal.valueOf(2));
+            case TOP_MANAGER -> rate = rate.subtract(BigDecimal.valueOf(3));
+        }
+        switch (data.getMaritalStatus()) {
+            case MARRIED -> rate = rate.subtract(BigDecimal.valueOf(3));
+            case DIVORCED -> rate = rate.add(BigDecimal.ONE);
+        }
+        switch (data.getGender()) {
+            case MALE -> {
+                if (ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) > 30 &&
+                        ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) < 55) {
+                    rate = rate.subtract(BigDecimal.valueOf(3));
+                }
+            }
+            case FEMALE -> {
+                if (ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) > 32 &&
+                        ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) < 60) {
+                    rate = rate.subtract(BigDecimal.valueOf(3));
+                }
+            }
+            case NON_BINARY -> rate = rate.add(BigDecimal.valueOf(7));
+        }
         return rate;
     }
 
