@@ -6,6 +6,7 @@ import com.bogstepan.bank.calculator.dto.LoanStatementRequestDto;
 import com.bogstepan.bank.calculator.dto.ScoringDataDto;
 import com.bogstepan.bank.calculator.validation.ValidationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,10 +15,12 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CalculatorServiceImpl implements CalculatorService {
 
     private static final BigDecimal BASE_RATE = BigDecimal.valueOf(15);
@@ -38,13 +41,13 @@ public class CalculatorServiceImpl implements CalculatorService {
     }
 
     @Override
-    public CreditDto calculateCredit(ScoringDataDto scoringDataDto) {
+    public Optional<CreditDto> calculateCredit(ScoringDataDto scoringDataDto) {
         var rate = calculateFinalRate(scoringDataDto);
         if (scoring(scoringDataDto)) {
             var totalAmount = calculateTotalAmount(scoringDataDto.getAmount(), scoringDataDto.getTerm(),
                     scoringDataDto.getIsInsuranceEnabled());
             var monthlyPayment = calculateMonthlyPayment(totalAmount, rate, scoringDataDto.getTerm());
-            return CreditDto.builder()
+            return Optional.of(CreditDto.builder()
                     .amount(totalAmount)
                     .term(scoringDataDto.getTerm())
                     .monthlyPayment(monthlyPayment)
@@ -54,9 +57,9 @@ public class CalculatorServiceImpl implements CalculatorService {
                     .isSalaryClient(scoringDataDto.getIsSalaryClient())
                     .paymentSchedule(scheduleService.getPaymentSchedule(totalAmount, monthlyPayment,
                     rate, scoringDataDto.getTerm()))
-                    .build();
+                    .build());
         }
-        return null;
+        return Optional.empty();
     }
 
     private boolean preScoring(LoanStatementRequestDto loanStatementRequestDto) {
@@ -70,6 +73,7 @@ public class CalculatorServiceImpl implements CalculatorService {
                 ChronoUnit.YEARS.between(scoringDataDto.getBirthDate(),LocalDate.now()) > 65 ||
                 scoringDataDto.getEmployment().getWorkExperienceTotal() < 18 ||
                 scoringDataDto.getEmployment().getWorkExperienceCurrent() < 3) {
+            log.warn("Credit denied");
             return false;
         }
         return true;
