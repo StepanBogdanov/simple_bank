@@ -5,10 +5,10 @@ import jakarta.validation.ConstraintValidatorContext;
 
 import java.time.LocalDate;
 
-public class MinimumAgeValidator implements ConstraintValidator<MinimumAge, LocalDate> {
+public class MaximumAgeValidator implements ConstraintValidator<MaximumAge, LocalDate> {
 
     @Override
     public boolean isValid(LocalDate value, ConstraintValidatorContext constraintValidatorContext) {
-        return value == null || value.isBefore(LocalDate.now().minusYears(20));
+        return value == null || value.isAfter(LocalDate.now().minusYears(65));
     }
 }

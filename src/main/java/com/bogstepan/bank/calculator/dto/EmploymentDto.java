@@ -1,6 +1,8 @@
 package com.bogstepan.bank.calculator.dto;
 
+import com.bogstepan.bank.calculator.validation.EnumNamePattern;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,15 +18,23 @@ import java.math.BigDecimal;
 public class EmploymentDto {
 
     @Schema(example = "SELF_EMPLOYED")
+    @EnumNamePattern(regexp = "UNEMPLOYED", message = "Field 'EmploymentStatus' is UNEMPLOYED")
     EmploymentStatus employmentStatus;
+
     @Schema(example = "12364312")
     String employerINN;
+
     @Schema(example = "30000")
     BigDecimal salary;
+
     @Schema(example = "WORKER")
     EmploymentPosition position;
+
     @Schema(example = "36")
+    @Min(value = 12, message = "Field 'workExperienceTotal' is less than 12")
     Integer workExperienceTotal;
+
     @Schema(example = "12")
+    @Min(value = 3, message = "Field 'workExperienceCurrent' is less than 3")
     Integer workExperienceCurrent;
 }

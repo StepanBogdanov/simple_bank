@@ -6,11 +6,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = MinimumAgeValidator.class)
-public @interface MinimumAge {
+@Constraint(validatedBy = EnumNamePatternValidator.class)
+public @interface EnumNamePattern {
+
+    String regexp();
+    String message();
 
     Class<?>[] groups() default {};
     Class<?>[] payload() default {};
 
-    String message() default "Field 'birthday' less than 20 years from the current day";
 }

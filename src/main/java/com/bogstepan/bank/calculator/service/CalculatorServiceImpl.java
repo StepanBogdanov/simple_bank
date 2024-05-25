@@ -31,7 +31,7 @@ public class CalculatorServiceImpl implements CalculatorService {
     @Override
     public List<LoanOfferDto> calculateOffers(LoanStatementRequestDto loanStatementRequestDto) {
         List<LoanOfferDto> offers = new ArrayList<>();
-        if (preScoring(loanStatementRequestDto)) {
+        if (validationService.preScoring(loanStatementRequestDto)) {
             offers.add(calculateOffer(loanStatementRequestDto, false, false));
             offers.add(calculateOffer(loanStatementRequestDto, false, true));
             offers.add(calculateOffer(loanStatementRequestDto, true, false));
@@ -43,7 +43,7 @@ public class CalculatorServiceImpl implements CalculatorService {
     @Override
     public Optional<CreditDto> calculateCredit(ScoringDataDto scoringDataDto) {
         var rate = calculateFinalRate(scoringDataDto);
-        if (scoring(scoringDataDto)) {
+        if (validationService.scoring(scoringDataDto)) {
             var totalAmount = calculateTotalAmount(scoringDataDto.getAmount(), scoringDataDto.getTerm(),
                     scoringDataDto.getIsInsuranceEnabled());
             var monthlyPayment = calculateMonthlyPayment(totalAmount, rate, scoringDataDto.getTerm());
@@ -60,23 +60,6 @@ public class CalculatorServiceImpl implements CalculatorService {
                     .build());
         }
         return Optional.empty();
-    }
-
-    private boolean preScoring(LoanStatementRequestDto loanStatementRequestDto) {
-        return validationService.isValidRequest(loanStatementRequestDto);
-    }
-
-    private boolean scoring(ScoringDataDto scoringDataDto) {
-        if (scoringDataDto.getEmployment().getEmploymentStatus().name().equals("UNEMPLOYED") ||
-                scoringDataDto.getAmount().compareTo(scoringDataDto.getEmployment().getSalary().multiply(BigDecimal.valueOf(25))) > 0 ||
-                ChronoUnit.YEARS.between(scoringDataDto.getBirthDate(), LocalDate.now()) < 20 ||
-                ChronoUnit.YEARS.between(scoringDataDto.getBirthDate(),LocalDate.now()) > 65 ||
-                scoringDataDto.getEmployment().getWorkExperienceTotal() < 18 ||
-                scoringDataDto.getEmployment().getWorkExperienceCurrent() < 3) {
-            log.warn("Credit denied");
-            return false;
-        }
-        return true;
     }
 
     private LoanOfferDto calculateOffer(LoanStatementRequestDto loanStatementRequestDto,
