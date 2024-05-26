@@ -4,6 +4,8 @@ import com.bogstepan.bank.calculator.dto.CreditDto;
 import com.bogstepan.bank.calculator.dto.LoanOfferDto;
 import com.bogstepan.bank.calculator.dto.LoanStatementRequestDto;
 import com.bogstepan.bank.calculator.dto.ScoringDataDto;
+import com.bogstepan.bank.calculator.exception.InvalidRequestException;
+import com.bogstepan.bank.calculator.exception.InvalidRequestData;
 import com.bogstepan.bank.calculator.service.CalculatorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,10 +13,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,20 +37,20 @@ public class CalculatorController {
             "and isSalaryClient Boolean fields (false-false, false-true, true-false, true-true).\n")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully calculated"),
-            @ApiResponse(responseCode = "400", description = "Unsuccessfully validated", content = {
-                    @Content(schema = @Schema(hidden = true))
-            })
+            @ApiResponse(responseCode = "400", description = "Offers calculation error", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = InvalidRequestData.class)) })
     })
-
     @PostMapping("/offers")
     public ResponseEntity<List<LoanOfferDto>> calculateOffers(@RequestBody LoanStatementRequestDto statementRequestDto) {
         log.info("Loan request statement: {}", statementRequestDto);
         var offers = service.calculateOffers(statementRequestDto);
-        if (!offers.isEmpty()) {
-            log.info("Loan offers: {}", offers);
-            return ResponseEntity.ok(offers);
+        if (offers.isEmpty()) {
+            log.warn("Offers calculation error");
+            throw new InvalidRequestException("Offers calculation error");
         }
-        return new ResponseEntity<>(offers, HttpStatus.BAD_REQUEST);
+        log.info("Loan offers: {}", offers);
+        return ResponseEntity.ok(offers);
     }
 
     @Operation(summary = "Calculate credit", description = "ScoringDataDto comes via API.\n" +
@@ -59,18 +59,19 @@ public class CalculatorController {
             "The response to the API is CreditDto, rich in all calculated parameters.\n")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully calculated"),
-            @ApiResponse(responseCode = "400", description = "Credit denied", content = {
-                    @Content(schema = @Schema(hidden = true))
-            })
+            @ApiResponse(responseCode = "400", description = "Offers calculation error", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = InvalidRequestData.class)) })
     })
     @PostMapping("/calc")
     public ResponseEntity<CreditDto> calculateCredit(@RequestBody ScoringDataDto scoringDataDto) {
         log.info("Request scoring data: {}", scoringDataDto);
         var credit = service.calculateCredit(scoringDataDto);
-        if (credit.isPresent()) {
-            log.info("Credit calculated: {}", credit);
-            return ResponseEntity.ok(credit.get());
+        if (credit.isEmpty()) {
+            log.warn("Credit calculation error");
+            throw new InvalidRequestException("Credit calculation error");
         }
-        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        log.info("Credit calculated: {}", credit);
+        return ResponseEntity.ok(credit.get());
     }
 }
