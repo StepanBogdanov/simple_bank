@@ -4,29 +4,24 @@ import com.bogstepan.bank.calculator.dto.CreditDto;
 import com.bogstepan.bank.calculator.dto.LoanOfferDto;
 import com.bogstepan.bank.calculator.dto.LoanStatementRequestDto;
 import com.bogstepan.bank.calculator.dto.ScoringDataDto;
-import com.bogstepan.bank.calculator.validation.ValidationService;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class CalculatorServiceImpl implements CalculatorService {
 
-    private static final BigDecimal BASE_RATE = BigDecimal.valueOf(15);
-
     private final ScheduleService scheduleService;
     private final ValidationService validationService;
+    private final RateService rateService;
 
     @Override
     public List<LoanOfferDto> calculateOffers(LoanStatementRequestDto loanStatementRequestDto) {
@@ -37,12 +32,15 @@ public class CalculatorServiceImpl implements CalculatorService {
             offers.add(calculateOffer(loanStatementRequestDto, true, false));
             offers.add(calculateOffer(loanStatementRequestDto,true, true));
         }
-        return offers;
+        List<LoanOfferDto> sortedOffers = offers.stream()
+                .sorted(Comparator.comparing(o -> o.getRate(), Comparator.reverseOrder()))
+                .collect(Collectors.toList());
+        return sortedOffers;
     }
 
     @Override
     public Optional<CreditDto> calculateCredit(ScoringDataDto scoringDataDto) {
-        var rate = calculateFinalRate(scoringDataDto);
+        var rate = rateService.calculateFinalRate(scoringDataDto);
         if (validationService.scoring(scoringDataDto)) {
             var totalAmount = calculateTotalAmount(scoringDataDto.getAmount(), scoringDataDto.getTerm(),
                     scoringDataDto.getIsInsuranceEnabled());
@@ -68,9 +66,8 @@ public class CalculatorServiceImpl implements CalculatorService {
         var requestedAmount = loanStatementRequestDto.getAmount();
         var term = loanStatementRequestDto.getTerm();
         var totalAmount = calculateTotalAmount(requestedAmount, term, isInsuranceEnabled);
-        var rate = calculatePreliminaryRate(isInsuranceEnabled, isSalaryClient);
+        var rate = rateService.calculatePreliminaryRate(isInsuranceEnabled, isSalaryClient);
         var monthlyPayment = calculateMonthlyPayment(totalAmount, rate, term);
-
         return new LoanOfferDto(
                 uuid,
                 requestedAmount,
@@ -93,45 +90,6 @@ public class CalculatorServiceImpl implements CalculatorService {
             totalAmount = amount.add(insuranceCost);
         }
         return totalAmount;
-    }
-
-    private BigDecimal calculatePreliminaryRate(boolean isInsuranceEnabled, boolean isSalaryClient) {
-        BigDecimal rate = BASE_RATE;
-        if (isInsuranceEnabled) rate = rate.subtract(BigDecimal.valueOf(5));
-        if (isSalaryClient) rate = rate.subtract(BigDecimal.valueOf(1));
-        return rate;
-    }
-
-    private BigDecimal calculateFinalRate(ScoringDataDto data) {
-        var rate = calculatePreliminaryRate(data.getIsInsuranceEnabled(), data.getIsSalaryClient());
-        switch (data.getEmployment().getEmploymentStatus()) {
-            case SELF_EMPLOYED -> rate = rate.add(BigDecimal.ONE);
-            case BUSINESS_OWNER -> rate = rate.add(BigDecimal.valueOf(2));
-        }
-        switch (data.getEmployment().getPosition()) {
-            case MIDDLE_MANAGER -> rate = rate.subtract(BigDecimal.valueOf(2));
-            case TOP_MANAGER -> rate = rate.subtract(BigDecimal.valueOf(3));
-        }
-        switch (data.getMaritalStatus()) {
-            case MARRIED -> rate = rate.subtract(BigDecimal.valueOf(3));
-            case DIVORCED -> rate = rate.add(BigDecimal.ONE);
-        }
-        switch (data.getGender()) {
-            case MALE -> {
-                if (ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) > 30 &&
-                        ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) < 55) {
-                    rate = rate.subtract(BigDecimal.valueOf(3));
-                }
-            }
-            case FEMALE -> {
-                if (ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) > 32 &&
-                        ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) < 60) {
-                    rate = rate.subtract(BigDecimal.valueOf(3));
-                }
-            }
-            case NON_BINARY -> rate = rate.add(BigDecimal.valueOf(7));
-        }
-        return rate;
     }
 
     private BigDecimal calculateMonthlyPayment(BigDecimal amount, BigDecimal rate, Integer term) {

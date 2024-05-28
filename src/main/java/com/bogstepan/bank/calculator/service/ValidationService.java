@@ -1,4 +1,4 @@
-package com.bogstepan.bank.calculator.validation;
+package com.bogstepan.bank.calculator.service;
 
 import com.bogstepan.bank.calculator.dto.LoanStatementRequestDto;
 import com.bogstepan.bank.calculator.dto.ScoringDataDto;
