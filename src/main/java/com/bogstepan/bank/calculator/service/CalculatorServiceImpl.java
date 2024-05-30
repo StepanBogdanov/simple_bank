@@ -4,7 +4,6 @@ import com.bogstepan.bank.calculator.dto.CreditDto;
 import com.bogstepan.bank.calculator.dto.LoanOfferDto;
 import com.bogstepan.bank.calculator.dto.LoanStatementRequestDto;
 import com.bogstepan.bank.calculator.dto.ScoringDataDto;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,16 +31,15 @@ public class CalculatorServiceImpl implements CalculatorService {
             offers.add(calculateOffer(loanStatementRequestDto, true, false));
             offers.add(calculateOffer(loanStatementRequestDto,true, true));
         }
-        List<LoanOfferDto> sortedOffers = offers.stream()
-                .sorted(Comparator.comparing(o -> o.getRate(), Comparator.reverseOrder()))
+        return offers.stream()
+                .sorted(Comparator.comparing(LoanOfferDto::getRate, Comparator.reverseOrder()))
                 .collect(Collectors.toList());
-        return sortedOffers;
     }
 
     @Override
     public Optional<CreditDto> calculateCredit(ScoringDataDto scoringDataDto) {
-        var rate = rateService.calculateFinalRate(scoringDataDto);
         if (validationService.scoring(scoringDataDto)) {
+            var rate = rateService.calculateFinalRate(scoringDataDto);
             var totalAmount = calculateTotalAmount(scoringDataDto.getAmount(), scoringDataDto.getTerm(),
                     scoringDataDto.getIsInsuranceEnabled());
             var monthlyPayment = calculateMonthlyPayment(totalAmount, rate, scoringDataDto.getTerm());
@@ -96,8 +94,7 @@ public class CalculatorServiceImpl implements CalculatorService {
         var monthlyRate = rate.divide(BigDecimal.valueOf(1200), 5, RoundingMode.HALF_UP);
         var annuityCoefficient = (monthlyRate.multiply((monthlyRate.add(BigDecimal.ONE)).pow(term))).divide(
                 ((monthlyRate.add(BigDecimal.ONE)).pow(term)).subtract(BigDecimal.ONE), 10, RoundingMode.HALF_UP);
-        var monthlyPayment = amount.multiply(annuityCoefficient).setScale(2, RoundingMode.HALF_UP);
-        return monthlyPayment;
+        return amount.multiply(annuityCoefficient).setScale(2, RoundingMode.HALF_UP);
     }
 
     private BigDecimal calculatePsk(BigDecimal totalAmount, BigDecimal rate) {

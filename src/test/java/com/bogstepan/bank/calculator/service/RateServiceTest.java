@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 class RateServiceTest {
 
-    ScoringDataDto scoringData;
+    private ScoringDataDto scoringData;
 
     @BeforeEach
     void setUp() {
@@ -33,10 +33,10 @@ class RateServiceTest {
                 "Ivanov",
                 "",
                 Gender.MALE,
-                LocalDate.of(2000, 01, 01),
+                LocalDate.of(2000, 1, 1),
                 "1111",
                 "123321",
-                LocalDate.of(2005, 01, 01),
+                LocalDate.of(2005, 1, 1),
                 "",
                 MaritalStatus.SINGLE,
                 2,
@@ -70,6 +70,20 @@ class RateServiceTest {
     }
 
     @Test
+    public void whenEmploymentStatusIsSelfEmployedThenBaseRateIncreaseByOne() {
+        scoringData.getEmployment().setEmploymentStatus(EmploymentStatus.SELF_EMPLOYED);
+        var rate = rateService.calculateFinalRate(scoringData);
+        assertThat(rate).isEqualTo(rateService.getBaseRate().add(BigDecimal.ONE));
+    }
+
+    @Test
+    public void whenEmploymentPositionIsMiddleManagerThenBaseRateDecreaseByTwo() {
+        scoringData.getEmployment().setPosition(EmploymentPosition.MIDDLE_MANAGER);
+        var rate = rateService.calculateFinalRate(scoringData);
+        assertThat(rate).isEqualTo(rateService.getBaseRate().subtract(BigDecimal.valueOf(2)));
+    }
+
+    @Test
     public void whenEmploymentPositionIsTopManagerThenBaseRateDecreaseByThree() {
         scoringData.getEmployment().setPosition(EmploymentPosition.TOP_MANAGER);
         var rate = rateService.calculateFinalRate(scoringData);
@@ -81,6 +95,29 @@ class RateServiceTest {
         scoringData.setMaritalStatus(MaritalStatus.DIVORCED);
         var rate = rateService.calculateFinalRate(scoringData);
         assertThat(rate).isEqualTo(rateService.getBaseRate().add(BigDecimal.ONE));
+    }
+
+    @Test
+    public void whenEmploymentMaritalStatusIsMarriedThenBaseRateDecreaseByThree() {
+        scoringData.setMaritalStatus(MaritalStatus.MARRIED);
+        var rate = rateService.calculateFinalRate(scoringData);
+        assertThat(rate).isEqualTo(rateService.getBaseRate().subtract(BigDecimal.valueOf(3)));
+    }
+
+    @Test
+    public void whenEmploymentGenderIsMaleAndEmploymentAgeMoreThanMaleLowerAgeLimitThenBaseRateDecreaseByThree() {
+        scoringData.setGender(Gender.MALE);
+        scoringData.setBirthDate(LocalDate.now().minusYears(rateService.getMaleLowerAgeLimit() + 1));
+        var rate = rateService.calculateFinalRate(scoringData);
+        assertThat(rate).isEqualTo(rateService.getBaseRate().subtract(BigDecimal.valueOf(3)));
+    }
+
+    @Test
+    public void whenEmploymentGenderIsFemaleAndEmploymentAgeMoreThanFemaleLowerAgeLimitThenBaseRateDecreaseByThree() {
+        scoringData.setGender(Gender.FEMALE);
+        scoringData.setBirthDate(LocalDate.now().minusYears(rateService.getFemaleLowerAgeLimit() + 1));
+        var rate = rateService.calculateFinalRate(scoringData);
+        assertThat(rate).isEqualTo(rateService.getBaseRate().subtract(BigDecimal.valueOf(3)));
     }
 
     @Test

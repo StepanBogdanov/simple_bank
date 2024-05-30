@@ -6,6 +6,7 @@ import com.bogstepan.bank.calculator.dto.ScoringDataDto;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
@@ -18,25 +19,32 @@ class MaximumLoanAmountValidatorTest {
     @Autowired
     private Validator validator;
 
+    @Value("${validation.solvency_ratio}")
+    private int solvencyRatio;
+
     @Test
-    public void whenAmountLessThan25SalariesThenGiveEmptyConstraintViolations() {
+    public void whenAmountLessMaximumLoanAmountThenGiveEmptyConstraintViolations() {
         var scoringData = new ScoringDataDto();
         var employment = new EmploymentDto();
-        employment.setSalary(BigDecimal.valueOf(30000));
+        var salary = new BigDecimal("30000");
+        var maximumLoanAmount = salary.multiply(BigDecimal.valueOf(solvencyRatio));
+        employment.setSalary(salary);
         employment.setEmploymentStatus(EmploymentStatus.BUSINESS_OWNER);
-        scoringData.setAmount(BigDecimal.valueOf(100000));
+        scoringData.setAmount(maximumLoanAmount.subtract(BigDecimal.ONE));
         scoringData.setEmployment(employment);
         var constraint = validator.validate(scoringData);
         assertThat(constraint).isEmpty();
     }
 
     @Test
-    public void whenAmountMoreThan25SalariesThenGiveEmptyConstraintViolations() {
+    public void whenAmountMoreMaximumLoanAmountThenGiveEmptyConstraintViolations() {
         var scoringData = new ScoringDataDto();
         var employment = new EmploymentDto();
-        employment.setSalary(BigDecimal.valueOf(300));
+        var salary = new BigDecimal("30000");
+        var maximumLoanAmount = salary.multiply(BigDecimal.valueOf(solvencyRatio));
+        employment.setSalary(salary);
         employment.setEmploymentStatus(EmploymentStatus.BUSINESS_OWNER);
-        scoringData.setAmount(BigDecimal.valueOf(100000));
+        scoringData.setAmount(maximumLoanAmount.add(BigDecimal.ONE));
         scoringData.setEmployment(employment);
         var constraint = validator.validate(scoringData);
         assertThat(constraint).isNotEmpty();
