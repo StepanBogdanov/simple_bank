@@ -13,9 +13,9 @@ import java.util.List;
 @Service
 public class ScheduleService {
     public List<PaymentScheduleElementDto> getPaymentSchedule(BigDecimal totalAmount, BigDecimal monthlyPayment,
-                                                              BigDecimal rate, Integer term) {
+                                                              BigDecimal rate, int term) {
         List<PaymentScheduleElementDto> paymentSchedule = new ArrayList<>();
-        Integer number = 0;
+        int number = 0;
         BigDecimal remainingDebt = totalAmount;
         LocalDate currentDate = LocalDate.now();
         while (number < term) {

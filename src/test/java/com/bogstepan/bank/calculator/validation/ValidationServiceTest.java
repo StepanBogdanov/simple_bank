@@ -26,7 +26,7 @@ class ValidationServiceTest {
                 "Ivanov",
                 "",
                 "ivan@mail.ru",
-                LocalDate.of(1990, 03, 15),
+                LocalDate.of(1990, 3, 15),
                 "1234",
                 "321321"
         );
@@ -42,7 +42,7 @@ class ValidationServiceTest {
                 "Ivanov",
                 "",
                 "ivan@mail.ru",
-                LocalDate.of(1990, 03, 15),
+                LocalDate.of(1990, 3, 15),
                 "1234",
                 "321321"
         );
@@ -58,10 +58,10 @@ class ValidationServiceTest {
                 "Ivanov",
                 "",
                 Gender.MALE,
-                LocalDate.of(1990, 01, 01),
+                LocalDate.of(1990, 1, 1),
                 "1111",
                 "123456",
-                LocalDate.of(2005, 01, 01),
+                LocalDate.of(2005, 1, 1),
                 "UFMS",
                 MaritalStatus.MARRIED,
                 2,
@@ -89,10 +89,10 @@ class ValidationServiceTest {
                 "Ivanov",
                 "",
                 Gender.MALE,
-                LocalDate.of(1990, 01, 01),
+                LocalDate.of(1990, 1, 1),
                 "1111",
                 "123456",
-                LocalDate.of(2005, 01, 01),
+                LocalDate.of(2005, 1, 1),
                 "UFMS",
                 MaritalStatus.MARRIED,
                 2,

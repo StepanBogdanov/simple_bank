@@ -26,8 +26,12 @@ public class RateService {
 
     public BigDecimal calculatePreliminaryRate(boolean isInsuranceEnabled, boolean isSalaryClient) {
         BigDecimal rate = baseRate;
-        if (isInsuranceEnabled) rate = rate.subtract(BigDecimal.valueOf(5));
-        if (isSalaryClient) rate = rate.subtract(BigDecimal.valueOf(1));
+        if (isInsuranceEnabled) {
+            rate = rate.subtract(BigDecimal.valueOf(5));
+        }
+        if (isSalaryClient) {
+            rate = rate.subtract(BigDecimal.valueOf(1));
+        }
         return rate;
     }
 
@@ -47,14 +51,14 @@ public class RateService {
         }
         switch (data.getGender()) {
             case MALE -> {
-                if (ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) > maleLowerAgeLimit &&
-                        ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) < maleUpperAgeLimit) {
+                if (ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) > maleLowerAgeLimit
+                        && ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) < maleUpperAgeLimit) {
                     rate = rate.subtract(BigDecimal.valueOf(3));
                 }
             }
             case FEMALE -> {
-                if (ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) > femaleLowerAgeLimit &&
-                        ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) < femaleUpperAgeLimit) {
+                if (ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) > femaleLowerAgeLimit
+                        && ChronoUnit.YEARS.between(data.getBirthDate(), LocalDate.now()) < femaleUpperAgeLimit) {
                     rate = rate.subtract(BigDecimal.valueOf(3));
                 }
             }

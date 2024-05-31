@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.*;
 
 class MaximumAgeValidatorTest {
 
-    private MaximumAgeValidator validator = new MaximumAgeValidator();
+    private final MaximumAgeValidator validator = new MaximumAgeValidator();
 
     @Mock
     private ConstraintValidatorContext constraintValidatorContext;

@@ -32,9 +32,11 @@ public class CalculatorController {
 
     private final CalculatorService service;
 
-    @Operation(summary = "Calculate loan offers", description = "Based on LoanStatementRequestDto, prescoring occurs, " +
-            "4 loan offers LoanOfferDto are calculated based on all possible combinations of the isInsuranceEnabled " +
-            "and isSalaryClient Boolean fields (false-false, false-true, true-false, true-true).\n")
+    @Operation(summary = "Calculate loan offers", description = """
+            Based on LoanStatementRequestDto, prescoring occurs,
+            4 loan offers LoanOfferDto are calculated based on all possible combinations of the isInsuranceEnabled
+            and isSalaryClient Boolean fields (false-false, false-true, true-false, true-true).
+            """)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully calculated"),
             @ApiResponse(responseCode = "400", description = "Offers calculation error", content = {
@@ -53,10 +55,12 @@ public class CalculatorController {
         return ResponseEntity.ok(offers);
     }
 
-    @Operation(summary = "Calculate credit", description = "ScoringDataDto comes via API.\n" +
-            "The data is scored, the final rate (rate), the total cost of the loan (psk), the amount of the monthly " +
-            "payment (monthlyPayment), and the monthly payment schedule (List<PaymentScheduleElementDto>) are calculated." +
-            "The response to the API is CreditDto, rich in all calculated parameters.\n")
+    @Operation(summary = "Calculate credit", description = """
+            ScoringDataDto comes via API.
+            The data is scored, the final rate (rate), the total cost of the loan (psk), the amount of the monthly
+            payment (monthlyPayment), and the monthly payment schedule (List<PaymentScheduleElementDto>) are calculated.
+            The response to the API is CreditDto, rich in all calculated parameters.
+            """)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully calculated"),
             @ApiResponse(responseCode = "400", description = "Offers calculation error", content = {
