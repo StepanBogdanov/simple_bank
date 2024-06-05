@@ -33,7 +33,7 @@ public class Statement {
     @JdbcTypeCode(SqlTypes.JSON)
     AppliedOffer appliedOffer;
     LocalDate signDate;
-    Integer sesCode;
+    String sesCode;
     @JdbcTypeCode(SqlTypes.JSON)
     StatusHistory statusHistory;
 
