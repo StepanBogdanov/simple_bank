@@ -60,7 +60,7 @@ public class CalculatorServiceImpl implements CalculatorService {
 
     private LoanOfferDto calculateOffer(LoanStatementRequestDto loanStatementRequestDto,
                                         boolean isInsuranceEnabled, boolean isSalaryClient) {
-        UUID uuid = UUID.randomUUID();
+        UUID uuid = null;
         var requestedAmount = loanStatementRequestDto.getAmount();
         var term = loanStatementRequestDto.getTerm();
         var totalAmount = calculateTotalAmount(requestedAmount, term, isInsuranceEnabled);
