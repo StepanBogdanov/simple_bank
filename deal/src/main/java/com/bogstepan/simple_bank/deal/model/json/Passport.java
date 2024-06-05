@@ -17,4 +17,10 @@ public class Passport implements Serializable {
     String number;
     String issueBranch;
     LocalDate issueDate;
+
+    public Passport(String series, String number) {
+        passportId = UUID.randomUUID();
+        this.series = series;
+        this.number = number;
+    }
 }

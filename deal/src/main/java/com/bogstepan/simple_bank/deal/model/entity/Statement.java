@@ -4,8 +4,7 @@ import com.bogstepan.simple_bank.deal.model.enums.ApplicationStatus;
 import com.bogstepan.simple_bank.deal.model.json.AppliedOffer;
 import com.bogstepan.simple_bank.deal.model.json.StatusHistory;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -16,7 +15,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "statements")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class Statement {
 
     @Id
