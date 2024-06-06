@@ -31,6 +31,6 @@ public class DealController {
     @PostMapping("/calculate/{statementId}")
     public void calculateCredit(@RequestBody FinishRegistrationRequestDto finishRegistrationRequestDto,
                                 @PathVariable String statementId) {
-
+        dealService.calculateCredit(finishRegistrationRequestDto, statementId);
     }
 }

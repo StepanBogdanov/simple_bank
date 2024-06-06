@@ -1,7 +1,9 @@
 package com.bogstepan.simple_bank.deal.feign;
 
+import com.bogstepan.simple_bank.deal.model.dto.CreditDto;
 import com.bogstepan.simple_bank.deal.model.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.deal.model.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.deal.model.dto.ScoringDataDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,4 +16,7 @@ public interface CalculatorFeignClient {
 
     @PostMapping("calculator/offers")
     ResponseEntity<List<LoanOfferDto>> calculateOffers(@RequestBody LoanStatementRequestDto statementRequestDto);
+
+    @PostMapping("calculator/calc")
+    ResponseEntity<CreditDto> calculateCredit(@RequestBody ScoringDataDto scoringDataDto);
 }

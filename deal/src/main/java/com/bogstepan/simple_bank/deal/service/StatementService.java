@@ -3,6 +3,7 @@ package com.bogstepan.simple_bank.deal.service;
 import com.bogstepan.simple_bank.deal.model.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.deal.model.dto.StatementStatusHistoryDto;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
+import com.bogstepan.simple_bank.deal.model.entity.Credit;
 import com.bogstepan.simple_bank.deal.model.entity.Statement;
 import com.bogstepan.simple_bank.deal.model.enums.ApplicationStatus;
 import com.bogstepan.simple_bank.deal.model.enums.ChangeType;
@@ -12,12 +13,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class StatementService {
 
     private final StatementRepository statementRepository;
+
+    public Statement getById(String uuid) {
+        return statementRepository.findById(UUID.fromString(uuid)).get();
+    }
 
     public Statement preapprovalStatement(Client client) {
         var statusHistory = new StatusHistory();
@@ -34,11 +40,22 @@ public class StatementService {
     }
 
     public void approvedStatement(LoanOfferDto loanOfferDto) {
-        var statement = statementRepository.findById(loanOfferDto.getStatementId()).get();
+        var statement = getById(loanOfferDto.getStatementId().toString());
         statement.setStatus(ApplicationStatus.APPROVED);
         statement.setAppliedOffer(loanOfferDto);
         statement.getStatusHistory().addElement(new StatementStatusHistoryDto(
                 ApplicationStatus.APPROVED,
+                LocalDateTime.now(),
+                ChangeType.AUTOMATIC
+        ));
+        statementRepository.save(statement);
+    }
+
+    public void calculatedCreditStatement(Statement statement, Credit credit) {
+        statement.setCredit(credit);
+        statement.setStatus(ApplicationStatus.CC_APPROVED);
+        statement.getStatusHistory().addElement( new StatementStatusHistoryDto(
+                ApplicationStatus.CC_APPROVED,
                 LocalDateTime.now(),
                 ChangeType.AUTOMATIC
         ));

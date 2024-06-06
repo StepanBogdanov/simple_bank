@@ -12,7 +12,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Passport implements Serializable {
 
-    UUID passportId;
+    UUID passportId = UUID.randomUUID();
     String series;
     String number;
     String issueBranch;
