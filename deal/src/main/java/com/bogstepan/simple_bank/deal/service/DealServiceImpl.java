@@ -24,4 +24,9 @@ public class DealServiceImpl implements DealService {
         offers.forEach((o) -> o.setStatementId(statement.getStatementId()));
         return offers;
     }
+
+    @Override
+    public void selectOffer(LoanOfferDto loanOfferDto) {
+        statementService.approvedStatement(loanOfferDto);
+    }
 }

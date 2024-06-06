@@ -1,5 +1,6 @@
 package com.bogstepan.simple_bank.deal.service;
 
+import com.bogstepan.simple_bank.deal.model.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.deal.model.dto.StatementStatusHistoryDto;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
 import com.bogstepan.simple_bank.deal.model.entity.Statement;
@@ -30,5 +31,17 @@ public class StatementService {
                 .status(ApplicationStatus.PREAPPROVAL)
                 .statusHistory(statusHistory)
                 .build());
+    }
+
+    public void approvedStatement(LoanOfferDto loanOfferDto) {
+        var statement = statementRepository.findById(loanOfferDto.getStatementId()).get();
+        statement.setStatus(ApplicationStatus.APPROVED);
+        statement.setAppliedOffer(loanOfferDto);
+        statement.getStatusHistory().addElement(new StatementStatusHistoryDto(
+                ApplicationStatus.APPROVED,
+                LocalDateTime.now(),
+                ChangeType.AUTOMATIC
+        ));
+        statementRepository.save(statement);
     }
 }

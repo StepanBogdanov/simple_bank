@@ -1,7 +1,7 @@
 package com.bogstepan.simple_bank.deal.model.entity;
 
+import com.bogstepan.simple_bank.deal.model.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.deal.model.enums.ApplicationStatus;
-import com.bogstepan.simple_bank.deal.model.json.AppliedOffer;
 import com.bogstepan.simple_bank.deal.model.json.StatusHistory;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,7 +33,7 @@ public class Statement {
     @Enumerated(EnumType.STRING)
     ApplicationStatus status;
     @JdbcTypeCode(SqlTypes.JSON)
-    AppliedOffer appliedOffer;
+    LoanOfferDto appliedOffer;
     LocalDate signDate;
     String sesCode;
     @JdbcTypeCode(SqlTypes.JSON)

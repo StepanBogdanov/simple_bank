@@ -1,5 +1,6 @@
 package com.bogstepan.simple_bank.deal.model.dto;
 
+import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoanOfferDto {
 
+    @Transient
     UUID statementId;
     BigDecimal requestedAmount;
     BigDecimal totalAmount;
