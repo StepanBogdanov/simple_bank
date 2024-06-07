@@ -9,15 +9,13 @@ import com.bogstepan.simple_bank.deal.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class ClientService {
 
     private final ClientRepository clientRepository;
 
-    public Client saveClient(LoanStatementRequestDto loanStatementRequestDto) {
+    public Client saveNewClient(LoanStatementRequestDto loanStatementRequestDto) {
         return clientRepository.save(Client.builder()
                 .firstName(loanStatementRequestDto.getFirstName())
                 .lastName(loanStatementRequestDto.getLastName())

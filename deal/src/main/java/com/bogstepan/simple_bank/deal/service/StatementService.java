@@ -1,5 +1,6 @@
 package com.bogstepan.simple_bank.deal.service;
 
+import com.bogstepan.simple_bank.deal.exception.RequestException;
 import com.bogstepan.simple_bank.deal.model.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.deal.model.dto.StatementStatusHistoryDto;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
@@ -22,7 +23,11 @@ public class StatementService {
     private final StatementRepository statementRepository;
 
     public Statement getById(String uuid) {
-        return statementRepository.findById(UUID.fromString(uuid)).get();
+        var statement = statementRepository.findById(UUID.fromString(uuid));
+        if (statement.isEmpty()) {
+            throw new RequestException(String.format("Statement with id %s not found", uuid));
+        }
+        return statement.get();
     }
 
     public Statement preapprovalStatement(Client client) {
@@ -39,7 +44,7 @@ public class StatementService {
                 .build());
     }
 
-    public void approvedStatement(LoanOfferDto loanOfferDto) {
+    public Statement approvedStatement(LoanOfferDto loanOfferDto) {
         var statement = getById(loanOfferDto.getStatementId().toString());
         statement.setStatus(ApplicationStatus.APPROVED);
         statement.setAppliedOffer(loanOfferDto);
@@ -48,7 +53,7 @@ public class StatementService {
                 LocalDateTime.now(),
                 ChangeType.AUTOMATIC
         ));
-        statementRepository.save(statement);
+        return statementRepository.save(statement);
     }
 
     public void calculatedCreditStatement(Statement statement, Credit credit) {
