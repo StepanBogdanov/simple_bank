@@ -41,6 +41,7 @@ public class StatementService {
                 .client(client)
                 .status(ApplicationStatus.PREAPPROVAL)
                 .statusHistory(statusHistory)
+                .creationDate(LocalDateTime.now())
                 .build());
     }
 
