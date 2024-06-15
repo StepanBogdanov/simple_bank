@@ -1,5 +1,6 @@
 package com.bogstepan.simple_bank.deal.service;
 
+import com.bogstepan.simple_bank.deal.mapping.ClientMapper;
 import com.bogstepan.simple_bank.deal.model.dto.FinishRegistrationRequestDto;
 import com.bogstepan.simple_bank.deal.model.dto.LoanStatementRequestDto;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
@@ -14,36 +15,13 @@ import org.springframework.stereotype.Service;
 public class ClientService {
 
     private final ClientRepository clientRepository;
+    private final ClientMapper clientMapper;
 
     public Client saveNewClient(LoanStatementRequestDto loanStatementRequestDto) {
-        return clientRepository.save(Client.builder()
-                .firstName(loanStatementRequestDto.getFirstName())
-                .lastName(loanStatementRequestDto.getLastName())
-                .middleName(loanStatementRequestDto.getMiddleName())
-                .birthDate(loanStatementRequestDto.getBirthDate())
-                .email(loanStatementRequestDto.getEmail())
-                .passport(new Passport(
-                        loanStatementRequestDto.getPassportSeries(),
-                        loanStatementRequestDto.getPassportNumber()
-                ))
-                .build());
+        return clientRepository.save(clientMapper.newClient(loanStatementRequestDto));
     }
 
-    public Client updateClient(FinishRegistrationRequestDto finishRegistrationRequestDto, Client client) {
-        client.setGender(finishRegistrationRequestDto.getGender());
-        client.setMaritalStatus(finishRegistrationRequestDto.getMaritalStatus());
-        client.setDependentAmount(finishRegistrationRequestDto.getDependentAmount());
-        client.getPassport().setIssueDate(finishRegistrationRequestDto.getPassportIssueDate());
-        client.getPassport().setIssueBranch(finishRegistrationRequestDto.getPassportIssueBranch());
-        client.setEmployment(Employment.builder()
-                        .status(finishRegistrationRequestDto.getEmployment().getEmploymentStatus())
-                        .employerInn(finishRegistrationRequestDto.getEmployment().getEmployerINN())
-                        .salary(finishRegistrationRequestDto.getEmployment().getSalary())
-                        .position(finishRegistrationRequestDto.getEmployment().getPosition())
-                        .workExperienceTotal(finishRegistrationRequestDto.getEmployment().getWorkExperienceTotal())
-                        .workExperienceCurrent(finishRegistrationRequestDto.getEmployment().getWorkExperienceCurrent())
-                        .build());
-        client.setAccountNumber(finishRegistrationRequestDto.getAccountNumber());
-        return clientRepository.save(client);
+    public Client updateClient(Client client, FinishRegistrationRequestDto finishRegistrationRequestDto) {
+        return clientRepository.save(clientMapper.updateClient(client, finishRegistrationRequestDto));
     }
 }

@@ -2,6 +2,7 @@ package com.bogstepan.simple_bank.deal.service;
 
 import com.bogstepan.simple_bank.deal.exception.RequestException;
 import com.bogstepan.simple_bank.deal.feign.CalculatorFeignClient;
+import com.bogstepan.simple_bank.deal.mapping.ScoringDataMapper;
 import com.bogstepan.simple_bank.deal.model.dto.FinishRegistrationRequestDto;
 import com.bogstepan.simple_bank.deal.model.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.deal.model.dto.LoanStatementRequestDto;
@@ -21,6 +22,7 @@ public class DealServiceImpl implements DealService {
     private final StatementService statementService;
     private final CreditService creditService;
     private final CalculatorFeignClient calculatorFeignClient;
+    private final ScoringDataMapper scoringDataMapper;
 
     @Override
     public List<LoanOfferDto> calculateOffers(LoanStatementRequestDto loanStatementRequestDto) {
@@ -45,27 +47,9 @@ public class DealServiceImpl implements DealService {
     @Override
     public void calculateCredit(FinishRegistrationRequestDto finishRegistrationRequestDto, String statementId) {
         var statement = statementService.getById(statementId);
-        var client = clientService.updateClient(finishRegistrationRequestDto, statement.getClient());
+        var client = clientService.updateClient(statement.getClient(), finishRegistrationRequestDto);
         log.info("Client with Id {} was updated", client.getClientId());
-        var scoringDataDto = ScoringDataDto.builder()
-                .amount(statement.getAppliedOffer().getTotalAmount())
-                .term(statement.getAppliedOffer().getTerm())
-                .firstName(client.getFirstName())
-                .lastName(client.getLastName())
-                .middleName(client.getMiddleName())
-                .gender(client.getGender())
-                .birthDate(client.getBirthDate())
-                .passportSeries(client.getPassport().getSeries())
-                .passportNumber(client.getPassport().getNumber())
-                .passportIssueDate(client.getPassport().getIssueDate())
-                .passportIssueBranch(client.getPassport().getIssueBranch())
-                .maritalStatus(client.getMaritalStatus())
-                .dependentAmount(client.getDependentAmount())
-                .employment(finishRegistrationRequestDto.getEmployment())
-                .account(client.getAccountNumber())
-                .isInsuranceEnabled(statement.getAppliedOffer().getIsInsuranceEnabled())
-                .isSalaryClient(statement.getAppliedOffer().getIsSalaryClient())
-                .build();
+        var scoringDataDto = scoringDataMapper.toScoringDataDto(statement, client);
         var creditDto = calculatorFeignClient.calculateCredit(scoringDataDto);
         if (!creditDto.getStatusCode().is2xxSuccessful()) {
             throw new RequestException(String.format("Failed to calculate credit for statement %s", statementId));

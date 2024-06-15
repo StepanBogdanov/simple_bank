@@ -17,10 +17,8 @@ import java.util.UUID;
 @Builder
 public class Employment implements Serializable {
 
-    @Transient
-    UUID employmentId = UUID.randomUUID();
     EmploymentStatus status;
-    String employerInn;
+    String employerINN;
     BigDecimal salary;
     EmploymentPosition position;
     Integer workExperienceTotal;

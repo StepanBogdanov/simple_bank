@@ -23,7 +23,8 @@ public class StatementService {
     private final StatementRepository statementRepository;
 
     public Statement getById(String uuid) {
-        var statement = statementRepository.findById(UUID.fromString(uuid));
+        var id = UUID.fromString(uuid);
+        var statement = statementRepository.findById(id);
         if (statement.isEmpty()) {
             throw new RequestException(String.format("Statement with id %s not found", uuid));
         }

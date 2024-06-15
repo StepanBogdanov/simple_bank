@@ -4,13 +4,17 @@ import com.bogstepan.simple_bank.deal.model.enums.Gender;
 import com.bogstepan.simple_bank.deal.model.enums.MaritalStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@AllArgsConstructor
 public class FinishRegistrationRequestDto {
 
     @Schema(example = "MALE")

@@ -3,7 +3,9 @@ package com.bogstepan.simple_bank.deal.model.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Transient;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
@@ -11,6 +13,8 @@ import java.util.UUID;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoanOfferDto {
 
     @Transient
