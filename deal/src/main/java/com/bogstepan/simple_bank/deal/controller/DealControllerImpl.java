@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/deal")
 @RequiredArgsConstructor
 @Slf4j
 public class DealControllerImpl implements DealController {
@@ -20,8 +19,7 @@ public class DealControllerImpl implements DealController {
     private final DealService dealService;
 
     @Override
-    @PostMapping("/statement")
-    public ResponseEntity<List<LoanOfferDto>> calculateOffers(@RequestBody LoanStatementRequestDto loanStatementRequestDto){
+    public ResponseEntity<List<LoanOfferDto>> calculateOffers(LoanStatementRequestDto loanStatementRequestDto){
         log.info("Loan statement request: {}", loanStatementRequestDto );
         var offers = dealService.calculateOffers(loanStatementRequestDto);
         log.info("Loan offers calculated: {}", offers);
@@ -29,16 +27,13 @@ public class DealControllerImpl implements DealController {
     }
 
     @Override
-    @PostMapping("/offer/select")
-    public void selectOffer(@RequestBody LoanOfferDto loanOfferDto) {
+    public void selectOffer(LoanOfferDto loanOfferDto) {
         log.info("Selected offer for statement with Id {}: {}", loanOfferDto.getStatementId(), loanOfferDto);
         dealService.selectOffer(loanOfferDto);
     }
 
     @Override
-    @PostMapping("/calculate/{statementId}")
-    public void calculateCredit(@RequestBody FinishRegistrationRequestDto finishRegistrationRequestDto,
-                                @PathVariable String statementId) {
+    public void calculateCredit(FinishRegistrationRequestDto finishRegistrationRequestDto, String statementId) {
         log.info("Finish registration request for statement with Id {}: {}", statementId, finishRegistrationRequestDto );
         dealService.calculateCredit(finishRegistrationRequestDto, statementId);
     }
