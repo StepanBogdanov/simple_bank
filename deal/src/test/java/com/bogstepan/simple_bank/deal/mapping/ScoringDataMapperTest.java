@@ -7,7 +7,6 @@ import com.bogstepan.simple_bank.deal.model.entity.Statement;
 import com.bogstepan.simple_bank.deal.model.enums.*;
 import com.bogstepan.simple_bank.deal.model.json.Employment;
 import com.bogstepan.simple_bank.deal.model.json.Passport;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

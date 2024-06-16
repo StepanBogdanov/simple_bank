@@ -4,8 +4,6 @@ import com.bogstepan.simple_bank.deal.mapping.ClientMapper;
 import com.bogstepan.simple_bank.deal.model.dto.FinishRegistrationRequestDto;
 import com.bogstepan.simple_bank.deal.model.dto.LoanStatementRequestDto;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
-import com.bogstepan.simple_bank.deal.model.json.Employment;
-import com.bogstepan.simple_bank.deal.model.json.Passport;
 import com.bogstepan.simple_bank.deal.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

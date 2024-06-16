@@ -1,9 +1,8 @@
 package com.bogstepan.simple_bank.deal.service;
 
+import com.bogstepan.simple_bank.deal.mapping.CreditMapper;
 import com.bogstepan.simple_bank.deal.model.dto.CreditDto;
 import com.bogstepan.simple_bank.deal.model.entity.Credit;
-import com.bogstepan.simple_bank.deal.model.enums.CreditStatus;
-import com.bogstepan.simple_bank.deal.model.json.PaymentSchedule;
 import com.bogstepan.simple_bank.deal.repository.CreditRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,18 +12,9 @@ import org.springframework.stereotype.Service;
 public class CreditService {
 
     private final CreditRepository creditRepository;
+    private final CreditMapper creditMapper;
 
     public Credit saveCredit(CreditDto creditDto) {
-        return creditRepository.save(Credit.builder()
-                        .amount(creditDto.getAmount())
-                        .term(creditDto.getTerm())
-                        .monthlyPayment(creditDto.getMonthlyPayment())
-                        .rate(creditDto.getRate())
-                        .psk(creditDto.getPsk())
-                        .paymentSchedule(new PaymentSchedule(creditDto.getPaymentSchedule()))
-                        .insuranceEnabled(creditDto.getIsInsuranceEnabled())
-                        .salaryClient(creditDto.getIsSalaryClient())
-                        .creditStatus(CreditStatus.CALCULATED)
-                        .build());
+        return creditRepository.save(creditMapper.toCredit(creditDto));
     }
 }

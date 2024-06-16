@@ -38,12 +38,13 @@ public class StatementService {
                 LocalDateTime.now(),
                 ChangeType.AUTOMATIC
         ));
-        return statementRepository.save(Statement.builder()
+        var statement = Statement.builder()
                 .client(client)
                 .status(ApplicationStatus.PREAPPROVAL)
                 .statusHistory(statusHistory)
                 .creationDate(LocalDateTime.now())
-                .build());
+                .build();
+        return statementRepository.save(statement);
     }
 
     public Statement approvedStatement(LoanOfferDto loanOfferDto) {
