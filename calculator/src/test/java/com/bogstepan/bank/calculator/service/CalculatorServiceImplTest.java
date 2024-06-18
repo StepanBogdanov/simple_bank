@@ -34,19 +34,10 @@ class CalculatorServiceImplTest {
         var request = new LoanStatementRequestDto(BigDecimal.valueOf(50000), 12, "",
                 "", "", "", LocalDate.now(), "", "");
         Mockito.when(rateService.calculatePreliminaryRate(anyBoolean(), anyBoolean())).thenReturn(new BigDecimal("15"));
-        Mockito.when(validationService.preScoring(request)).thenReturn(true);
         var offers = calculatorService.calculateOffers(request);
         assertThat(offers.size()).isEqualTo(4);
         assertThat(offers.get(0).getMonthlyPayment().setScale(0, RoundingMode.HALF_UP)
                 .compareTo(BigDecimal.valueOf(4513))).isEqualTo(0);
-    }
-
-    @Test
-    public void whenInvalidRequestThenNotCalculateOffers() {
-        var request = new LoanStatementRequestDto();
-        Mockito.when(validationService.preScoring(request)).thenReturn(false);
-        var offers = calculatorService.calculateOffers(request);
-        assertThat(offers).isEmpty();
     }
 
     @Test

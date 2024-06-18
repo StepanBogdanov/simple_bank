@@ -25,12 +25,10 @@ public class CalculatorServiceImpl implements CalculatorService {
     @Override
     public List<LoanOfferDto> calculateOffers(LoanStatementRequestDto loanStatementRequestDto) {
         List<LoanOfferDto> offers = new ArrayList<>();
-        if (validationService.preScoring(loanStatementRequestDto)) {
-            offers.add(calculateOffer(loanStatementRequestDto, false, false));
-            offers.add(calculateOffer(loanStatementRequestDto, false, true));
-            offers.add(calculateOffer(loanStatementRequestDto, true, false));
-            offers.add(calculateOffer(loanStatementRequestDto, true, true));
-        }
+        offers.add(calculateOffer(loanStatementRequestDto, false, false));
+        offers.add(calculateOffer(loanStatementRequestDto, false, true));
+        offers.add(calculateOffer(loanStatementRequestDto, true, false));
+        offers.add(calculateOffer(loanStatementRequestDto, true, true));
         return offers.stream()
                 .sorted(Comparator.comparing(LoanOfferDto::getRate, Comparator.reverseOrder()))
                 .collect(Collectors.toList());

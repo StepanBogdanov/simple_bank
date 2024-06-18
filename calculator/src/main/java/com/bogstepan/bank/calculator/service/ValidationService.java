@@ -1,6 +1,5 @@
 package com.bogstepan.bank.calculator.service;
 
-import com.bogstepan.bank.calculator.dto.LoanStatementRequestDto;
 import com.bogstepan.bank.calculator.dto.ScoringDataDto;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
@@ -14,17 +13,6 @@ import org.springframework.stereotype.Service;
 public class ValidationService {
 
     private final Validator validator;
-
-    public boolean preScoring(LoanStatementRequestDto request) {
-        var constraint = validator.validate(request);
-        if (!constraint.isEmpty()) {
-            for (ConstraintViolation<LoanStatementRequestDto> violation : constraint) {
-                log.warn("Request validation error: {}", violation.getMessage());
-            }
-            return false;
-        }
-        return true;
-    }
 
     public boolean scoring(ScoringDataDto scoringDataDto) {
         var constraint = validator.validate(scoringDataDto);
