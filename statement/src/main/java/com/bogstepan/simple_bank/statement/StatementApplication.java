@@ -2,8 +2,10 @@ package com.bogstepan.simple_bank.statement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
+@EnableFeignClients
 public class StatementApplication {
 
     public static void main(String[] args) {

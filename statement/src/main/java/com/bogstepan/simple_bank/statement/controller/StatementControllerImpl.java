@@ -19,13 +19,15 @@ public class StatementControllerImpl implements StatementController {
 
     @Override
     public ResponseEntity<List<LoanOfferDto>> calculateOffers(LoanStatementRequestDto loanStatementRequestDto) {
-        log.info("Поступила заявка на расчет кредита: {}", loanStatementRequestDto);
+        log.info("Поступила заявка на расчет кредитных предложений: {}", loanStatementRequestDto);
         var offers = statementService.calculateOffers(loanStatementRequestDto);
-        return null;
+        log.info("Кредитные предложения расчитаны: {}", offers);
+        return ResponseEntity.ok(offers);
     }
 
     @Override
     public void selectOffer(LoanOfferDto loanOfferDto) {
-
+        log.info("Поступило выбранное кредитное предложение по заявке {}", loanOfferDto.getStatementId());
+        statementService.selectOffer(loanOfferDto);
     }
 }
