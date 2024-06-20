@@ -21,7 +21,7 @@ public class StatementControllerImpl implements StatementController {
     public ResponseEntity<List<LoanOfferDto>> calculateOffers(LoanStatementRequestDto loanStatementRequestDto) {
         log.info("Поступила заявка на расчет кредитных предложений: {}", loanStatementRequestDto);
         var offers = statementService.calculateOffers(loanStatementRequestDto);
-        log.info("Кредитные предложения расчитаны: {}", offers);
+        log.info("Кредитные предложения получены: {}", offers);
         return ResponseEntity.ok(offers);
     }
 

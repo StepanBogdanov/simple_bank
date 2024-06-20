@@ -33,7 +33,7 @@ public class CalculatorController {
     private final CalculatorService service;
 
     @Operation(summary = "Calculate loan offers", description = """
-            Based on LoanStatementRequestDto, prescoring occurs,
+            Based on LoanStatementRequestDto,
             4 loan offers LoanOfferDto are calculated based on all possible combinations of the isInsuranceEnabled
             and isSalaryClient Boolean fields (false-false, false-true, true-false, true-true).
             """)
