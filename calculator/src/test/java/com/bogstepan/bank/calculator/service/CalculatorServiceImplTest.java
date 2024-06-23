@@ -1,7 +1,8 @@
 package com.bogstepan.bank.calculator.service;
 
-import com.bogstepan.bank.calculator.dto.LoanStatementRequestDto;
+
 import com.bogstepan.bank.calculator.dto.ScoringDataDto;
+import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ class CalculatorServiceImplTest {
     RateService rateService;
 
     @Autowired
-    CalculatorServiceImpl calculatorService;
+    CalculatorService calculatorService;
 
     @Test
     public void whenValidRequestThenCalculateOffers() {

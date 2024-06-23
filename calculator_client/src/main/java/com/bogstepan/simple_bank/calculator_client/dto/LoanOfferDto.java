@@ -1,4 +1,5 @@
-package com.bogstepan.bank.calculator.dto;
+package com.bogstepan.simple_bank.calculator_client.dto;
+
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
@@ -11,8 +12,8 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoanOfferDto {
 
