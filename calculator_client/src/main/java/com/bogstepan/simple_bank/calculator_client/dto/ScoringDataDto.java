@@ -1,8 +1,10 @@
-package com.bogstepan.bank.calculator.dto;
+package com.bogstepan.simple_bank.calculator_client.dto;
 
-import com.bogstepan.bank.calculator.validation.MaximumAge;
-import com.bogstepan.bank.calculator.validation.MaximumLoanAmount;
-import com.bogstepan.bank.calculator.validation.MinimumAge;
+import com.bogstepan.simple_bank.calculator_client.annotation.MaximumAge;
+import com.bogstepan.simple_bank.calculator_client.annotation.MaximumLoanAmount;
+import com.bogstepan.simple_bank.calculator_client.annotation.MinimumAge;
+import com.bogstepan.simple_bank.calculator_client.enums.Gender;
+import com.bogstepan.simple_bank.calculator_client.enums.MaritalStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
@@ -13,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

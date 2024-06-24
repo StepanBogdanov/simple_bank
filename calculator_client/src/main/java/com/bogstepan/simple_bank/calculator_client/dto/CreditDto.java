@@ -1,4 +1,4 @@
-package com.bogstepan.bank.calculator.dto;
+package com.bogstepan.simple_bank.calculator_client.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;

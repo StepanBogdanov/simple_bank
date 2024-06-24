@@ -1,26 +1,23 @@
-package com.bogstepan.bank.calculator.validation;
+package com.bogstepan.simple_bank.calculator_client.validator;
 
-import com.bogstepan.bank.calculator.dto.EmploymentDto;
-import com.bogstepan.bank.calculator.dto.EmploymentStatus;
-import com.bogstepan.bank.calculator.dto.ScoringDataDto;
+import com.bogstepan.simple_bank.calculator_client.dto.EmploymentDto;
+import com.bogstepan.simple_bank.calculator_client.dto.ScoringDataDto;
+import com.bogstepan.simple_bank.calculator_client.enums.EmploymentStatus;
+import com.bogstepan.simple_bank.calculator_client.util.Props;
+import jakarta.validation.Validation;
 import jakarta.validation.Validator;
+import lombok.var;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest
 class MaximumLoanAmountValidatorTest {
 
-    @Autowired
-    private Validator validator;
+    private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-    @Value("${validation.solvency_ratio}")
-    private int solvencyRatio;
+    private int solvencyRatio = Integer.parseInt(Props.getProperty("validation.solvency_ratio"));
 
     @Test
     public void whenAmountLessMaximumLoanAmountThenGiveEmptyConstraintViolations() {

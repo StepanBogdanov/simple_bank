@@ -1,11 +1,11 @@
 package com.bogstepan.bank.calculator.controller;
 
-import com.bogstepan.bank.calculator.dto.CreditDto;
-import com.bogstepan.bank.calculator.dto.ScoringDataDto;
 import com.bogstepan.bank.calculator.exception.InvalidRequestException;
 import com.bogstepan.bank.calculator.service.CalculatorService;
+import com.bogstepan.simple_bank.calculator_client.dto.CreditDto;
 import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.calculator_client.dto.ScoringDataDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

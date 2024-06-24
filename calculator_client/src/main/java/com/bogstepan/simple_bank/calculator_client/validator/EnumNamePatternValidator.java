@@ -1,11 +1,14 @@
-package com.bogstepan.bank.calculator.validation;
+package com.bogstepan.simple_bank.calculator_client.validator;
 
+import com.bogstepan.simple_bank.calculator_client.annotation.EnumNamePattern;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.springframework.stereotype.Component;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class EnumNamePatternValidator implements ConstraintValidator<EnumNamePattern, Enum<?>> {
 
     private Pattern pattern;
@@ -17,7 +20,6 @@ public class EnumNamePatternValidator implements ConstraintValidator<EnumNamePat
 
     @Override
     public boolean isValid(Enum<?> value, ConstraintValidatorContext constraintValidatorContext) {
-
         Matcher m = pattern.matcher(value.name());
         return !m.matches();
     }

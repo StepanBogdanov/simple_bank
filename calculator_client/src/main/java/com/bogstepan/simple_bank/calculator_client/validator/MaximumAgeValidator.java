@@ -1,15 +1,17 @@
-package com.bogstepan.bank.calculator.validation;
+package com.bogstepan.simple_bank.calculator_client.validator;
 
+import com.bogstepan.simple_bank.calculator_client.annotation.MaximumAge;
+import com.bogstepan.simple_bank.calculator_client.util.Props;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
+@Component
 public class MaximumAgeValidator implements ConstraintValidator<MaximumAge, LocalDate> {
 
-    @Value("${validation.maximum_age}")
-    private int maximumAge;
+    private int maximumAge = Integer.parseInt(Props.getProperty("validation.maximum_age"));
 
     @Override
     public boolean isValid(LocalDate value, ConstraintValidatorContext constraintValidatorContext) {

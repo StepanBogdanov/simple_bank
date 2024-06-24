@@ -1,19 +1,18 @@
-package com.bogstepan.bank.calculator.validation;
+package com.bogstepan.simple_bank.calculator_client.validator;
 
-import com.bogstepan.bank.calculator.dto.EmploymentDto;
-import com.bogstepan.bank.calculator.dto.EmploymentStatus;
+import com.bogstepan.simple_bank.calculator_client.dto.EmploymentDto;
+import com.bogstepan.simple_bank.calculator_client.enums.EmploymentStatus;
+import jakarta.validation.Validation;
 import jakarta.validation.Validator;
+import lombok.var;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+
 
 import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest
 class EnumNamePatternValidatorTest {
 
-    @Autowired
-    private Validator validator;
+    private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @Test
     public void whenEnumTypeMatchesPatternThenGiveNOtEmptyConstraintViolations() {

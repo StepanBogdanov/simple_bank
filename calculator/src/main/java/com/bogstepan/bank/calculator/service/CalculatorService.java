@@ -1,9 +1,9 @@
 package com.bogstepan.bank.calculator.service;
 
-import com.bogstepan.bank.calculator.dto.CreditDto;
-import com.bogstepan.bank.calculator.dto.ScoringDataDto;
+import com.bogstepan.simple_bank.calculator_client.dto.CreditDto;
 import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.calculator_client.dto.ScoringDataDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,9 +1,9 @@
-package com.bogstepan.bank.calculator.validation;
+package com.bogstepan.simple_bank.calculator_client.validator;
 
+import com.bogstepan.simple_bank.calculator_client.util.Props;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
 
@@ -16,8 +16,7 @@ class MinimumAgeValidatorTest {
     @Mock
     private ConstraintValidatorContext constraintValidatorContext;
 
-    @Value("${validation.minimum_age}")
-    private int minimumAge;
+    private int minimumAge = Integer.parseInt(Props.getProperty("validation.minimum_age"));
 
     @Test
     public void whenAgeMoreThanEighteenThenGiveTrue() {

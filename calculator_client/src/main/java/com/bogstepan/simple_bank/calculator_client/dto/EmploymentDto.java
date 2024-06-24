@@ -1,6 +1,8 @@
-package com.bogstepan.bank.calculator.dto;
+package com.bogstepan.simple_bank.calculator_client.dto;
 
-import com.bogstepan.bank.calculator.validation.EnumNamePattern;
+import com.bogstepan.simple_bank.calculator_client.annotation.EnumNamePattern;
+import com.bogstepan.simple_bank.calculator_client.enums.EmploymentPosition;
+import com.bogstepan.simple_bank.calculator_client.enums.EmploymentStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;

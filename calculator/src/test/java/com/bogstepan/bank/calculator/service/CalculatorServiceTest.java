@@ -1,8 +1,7 @@
 package com.bogstepan.bank.calculator.service;
 
-
-import com.bogstepan.bank.calculator.dto.ScoringDataDto;
 import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.calculator_client.dto.ScoringDataDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 
 @SpringBootTest
-class CalculatorServiceImplTest {
+class CalculatorServiceTest {
 
     @MockBean
     ValidationService validationService;

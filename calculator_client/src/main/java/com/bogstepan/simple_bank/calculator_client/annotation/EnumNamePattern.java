@@ -1,5 +1,6 @@
-package com.bogstepan.bank.calculator.validation;
+package com.bogstepan.simple_bank.calculator_client.annotation;
 
+import com.bogstepan.simple_bank.calculator_client.validator.EnumNamePatternValidator;
 import jakarta.validation.Constraint;
 
 import java.lang.annotation.Retention;

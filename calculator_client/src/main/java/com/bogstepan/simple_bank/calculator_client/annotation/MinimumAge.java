@@ -1,5 +1,6 @@
-package com.bogstepan.bank.calculator.validation;
+package com.bogstepan.simple_bank.calculator_client.annotation;
 
+import com.bogstepan.simple_bank.calculator_client.validator.MinimumAgeValidator;
 import jakarta.validation.Constraint;
 
 import java.lang.annotation.Retention;
@@ -14,3 +15,4 @@ public @interface MinimumAge {
 
     String message() default "Field 'birthday' less than 20 years from the current day";
 }
+

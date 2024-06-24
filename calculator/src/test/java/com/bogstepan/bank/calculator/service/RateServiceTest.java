@@ -1,6 +1,11 @@
 package com.bogstepan.bank.calculator.service;
 
-import com.bogstepan.bank.calculator.dto.*;
+import com.bogstepan.simple_bank.calculator_client.dto.EmploymentDto;
+import com.bogstepan.simple_bank.calculator_client.dto.ScoringDataDto;
+import com.bogstepan.simple_bank.calculator_client.enums.EmploymentPosition;
+import com.bogstepan.simple_bank.calculator_client.enums.EmploymentStatus;
+import com.bogstepan.simple_bank.calculator_client.enums.Gender;
+import com.bogstepan.simple_bank.calculator_client.enums.MaritalStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
