@@ -1,6 +1,5 @@
 package com.bogstepan.simple_bank.calculator_client.validator;
 
-import com.bogstepan.simple_bank.calculator_client.util.Props;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -16,7 +15,7 @@ class MaximumAgeValidatorTest {
     @Mock
     private ConstraintValidatorContext constraintValidatorContext;
 
-    private int maximumAge = Integer.parseInt(Props.getProperty("validation.maximum_age"));
+    private int maximumAge = 60;
 
     @Test
     public void whenAgeMoreThanMaximumAgeThenGiveFalse() {

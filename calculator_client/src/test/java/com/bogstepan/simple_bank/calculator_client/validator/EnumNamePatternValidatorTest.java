@@ -4,7 +4,6 @@ import com.bogstepan.simple_bank.calculator_client.dto.EmploymentDto;
 import com.bogstepan.simple_bank.calculator_client.enums.EmploymentStatus;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
-import lombok.var;
 import org.junit.jupiter.api.Test;
 
 
