@@ -6,8 +6,6 @@ import com.bogstepan.simple_bank.calculator_client.enums.EmploymentPosition;
 import com.bogstepan.simple_bank.calculator_client.enums.EmploymentStatus;
 import com.bogstepan.simple_bank.calculator_client.enums.Gender;
 import com.bogstepan.simple_bank.calculator_client.enums.MaritalStatus;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

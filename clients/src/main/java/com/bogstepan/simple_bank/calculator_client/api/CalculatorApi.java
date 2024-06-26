@@ -35,7 +35,7 @@ public interface CalculatorApi {
     @Operation(summary = "ѕолный расчет кредита", description = """
             ѕо API приходит ScoringDataDto.
             ѕроисходит скоринг данных, высчитывание итоговой ставки(rate), полной стоимости кредита(psk),
-            размер ежемес€чного платежа(monthlyPayment), график ежемес€чных платежей (List<PaymentScheduleElementDto>). 
+            размер ежемес€чного платежа(monthlyPayment), график ежемес€чных платежей (List<PaymentScheduleElementDto>).
             ќтвет на API - CreditDto, насыщенный всеми рассчитанными параметрами.
             """)
     @ApiResponses(value = {

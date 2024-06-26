@@ -1,4 +1,4 @@
-package com.bogstepan.simple_bank.statement.config;
+package com.bogstepan.simple_bank.deal.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -12,7 +12,7 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
-                .addServersItem(new Server().url("http://localhost:8082"))
+                .addServersItem(new Server().url("http://localhost:8081"))
                 .info(
                         new Info().title("Simple Bank")
                 );

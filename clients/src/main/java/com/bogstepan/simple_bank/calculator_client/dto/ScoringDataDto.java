@@ -36,15 +36,15 @@ public class ScoringDataDto {
     Integer term;
 
     @Schema(example = "Ivan")
-    @Pattern(regexp = "^[a-zA-Z]{2,30}$", message = "Field 'firstName' is not written in Latin")
+    @Pattern(regexp = "^[a-zA-Z]{2,30}$", message = "The FirstName is longer than 30 characters or is not written in Latin")
     String firstName;
 
     @Schema(example = "Ivanov")
-    @Pattern(regexp = "^[a-zA-Z]{2,30}$", message = "Field 'lastName' is not written in Latin")
+    @Pattern(regexp = "^[a-zA-Z]{2,30}$", message = "The LastName is longer than 30 characters or is not written in Latin")
     String lastName;
 
     @Schema(example = "Jovanovich")
-    @Pattern(regexp = "^[a-zA-Z]{0,30}$", message = "Field 'middleName' is not written in Latin")
+    @Pattern(regexp = "^[a-zA-Z]{0,30}$", message = "The MiddleName is longer than 30 characters or is not written in Latin")
     String middleName;
 
     @Schema(example = "MALE")
@@ -56,11 +56,11 @@ public class ScoringDataDto {
     LocalDate birthDate;
 
     @Schema(example = "1111")
-    @Pattern(regexp = "^[0-9]{4}$", message = "Field 'passportSeries' not contains exactly four digits")
+    @Pattern(regexp = "^[0-9]{4}$", message = "The passport series must contain exactly 4 digits")
     String passportSeries;
 
     @Schema(example = "123456")
-    @Pattern(regexp = "^[0-9]{6}$", message = "Field 'passportNumber' not contains exactly six digits")
+    @Pattern(regexp = "^[0-9]{6}$", message = "The passport number must contain exactly 6 digits")
     String passportNumber;
 
     @Schema(example = "2005-01-01")

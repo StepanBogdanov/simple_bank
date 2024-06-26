@@ -15,15 +15,15 @@ public class ValidationService {
     private final Validator validator;
 
     public boolean preScoring(LoanStatementRequestDto loanStatementRequestDto) {
-        log.info("Прескоринг заявки: {}", loanStatementRequestDto);
+        log.info("Statement pre scoring: {}", loanStatementRequestDto);
         var constraint = validator.validate(loanStatementRequestDto);
         if (!constraint.isEmpty()) {
             for (ConstraintViolation<LoanStatementRequestDto> violation : constraint) {
-                log.warn("Ошибка прескоринга: {}", violation.getMessage());
+                log.warn("Pre scoring error: {}", violation.getMessage());
             }
             return false;
         }
-        log.info("Заявка успешно прошла прескоринг");
+        log.info("The statement has successfully passed pre scoring");
         return true;
     }
 }

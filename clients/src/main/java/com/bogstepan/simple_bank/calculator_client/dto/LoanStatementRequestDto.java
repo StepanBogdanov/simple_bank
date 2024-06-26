@@ -22,27 +22,27 @@ import java.time.LocalDate;
 public class LoanStatementRequestDto {
 
     @Schema(example = "200000")
-    @DecimalMin(value = "30000", message = "Запрашиваемая сумма должна быть не менее 30000")
+    @DecimalMin(value = "30000", message = "Amount is less than 30000")
     BigDecimal amount;
 
     @Schema(example = "24")
-    @Min(value = 6, message = "Срок кредита должен быть не менее 6 месяцев")
+    @Min(value = 6, message = "Term is less than 6")
     Integer term;
 
     @Schema(example = "Aleksandr")
-    @Pattern(regexp = "^[a-zA-Z]{2,30}$", message = "Имя должно быть написано латиницей и иметь длину от 2 до 30 символов")
+    @Pattern(regexp = "^[a-zA-Z]{2,30}$", message = "The FirstName is longer than 30 characters or is not written in Latin")
     String firstName;
 
     @Schema(example = "Pushkin")
-    @Pattern(regexp = "^[a-zA-Z]{2,30}$", message = "Фамилия должна быть написано латиницей и иметь длину от 2 до 30 символов")
+    @Pattern(regexp = "^[a-zA-Z]{2,30}$", message = "The LastName is longer than 30 characters or is not written in Latin")
     String lastName;
 
     @Schema(example = "Sergeevich")
-    @Pattern(regexp = "^[a-zA-Z]{0,30}$", message = "Отчество, при наличии, должно быть написано латиницей и иметь длину от 2 до 30 символов")
+    @Pattern(regexp = "^[a-zA-Z]{0,30}$", message = "The MiddleName is longer than 30 characters or is not written in Latin")
     String middleName;
 
     @Schema(example = "pushkin@mail.ru")
-    @Pattern(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", message = "Email должен соответсвовать шаблону")
+    @Pattern(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", message = "Email must match the template")
     String email;
 
     @Schema(format = "yyyy-mm-dd", example = "1980-06-06")
@@ -51,10 +51,10 @@ public class LoanStatementRequestDto {
     LocalDate birthDate;
 
     @Schema(example = "1111")
-    @Pattern(regexp = "^[0-9]{4}$", message = "Серия паспорта должна содержать ровно 4 цифры")
+    @Pattern(regexp = "^[0-9]{4}$", message = "The passport series must contain exactly 4 digits")
     String passportSeries;
 
     @Schema(example = "123456")
-    @Pattern(regexp = "^[0-9]{6}$", message = "Номер паспорта должен содержать ровно 6 цифр")
+    @Pattern(regexp = "^[0-9]{6}$", message = "The passport number must contain exactly 6 digits")
     String passportNumber;
 }

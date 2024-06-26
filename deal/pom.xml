@@ -82,7 +82,7 @@
         </dependency>
         <dependency>
             <groupId>com.bogstepan.simple_bank</groupId>
-            <artifactId>calculator_client</artifactId>
+            <artifactId>clients</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
@@ -144,6 +144,7 @@
                 </executions>
                 <configuration>
                     <excludes>
+                        <exclude>com/bogstepan/simple_bank/deal/config/**</exclude>
                         <exclude>com/bogstepan/simple_bank/deal/model/**</exclude>
                         <exclude>com/bogstepan/simple_bank/deal/exception/**</exclude>
                         <exclude>com/bogstepan/simple_bank/deal/DealApplication.class</exclude>

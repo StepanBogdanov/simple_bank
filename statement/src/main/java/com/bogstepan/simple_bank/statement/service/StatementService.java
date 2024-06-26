@@ -20,21 +20,20 @@ public class StatementService {
     private final DealFeignClient dealFeignClient;
 
     public List<LoanOfferDto> calculateOffers(LoanStatementRequestDto loanStatementRequestDto) {
-        List<LoanOfferDto> offers = new ArrayList<>();
-        if (validationService.preScoring(loanStatementRequestDto)) {
-            log.info("Запрос на расчет кредитных предложений отправлен в МС Deal {}", loanStatementRequestDto);
-            var response = dealFeignClient.calculateOffers(loanStatementRequestDto);
-            if (!response.getStatusCode().is2xxSuccessful() || response.getBody().isEmpty()) {
-                throw new RequestException("Ошибка получения кредитных предложений из МС Deal");
-            }
-            log.info("Кредитные предложения получены из МС Deal: {}", response.getBody());
-            offers.addAll(response.getBody());
+        if (!validationService.preScoring(loanStatementRequestDto)) {
+            throw new RequestException("Pre scoring error");
         }
-        return offers;
+        log.info("A request for calculation of loan offers has been sent to MS Deal {}", loanStatementRequestDto);
+        var response = dealFeignClient.calculateOffers(loanStatementRequestDto);
+        if (!response.getStatusCode().is2xxSuccessful() || response.getBody().isEmpty()) {
+            throw new RequestException("Error in receiving loan offers from MS Deal");
+        }
+        log.info("Loan offers received from MS Deal: {}", response.getBody());
+        return response.getBody();
     }
 
     public void selectOffer(LoanOfferDto loanOfferDto) {
-        log.info("Выбранное кредитное предложение по заявке {} отправлено в МС Deal", loanOfferDto.getStatementId());
+        log.info("The selected loan offer {} has been sent to MS Deal", loanOfferDto.getStatementId());
         dealFeignClient.selectOffer(loanOfferDto);
     }
 }

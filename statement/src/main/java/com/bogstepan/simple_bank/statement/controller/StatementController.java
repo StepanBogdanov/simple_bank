@@ -20,15 +20,15 @@ public class StatementController implements StatementApi {
 
     @Override
     public ResponseEntity<List<LoanOfferDto>> calculateOffers(LoanStatementRequestDto loanStatementRequestDto) {
-        log.info("Поступила заявка на расчет кредитных предложений: {}", loanStatementRequestDto);
+        log.info("An statement has been received for calculating loan offers {}", loanStatementRequestDto);
         var offers = statementService.calculateOffers(loanStatementRequestDto);
-        log.info("Кредитные предложения получены: {}", offers);
+        log.info("Loan offers received: {}", offers);
         return ResponseEntity.ok(offers);
     }
 
     @Override
     public void selectOffer(LoanOfferDto loanOfferDto) {
-        log.info("Поступило выбранное кредитное предложение по заявке {}", loanOfferDto.getStatementId());
+        log.info("The selected loan offer has been received {}", loanOfferDto.getStatementId());
         statementService.selectOffer(loanOfferDto);
     }
 }
