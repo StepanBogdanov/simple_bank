@@ -1,7 +1,7 @@
-package com.bogstepan.simple_bank.deal.model.dto;
+package com.bogstepan.simple_bank.calculator_client.dto;
 
-import com.bogstepan.simple_bank.deal.model.enums.Gender;
-import com.bogstepan.simple_bank.deal.model.enums.MaritalStatus;
+import com.bogstepan.simple_bank.calculator_client.enums.Gender;
+import com.bogstepan.simple_bank.calculator_client.enums.MaritalStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

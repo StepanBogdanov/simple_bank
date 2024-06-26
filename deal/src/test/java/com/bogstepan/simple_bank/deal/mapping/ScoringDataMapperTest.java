@@ -1,7 +1,11 @@
 package com.bogstepan.simple_bank.deal.mapping;
 
-import com.bogstepan.simple_bank.deal.model.dto.LoanOfferDto;
-import com.bogstepan.simple_bank.deal.model.dto.ScoringDataDto;
+import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
+import com.bogstepan.simple_bank.calculator_client.dto.ScoringDataDto;
+import com.bogstepan.simple_bank.calculator_client.enums.EmploymentPosition;
+import com.bogstepan.simple_bank.calculator_client.enums.EmploymentStatus;
+import com.bogstepan.simple_bank.calculator_client.enums.Gender;
+import com.bogstepan.simple_bank.calculator_client.enums.MaritalStatus;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
 import com.bogstepan.simple_bank.deal.model.entity.Statement;
 import com.bogstepan.simple_bank.deal.model.enums.*;

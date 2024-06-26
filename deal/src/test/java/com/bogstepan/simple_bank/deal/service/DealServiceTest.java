@@ -1,9 +1,9 @@
 package com.bogstepan.simple_bank.deal.service;
 
+import com.bogstepan.simple_bank.calculator_client.dto.*;
 import com.bogstepan.simple_bank.deal.exception.RequestException;
 import com.bogstepan.simple_bank.deal.feign.CalculatorFeignClient;
 import com.bogstepan.simple_bank.deal.mapping.ScoringDataMapper;
-import com.bogstepan.simple_bank.deal.model.dto.*;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
 import com.bogstepan.simple_bank.deal.model.entity.Credit;
 import com.bogstepan.simple_bank.deal.model.entity.Statement;
@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
-class DealServiceImplTest {
+class DealServiceTest {
 
     @Mock
     ClientService clientService;
@@ -39,7 +39,7 @@ class DealServiceImplTest {
     ScoringDataMapper scoringDataMapper;
 
     @InjectMocks
-    DealServiceImpl dealService;
+    DealService dealService;
 
     @Test
     public void whenCalculateOfferAndGiveOffers() {

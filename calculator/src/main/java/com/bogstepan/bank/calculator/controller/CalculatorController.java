@@ -2,7 +2,7 @@ package com.bogstepan.bank.calculator.controller;
 
 import com.bogstepan.bank.calculator.exception.InvalidRequestException;
 import com.bogstepan.bank.calculator.service.CalculatorService;
-import com.bogstepan.simple_bank.calculator_client.CalculatorApi;
+import com.bogstepan.simple_bank.calculator_client.api.CalculatorApi;
 import com.bogstepan.simple_bank.calculator_client.dto.CreditDto;
 import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;

@@ -16,11 +16,13 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .servers(
                         List.of(
-                                new Server().url("http://localhost:8080")
+                                new Server().url("http://localhost:8080"),
+                                new Server().url("http://localhost:8081"),
+                                new Server().url("http://localhost:8082")
                         )
                 )
                 .info(
-                        new Info().title("MS Calculator API")
+                        new Info().title("Simple Bank")
                 );
     }
 }

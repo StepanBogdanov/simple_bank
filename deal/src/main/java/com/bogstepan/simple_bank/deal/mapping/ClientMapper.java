@@ -1,7 +1,7 @@
 package com.bogstepan.simple_bank.deal.mapping;
 
-import com.bogstepan.simple_bank.deal.model.dto.FinishRegistrationRequestDto;
-import com.bogstepan.simple_bank.deal.model.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.calculator_client.dto.FinishRegistrationRequestDto;
+import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
 import org.mapstruct.*;
 

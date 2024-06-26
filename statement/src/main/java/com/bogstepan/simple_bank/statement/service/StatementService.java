@@ -1,7 +1,7 @@
 package com.bogstepan.simple_bank.statement.service;
 
-import com.bogstepan.simple_bank.statement.dto.LoanOfferDto;
-import com.bogstepan.simple_bank.statement.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
+import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
 import com.bogstepan.simple_bank.statement.exception.RequestException;
 import com.bogstepan.simple_bank.statement.feign.DealFeignClient;
 import lombok.RequiredArgsConstructor;

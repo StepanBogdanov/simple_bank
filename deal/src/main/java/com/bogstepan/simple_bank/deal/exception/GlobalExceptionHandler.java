@@ -1,5 +1,6 @@
 package com.bogstepan.simple_bank.deal.exception;
 
+import com.bogstepan.simple_bank.calculator_client.dto.InvalidRequestDataDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +14,15 @@ import java.sql.SQLException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<ExceptionData> handleDataException(SQLException exception) {
-        var data = new ExceptionData(exception.getMessage());
+    public ResponseEntity<InvalidRequestDataDto> handleDataException(SQLException exception) {
+        var data = new InvalidRequestDataDto(exception.getMessage());
         return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ExceptionData> handleRequestException(RequestException exception) {
+    public ResponseEntity<InvalidRequestDataDto> handleRequestException(RequestException exception) {
         log.warn(exception.getMessage());
-        var data = new ExceptionData(exception.getMessage());
+        var data = new InvalidRequestDataDto(exception.getMessage());
         return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
     }
 }

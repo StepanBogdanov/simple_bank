@@ -1,6 +1,6 @@
 package com.bogstepan.simple_bank.deal.model.entity;
 
-import com.bogstepan.simple_bank.deal.model.dto.LoanOfferDto;
+import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.deal.model.enums.ApplicationStatus;
 import com.bogstepan.simple_bank.deal.model.json.StatusHistory;
 import jakarta.persistence.*;

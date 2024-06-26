@@ -1,8 +1,8 @@
 package com.bogstepan.simple_bank.deal.service;
 
+import com.bogstepan.simple_bank.calculator_client.dto.FinishRegistrationRequestDto;
+import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
 import com.bogstepan.simple_bank.deal.mapping.ClientMapper;
-import com.bogstepan.simple_bank.deal.model.dto.FinishRegistrationRequestDto;
-import com.bogstepan.simple_bank.deal.model.dto.LoanStatementRequestDto;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
 import com.bogstepan.simple_bank.deal.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,8 +1,8 @@
 package com.bogstepan.simple_bank.deal.controller;
 
-import com.bogstepan.simple_bank.deal.model.dto.FinishRegistrationRequestDto;
-import com.bogstepan.simple_bank.deal.model.dto.LoanOfferDto;
-import com.bogstepan.simple_bank.deal.model.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.calculator_client.dto.FinishRegistrationRequestDto;
+import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
+import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
 import com.bogstepan.simple_bank.deal.service.DealService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,13 +19,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
-class DealControllerImplTest {
+class DealControllerTest {
 
     @Mock
     DealService dealService;
 
     @InjectMocks
-    DealControllerImpl controller;
+    DealController controller;
 
     @Test
     public void whenCalculateOffersThenGiveOkResponseEntity() {

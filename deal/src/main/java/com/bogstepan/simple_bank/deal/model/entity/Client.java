@@ -1,7 +1,7 @@
 package com.bogstepan.simple_bank.deal.model.entity;
 
-import com.bogstepan.simple_bank.deal.model.enums.Gender;
-import com.bogstepan.simple_bank.deal.model.enums.MaritalStatus;
+import com.bogstepan.simple_bank.calculator_client.enums.Gender;
+import com.bogstepan.simple_bank.calculator_client.enums.MaritalStatus;
 import com.bogstepan.simple_bank.deal.model.json.Employment;
 import com.bogstepan.simple_bank.deal.model.json.Passport;
 import jakarta.persistence.*;
