@@ -3,10 +3,8 @@ package com.bogstepan.simple_bank.calculator_client.validator;
 import com.bogstepan.simple_bank.calculator_client.dto.EmploymentDto;
 import com.bogstepan.simple_bank.calculator_client.dto.ScoringDataDto;
 import com.bogstepan.simple_bank.calculator_client.enums.EmploymentStatus;
-import com.bogstepan.simple_bank.calculator_client.util.Props;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
-import lombok.var;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -17,7 +15,7 @@ class MaximumLoanAmountValidatorTest {
 
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-    private int solvencyRatio = Integer.parseInt(Props.getProperty("validation.solvency_ratio"));
+    private int solvencyRatio = 30;
 
     @Test
     public void whenAmountLessMaximumLoanAmountThenGiveEmptyConstraintViolations() {

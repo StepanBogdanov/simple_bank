@@ -1,8 +1,8 @@
-package com.bogstepan.simple_bank.deal.model.enums;
+package com.bogstepan.simple_bank.enums;
 
 public enum EmploymentPosition {
-    TOP_MANAGER,
     MIDDLE_MANAGER,
+    TOP_MANAGER,
     WORKER,
     OWNER
 }

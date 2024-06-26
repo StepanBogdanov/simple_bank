@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-//@ComponentScan(basePackages = {"com.bogstepan.bank.calculator", "com.bogstepan.simple_bank.calculator_client"})
+@ComponentScan(basePackages = {"com.bogstepan.bank.calculator", "com.bogstepan.simple_bank.calculator_client"})
 public class CalculatorApplication {
 
     public static void main(String[] args) {
