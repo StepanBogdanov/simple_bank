@@ -1,4 +1,4 @@
-package com.bogstepan.simple_bank.deal.model.enums;
+package com.bogstepan.simple_bank.enums;
 
 public enum EmploymentPosition {
     MIDDLE_MANAGER,
