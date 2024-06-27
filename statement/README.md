@@ -1,13 +1,13 @@
-# Микросервис "Заявка"
+# РњРёРєСЂРѕСЃРµСЂРІРёСЃ "Р—Р°СЏРІРєР°"
 
 ### *POST: /statement*
 
-1. По API приходит `LoanStatementRequestDto`
-2. На основе `LoanStatementRequestDto` происходит прескоринг.  
-3. Отправляется POST-запрос на */deal/statement* в МС deal через FeignClient.  
-4. Ответ на API - список из 4х `LoanOfferDto` от "худшего" к "лучшему".  
+1. РџРѕ API РїСЂРёС…РѕРґРёС‚ `LoanStatementRequestDto`
+2. РќР° РѕСЃРЅРѕРІРµ `LoanStatementRequestDto` РїСЂРѕРёСЃС…РѕРґРёС‚ РїСЂРµСЃРєРѕСЂРёРЅРі.  
+3. РћС‚РїСЂР°РІР»СЏРµС‚СЃСЏ POST-Р·Р°РїСЂРѕСЃ РЅР° */deal/statement* РІ РњРЎ deal С‡РµСЂРµР· FeignClient.  
+4. РћС‚РІРµС‚ РЅР° API - СЃРїРёСЃРѕРє РёР· 4С… `LoanOfferDto` РѕС‚ "С…СѓРґС€РµРіРѕ" Рє "Р»СѓС‡С€РµРјСѓ".  
 
 ### *POST: /statement/offer*
 
-1. По API приходит `LoanOfferDto`  
-2. Отправляется POST-запрос на */deal/offer/select* в МС deal через FeignClient.
+1. РџРѕ API РїСЂРёС…РѕРґРёС‚ `LoanOfferDto`  
+2. РћС‚РїСЂР°РІР»СЏРµС‚СЃСЏ POST-Р·Р°РїСЂРѕСЃ РЅР° */deal/offer/select* РІ РњРЎ deal С‡РµСЂРµР· FeignClient.
