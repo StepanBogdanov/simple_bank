@@ -18,53 +18,53 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@Tag(name = "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ")
+@Tag(name = "МС Сделка")
 public interface DealApi {
 
-    @Operation(summary = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ", description = """
-            пїЅпїЅ API пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ LoanStatementRequestDto
-            пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ LoanStatementRequestDto пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Client пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ.
-            пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Statement пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Client пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ.
-            пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ POST пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ /calculator/offers пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ FeignClient
-            пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ List<LoanOfferDto> пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ id пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (Statement)
-            пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ API - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 4пїЅ LoanOfferDto пїЅпїЅ "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ" пїЅ "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ".
+    @Operation(summary = "Расчет возможных условий кредита", description = """
+            По API приходит LoanStatementRequestDto
+            На основе LoanStatementRequestDto создаётся сущность Client и сохраняется в БД.
+            Создаётся Statement со связью на только что созданный Client и сохраняется в БД.
+            Отправляется POST запрос на /calculator/offers МС Калькулятор через FeignClient
+            Каждому элементу из списка List<LoanOfferDto> присваивается id созданной заявки (Statement)
+            Ответ на API - список из 4х LoanOfferDto от "худшего" к "лучшему".
             """)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"),
-            @ApiResponse(responseCode = "400", description = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ", content = {
+            @ApiResponse(responseCode = "200", description = "Расчет выполнен успешно"),
+            @ApiResponse(responseCode = "400", description = "Ошибка выполнения расчета", content = {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = InvalidRequestDataDto.class)) })
     })
     @PostMapping("/statement")
     ResponseEntity<List<LoanOfferDto>> calculateOffers(@RequestBody LoanStatementRequestDto loanStatementRequestDto);
 
-    @Operation(summary = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", description = """
-            пїЅпїЅ API пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ LoanOfferDto
-            пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ(Statement) пїЅпїЅ statementId пїЅпїЅ LoanOfferDto.
-            пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ(List<StatementStatusHistoryDto>), пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ LoanOfferDto пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ appliedOffer.
-            пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+    @Operation(summary = "Выбор одного из предложений", description = """
+            По API приходит LoanOfferDto
+            Достаётся из БД заявка(Statement) по statementId из LoanOfferDto.
+            В заявке обновляется статус, история статусов(List<StatementStatusHistoryDto>), принятое предложение LoanOfferDto устанавливается в поле appliedOffer.
+            Заявка сохраняется.
             """)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"),
-            @ApiResponse(responseCode = "400", description = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ", content = {
+            @ApiResponse(responseCode = "200", description = "Заявка успешно обновлена"),
+            @ApiResponse(responseCode = "400", description = "Ошибка обновления заявки", content = {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = InvalidRequestDataDto.class)) })
     })
     @PostMapping("/offer/select")
     void selectOffer(@RequestBody LoanOfferDto loanOfferDto);
 
-    @Operation(summary = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ", description = """
-            пїЅпїЅ API пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ FinishRegistrationRequestDto пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ statementId (String).
-            пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ(Statement) пїЅпїЅ statementId.
-            ScoringDataDto пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ FinishRegistrationRequestDto пїЅ Client, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ Statement
-            пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ POST пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ /calculator/calc пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ ScoringDataDto пїЅпїЅпїЅпїЅпїЅ FeignClient.
-            пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ CreditDto пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Credit пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ CALCULATED.
-            пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
-            пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+    @Operation(summary = "Завершение регистрации, полный расчет кредита", description = """
+            По API приходит объект FinishRegistrationRequestDto и параметр statementId (String).
+            Достаётся из БД заявка(Statement) по statementId.
+            ScoringDataDto насыщается информацией из FinishRegistrationRequestDto и Client, который хранится в Statement
+            Отправляется POST запрос на /calculator/calc МС Калькулятор с телом ScoringDataDto через FeignClient.
+            На основе полученного из кредитного конвейера CreditDto создаётся сущность Credit и сохраняется в базу со статусом CALCULATED.
+            В заявке обновляется статус, история статусов.
+            Заявка сохраняется.
             """)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"),
-            @ApiResponse(responseCode = "400", description = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ", content = {
+            @ApiResponse(responseCode = "200", description = "Кредит успешно расчитан"),
+            @ApiResponse(responseCode = "400", description = "Ошибка расчета кредита", content = {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = InvalidRequestDataDto.class)) })
     })
