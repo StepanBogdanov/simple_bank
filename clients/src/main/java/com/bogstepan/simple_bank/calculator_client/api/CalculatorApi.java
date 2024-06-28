@@ -13,34 +13,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@Tag(name = "МС Калькулятор")
+@Tag(name = "РњРЎ РљР°Р»СЊРєСѓР»СЏС‚РѕСЂ")
 public interface CalculatorApi {
 
-    @Operation(summary = "Расчет кредитных предложений", description = """
-            По API приходит LoanStatementRequestDto.
-            На основании LoanStatementRequestDto создаётся 4 кредитных предложения LoanOfferDto
-            на основании всех возможных комбинаций булевских полей isInsuranceEnabled и isSalaryClient
+    @Operation(summary = "Р Р°СЃС‡РµС‚ РєСЂРµРґРёС‚РЅС‹С… РїСЂРµРґР»РѕР¶РµРЅРёР№", description = """
+            РџРѕ API РїСЂРёС…РѕРґРёС‚ LoanStatementRequestDto.
+            РќР° РѕСЃРЅРѕРІР°РЅРёРё LoanStatementRequestDto СЃРѕР·РґР°С‘С‚СЃСЏ 4 РєСЂРµРґРёС‚РЅС‹С… РїСЂРµРґР»РѕР¶РµРЅРёСЏ LoanOfferDto
+            РЅР° РѕСЃРЅРѕРІР°РЅРёРё РІСЃРµС… РІРѕР·РјРѕР¶РЅС‹С… РєРѕРјР±РёРЅР°С†РёР№ Р±СѓР»РµРІСЃРєРёС… РїРѕР»РµР№ isInsuranceEnabled Рё isSalaryClient
             (false-false, false-true, true-false, true-true)
-            Ответ на API - список из 4х LoanOfferDto от "худшего" к "лучшему" (чем меньше итоговая ставка, тем лучше).
+            РћС‚РІРµС‚ РЅР° API - СЃРїРёСЃРѕРє РёР· 4С… LoanOfferDto РѕС‚ "С…СѓРґС€РµРіРѕ" Рє "Р»СѓС‡С€РµРјСѓ" (С‡РµРј РјРµРЅСЊС€Рµ РёС‚РѕРіРѕРІР°СЏ СЃС‚Р°РІРєР°, С‚РµРј Р»СѓС‡С€Рµ).
             """)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Кредитные предложения успешно расчитаны"),
-            @ApiResponse(responseCode = "400", description = "Ошибка расчета кредитных предложений", content = {
+            @ApiResponse(responseCode = "200", description = "РљСЂРµРґРёС‚РЅС‹Рµ РїСЂРµРґР»РѕР¶РµРЅРёСЏ СѓСЃРїРµС€РЅРѕ СЂР°СЃС‡РёС‚Р°РЅС‹"),
+            @ApiResponse(responseCode = "400", description = "РћС€РёР±РєР° СЂР°СЃС‡РµС‚Р° РєСЂРµРґРёС‚РЅС‹С… РїСЂРµРґР»РѕР¶РµРЅРёР№", content = {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = InvalidRequestDataDto.class)) })
     })
     @PostMapping("/calculator/offers")
     ResponseEntity<List<LoanOfferDto>> calculateOffers(@RequestBody LoanStatementRequestDto statementRequestDto);
 
-    @Operation(summary = "Полный расчет кредита", description = """
-            По API приходит ScoringDataDto.
-            Происходит скоринг данных, высчитывание итоговой ставки(rate), полной стоимости кредита(psk),
-            размер ежемесячного платежа(monthlyPayment), график ежемесячных платежей (List<PaymentScheduleElementDto>).
-            Ответ на API - CreditDto, насыщенный всеми рассчитанными параметрами.
+    @Operation(summary = "РџРѕР»РЅС‹Р№ СЂР°СЃС‡РµС‚ РєСЂРµРґРёС‚Р°", description = """
+            РџРѕ API РїСЂРёС…РѕРґРёС‚ ScoringDataDto.
+            РџСЂРѕРёСЃС…РѕРґРёС‚ СЃРєРѕСЂРёРЅРі РґР°РЅРЅС‹С…, РІС‹СЃС‡РёС‚С‹РІР°РЅРёРµ РёС‚РѕРіРѕРІРѕР№ СЃС‚Р°РІРєРё(rate), РїРѕР»РЅРѕР№ СЃС‚РѕРёРјРѕСЃС‚Рё РєСЂРµРґРёС‚Р°(psk),
+            СЂР°Р·РјРµСЂ РµР¶РµРјРµСЃСЏС‡РЅРѕРіРѕ РїР»Р°С‚РµР¶Р°(monthlyPayment), РіСЂР°С„РёРє РµР¶РµРјРµСЃСЏС‡РЅС‹С… РїР»Р°С‚РµР¶РµР№ (List<PaymentScheduleElementDto>).
+            РћС‚РІРµС‚ РЅР° API - CreditDto, РЅР°СЃС‹С‰РµРЅРЅС‹Р№ РІСЃРµРјРё СЂР°СЃСЃС‡РёС‚Р°РЅРЅС‹РјРё РїР°СЂР°РјРµС‚СЂР°РјРё.
             """)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Кредит успешно расчитан"),
-            @ApiResponse(responseCode = "400", description = "Ошибка расчета кредита", content = {
+            @ApiResponse(responseCode = "200", description = "РљСЂРµРґРёС‚ СѓСЃРїРµС€РЅРѕ СЂР°СЃС‡РёС‚Р°РЅ"),
+            @ApiResponse(responseCode = "400", description = "РћС€РёР±РєР° СЂР°СЃС‡РµС‚Р° РєСЂРµРґРёС‚Р°", content = {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = InvalidRequestDataDto.class)) })
     })

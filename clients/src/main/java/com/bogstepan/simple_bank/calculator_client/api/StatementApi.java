@@ -15,29 +15,29 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@Tag(name = "МС Заявка")
+@Tag(name = "РњРЎ Р—Р°СЏРІРєР°")
 public interface StatementApi {
 
-    @Operation(summary = "Прескоринг и запрос на получение кредитных предложений от МС Deal", description = """
-            По API приходит LoanStatementRequestDto
-            На основе LoanStatementRequestDto происходит прескоринг.
-            Отправляется POST-запрос на /deal/statement в МС deal через FeignClient.
-            Ответ на API - список из 4х LoanOfferDto от "худшего" к "лучшему".
+    @Operation(summary = "РџСЂРµСЃРєРѕСЂРёРЅРі Рё Р·Р°РїСЂРѕСЃ РЅР° РїРѕР»СѓС‡РµРЅРёРµ РєСЂРµРґРёС‚РЅС‹С… РїСЂРµРґР»РѕР¶РµРЅРёР№ РѕС‚ РњРЎ Deal", description = """
+            РџРѕ API РїСЂРёС…РѕРґРёС‚ LoanStatementRequestDto
+            РќР° РѕСЃРЅРѕРІРµ LoanStatementRequestDto РїСЂРѕРёСЃС…РѕРґРёС‚ РїСЂРµСЃРєРѕСЂРёРЅРі.
+            РћС‚РїСЂР°РІР»СЏРµС‚СЃСЏ POST-Р·Р°РїСЂРѕСЃ РЅР° /deal/statement РІ РњРЎ deal С‡РµСЂРµР· FeignClient.
+            РћС‚РІРµС‚ РЅР° API - СЃРїРёСЃРѕРє РёР· 4С… LoanOfferDto РѕС‚ "С…СѓРґС€РµРіРѕ" Рє "Р»СѓС‡С€РµРјСѓ".
             """)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Прескоринг прошел успешно, кредитные предложения получены"),
-            @ApiResponse(responseCode = "400", description = "Ошибка получения данных из МС Deal", content = {
+            @ApiResponse(responseCode = "200", description = "РџСЂРµСЃРєРѕСЂРёРЅРі РїСЂРѕС€РµР» СѓСЃРїРµС€РЅРѕ, РєСЂРµРґРёС‚РЅС‹Рµ РїСЂРµРґР»РѕР¶РµРЅРёСЏ РїРѕР»СѓС‡РµРЅС‹"),
+            @ApiResponse(responseCode = "400", description = "РћС€РёР±РєР° РїРѕР»СѓС‡РµРЅРёСЏ РґР°РЅРЅС‹С… РёР· РњРЎ Deal", content = {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = InvalidRequestDataDto.class)) })
     })
     @PostMapping("/statement")
     ResponseEntity<List<LoanOfferDto>> calculateOffers(@RequestBody LoanStatementRequestDto loanStatementRequestDto);
 
-    @Operation(summary = "Выбор одного из кредитных предложений", description = """
-            По API приходит LoanOfferDto
-            Отправляется POST-запрос на /deal/offer/select в МС deal через FeignClient.
+    @Operation(summary = "Р’С‹Р±РѕСЂ РѕРґРЅРѕРіРѕ РёР· РєСЂРµРґРёС‚РЅС‹С… РїСЂРµРґР»РѕР¶РµРЅРёР№", description = """
+            РџРѕ API РїСЂРёС…РѕРґРёС‚ LoanOfferDto
+            РћС‚РїСЂР°РІР»СЏРµС‚СЃСЏ POST-Р·Р°РїСЂРѕСЃ РЅР° /deal/offer/select РІ РњРЎ deal С‡РµСЂРµР· FeignClient.
             """)
-    @ApiResponses(value = @ApiResponse(responseCode = "200", description = "Выбранное кредитное предложение отправлено в МС Deal"))
-    @PostMapping("/satement/offer")
+    @ApiResponses(value = @ApiResponse(responseCode = "200", description = "Р’С‹Р±СЂР°РЅРЅРѕРµ РєСЂРµРґРёС‚РЅРѕРµ РїСЂРµРґР»РѕР¶РµРЅРёРµ РѕС‚РїСЂР°РІР»РµРЅРѕ РІ РњРЎ Deal"))
+    @PostMapping("/statement/offer")
     void selectOffer(@RequestBody LoanOfferDto loanOfferDto);
 }

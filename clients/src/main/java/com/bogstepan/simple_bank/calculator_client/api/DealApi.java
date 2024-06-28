@@ -18,53 +18,53 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@Tag(name = "�� ������")
+@Tag(name = "МС Сделка")
 public interface DealApi {
 
-    @Operation(summary = "������ ��������� ������� �������", description = """
-            �� API �������� LoanStatementRequestDto
-            �� ������ LoanStatementRequestDto �������� �������� Client � ����������� � ��.
-            �������� Statement �� ������ �� ������ ��� ��������� Client � ����������� � ��.
-            ������������ POST ������ �� /calculator/offers �� ����������� ����� FeignClient
-            ������� �������� �� ������ List<LoanOfferDto> ������������� id ��������� ������ (Statement)
-            ����� �� API - ������ �� 4� LoanOfferDto �� "�������" � "�������".
+    @Operation(summary = "Расчет возможных условий кредита", description = """
+            По API приходит LoanStatementRequestDto
+            На основе LoanStatementRequestDto создаётся сущность Client и сохраняется в БД.
+            Создаётся Statement со связью на только что созданный Client и сохраняется в БД.
+            Отправляется POST запрос на /calculator/offers МС Калькулятор через FeignClient
+            Каждому элементу из списка List<LoanOfferDto> присваивается id созданной заявки (Statement)
+            Ответ на API - список из 4х LoanOfferDto от "худшего" к "лучшему".
             """)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "������ ������� ��������"),
-            @ApiResponse(responseCode = "400", description = "������ ���������� �������", content = {
+            @ApiResponse(responseCode = "200", description = "Расчет выполнен успешно"),
+            @ApiResponse(responseCode = "400", description = "Ошибка выполнения расчета", content = {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = InvalidRequestDataDto.class)) })
     })
     @PostMapping("/statement")
     ResponseEntity<List<LoanOfferDto>> calculateOffers(@RequestBody LoanStatementRequestDto loanStatementRequestDto);
 
-    @Operation(summary = "����� ������ �� �����������", description = """
-            �� API �������� LoanOfferDto
-            �������� �� �� ������(Statement) �� statementId �� LoanOfferDto.
-            � ������ ����������� ������, ������� ��������(List<StatementStatusHistoryDto>), �������� ����������� LoanOfferDto ��������������� � ���� appliedOffer.
-            ������ �����������.
+    @Operation(summary = "Выбор одного из предложений", description = """
+            По API приходит LoanOfferDto
+            Достаётся из БД заявка(Statement) по statementId из LoanOfferDto.
+            В заявке обновляется статус, история статусов(List<StatementStatusHistoryDto>), принятое предложение LoanOfferDto устанавливается в поле appliedOffer.
+            Заявка сохраняется.
             """)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "������ ������� ���������"),
-            @ApiResponse(responseCode = "400", description = "������ ���������� ������", content = {
+            @ApiResponse(responseCode = "200", description = "Заявка успешно обновлена"),
+            @ApiResponse(responseCode = "400", description = "Ошибка обновления заявки", content = {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = InvalidRequestDataDto.class)) })
     })
     @PostMapping("/offer/select")
     void selectOffer(@RequestBody LoanOfferDto loanOfferDto);
 
-    @Operation(summary = "���������� �����������, ������ ������ �������", description = """
-            �� API �������� ������ FinishRegistrationRequestDto � �������� statementId (String).
-            �������� �� �� ������(Statement) �� statementId.
-            ScoringDataDto ���������� ����������� �� FinishRegistrationRequestDto � Client, ������� �������� � Statement
-            ������������ POST ������ �� /calculator/calc �� ����������� � ����� ScoringDataDto ����� FeignClient.
-            �� ������ ����������� �� ���������� ��������� CreditDto �������� �������� Credit � ����������� � ���� �� �������� CALCULATED.
-            � ������ ����������� ������, ������� ��������.
-            ������ �����������.
+    @Operation(summary = "Завершение регистрации, полный расчет кредита", description = """
+            По API приходит объект FinishRegistrationRequestDto и параметр statementId (String).
+            Достаётся из БД заявка(Statement) по statementId.
+            ScoringDataDto насыщается информацией из FinishRegistrationRequestDto и Client, который хранится в Statement
+            Отправляется POST запрос на /calculator/calc МС Калькулятор с телом ScoringDataDto через FeignClient.
+            На основе полученного из кредитного конвейера CreditDto создаётся сущность Credit и сохраняется в базу со статусом CALCULATED.
+            В заявке обновляется статус, история статусов.
+            Заявка сохраняется.
             """)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "������ ������� ��������"),
-            @ApiResponse(responseCode = "400", description = "������ ������� �������", content = {
+            @ApiResponse(responseCode = "200", description = "Кредит успешно расчитан"),
+            @ApiResponse(responseCode = "400", description = "Ошибка расчета кредита", content = {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = InvalidRequestDataDto.class)) })
     })
