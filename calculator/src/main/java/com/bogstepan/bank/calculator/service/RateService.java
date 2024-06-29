@@ -1,6 +1,6 @@
 package com.bogstepan.bank.calculator.service;
 
-import com.bogstepan.bank.calculator.dto.ScoringDataDto;
+import com.bogstepan.simple_bank.calculator_client.dto.ScoringDataDto;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

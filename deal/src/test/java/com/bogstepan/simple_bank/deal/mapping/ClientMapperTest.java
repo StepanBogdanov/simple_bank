@@ -1,13 +1,13 @@
 package com.bogstepan.simple_bank.deal.mapping;
 
-import com.bogstepan.simple_bank.deal.model.dto.EmploymentDto;
-import com.bogstepan.simple_bank.deal.model.dto.FinishRegistrationRequestDto;
-import com.bogstepan.simple_bank.deal.model.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.calculator_client.dto.EmploymentDto;
+import com.bogstepan.simple_bank.calculator_client.dto.FinishRegistrationRequestDto;
+import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.calculator_client.enums.EmploymentPosition;
+import com.bogstepan.simple_bank.calculator_client.enums.EmploymentStatus;
+import com.bogstepan.simple_bank.calculator_client.enums.Gender;
+import com.bogstepan.simple_bank.calculator_client.enums.MaritalStatus;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
-import com.bogstepan.simple_bank.deal.model.enums.EmploymentPosition;
-import com.bogstepan.simple_bank.deal.model.enums.EmploymentStatus;
-import com.bogstepan.simple_bank.deal.model.enums.Gender;
-import com.bogstepan.simple_bank.deal.model.enums.MaritalStatus;
 import com.bogstepan.simple_bank.deal.model.json.Passport;
 import org.junit.jupiter.api.Test;
 

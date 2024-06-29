@@ -1,7 +1,7 @@
 package com.bogstepan.simple_bank.deal.mapping;
 
-import com.bogstepan.simple_bank.deal.model.dto.CreditDto;
-import com.bogstepan.simple_bank.deal.model.dto.PaymentScheduleElementDto;
+import com.bogstepan.simple_bank.calculator_client.dto.CreditDto;
+import com.bogstepan.simple_bank.calculator_client.dto.PaymentScheduleElementDto;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

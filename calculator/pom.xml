@@ -8,8 +8,8 @@
         <version>3.2.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.bogstepan.bank</groupId>
-    <artifactId>simple_bank</artifactId>
+    <groupId>com.bogstepan.simple_bank</groupId>
+    <artifactId>calculator</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>calculator</name>
     <description>calculator</description>
@@ -40,6 +40,11 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bogstepan.simple_bank</groupId>
+            <artifactId>clients</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -101,7 +106,6 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>com/bogstepan/bank/calculator/dto/**</exclude>
                         <exclude>com/bogstepan/bank/calculator/exception/**</exclude>
                         <exclude>com/bogstepan/bank/calculator/CalculatorApplication.class</exclude>
                     </excludes>

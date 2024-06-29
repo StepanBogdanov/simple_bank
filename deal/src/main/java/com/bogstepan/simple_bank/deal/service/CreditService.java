@@ -1,7 +1,7 @@
 package com.bogstepan.simple_bank.deal.service;
 
+import com.bogstepan.simple_bank.calculator_client.dto.CreditDto;
 import com.bogstepan.simple_bank.deal.mapping.CreditMapper;
-import com.bogstepan.simple_bank.deal.model.dto.CreditDto;
 import com.bogstepan.simple_bank.deal.model.entity.Credit;
 import com.bogstepan.simple_bank.deal.repository.CreditRepository;
 import lombok.RequiredArgsConstructor;
