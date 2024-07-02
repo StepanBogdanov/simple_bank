@@ -1,9 +1,6 @@
 package com.bogstepan.simple_bank.calculator_client.api;
 
-import com.bogstepan.simple_bank.calculator_client.dto.FinishRegistrationRequestDto;
-import com.bogstepan.simple_bank.calculator_client.dto.InvalidRequestDataDto;
-import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
-import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.calculator_client.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -35,7 +32,7 @@ public interface DealApi {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = InvalidRequestDataDto.class)) })
     })
-    @PostMapping("/statement")
+    @PostMapping("/deal/statement")
     ResponseEntity<List<LoanOfferDto>> calculateOffers(@RequestBody LoanStatementRequestDto loanStatementRequestDto);
 
     @Operation(summary = "Выбор одного из предложений", description = """
@@ -50,7 +47,7 @@ public interface DealApi {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = InvalidRequestDataDto.class)) })
     })
-    @PostMapping("/offer/select")
+    @PostMapping("/deal/offer/select")
     void selectOffer(@RequestBody LoanOfferDto loanOfferDto);
 
     @Operation(summary = "Завершение регистрации, полный расчет кредита", description = """
@@ -68,7 +65,22 @@ public interface DealApi {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = InvalidRequestDataDto.class)) })
     })
-    @PostMapping("/calculate/{statementId}")
+    @PostMapping("/deal/calculate/{statementId}")
     void calculateCredit(@RequestBody FinishRegistrationRequestDto finishRegistrationRequestDto,
                          @Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
+
+    @Operation(summary = "Запрос на отправку документов")
+    @PostMapping("/deal/document/{statementId}/send")
+    void sendDocs(@RequestBody EmailMessageDto emailMessageDto,
+                  @Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
+
+    @Operation(summary = "Запрос на подписание документов")
+    @PostMapping("/deal/document/{statementId}/sign")
+    void signDocs(@RequestBody EmailMessageDto emailMessageDto,
+                  @Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
+
+    @Operation(summary = "Подписание документов")
+    @PostMapping("/deal/document/{statementId}/code")
+    void codeDocs(@RequestBody EmailMessageDto emailMessageDto,
+                  @Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
 }

@@ -1,6 +1,7 @@
 package com.bogstepan.simple_bank.deal.controller;
 
 import com.bogstepan.simple_bank.calculator_client.api.DealApi;
+import com.bogstepan.simple_bank.calculator_client.dto.EmailMessageDto;
 import com.bogstepan.simple_bank.calculator_client.dto.FinishRegistrationRequestDto;
 import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
@@ -36,5 +37,20 @@ public class DealController implements DealApi {
     public void calculateCredit(FinishRegistrationRequestDto finishRegistrationRequestDto, String statementId) {
         log.info("Finish registration request for statement with Id {}: {}", statementId, finishRegistrationRequestDto );
         dealService.calculateCredit(finishRegistrationRequestDto, statementId);
+    }
+
+    @Override
+    public void sendDocs(EmailMessageDto emailMessageDto, String statementId) {
+
+    }
+
+    @Override
+    public void signDocs(EmailMessageDto emailMessageDto, String statementId) {
+
+    }
+
+    @Override
+    public void codeDocs(EmailMessageDto emailMessageDto, String statementId) {
+
     }
 }
