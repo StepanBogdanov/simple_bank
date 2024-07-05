@@ -6,6 +6,7 @@ import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
 import com.bogstepan.simple_bank.deal.exception.RequestException;
 import com.bogstepan.simple_bank.deal.feign.CalculatorFeignClient;
 import com.bogstepan.simple_bank.deal.mapping.ScoringDataMapper;
+import com.bogstepan.simple_bank.deal.supplier.KafkaSupplier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class DealService {
     private final CreditService creditService;
     private final CalculatorFeignClient calculatorFeignClient;
     private final ScoringDataMapper scoringDataMapper;
+    private final KafkaSupplier kafkaSupplier;
 
     public List<LoanOfferDto> calculateOffers(LoanStatementRequestDto loanStatementRequestDto) {
         var client = clientService.saveNewClient(loanStatementRequestDto);
@@ -39,6 +41,7 @@ public class DealService {
     public void selectOffer(LoanOfferDto loanOfferDto) {
         var statement = statementService.approvedStatement(loanOfferDto);
         log.info("The Statement status with id {} was changed to APPROVED", statement.getStatementId());
+        kafkaSupplier.finishRegistrationRequest(statement.getStatementId().toString());
     }
 
     public void calculateCredit(FinishRegistrationRequestDto finishRegistrationRequestDto, String statementId) {

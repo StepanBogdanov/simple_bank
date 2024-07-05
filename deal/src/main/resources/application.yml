@@ -1,0 +1,36 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: deal
+  datasource:
+    url: jdbc:postgresql://localhost:5432/simple_bank
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa.hibernate.ddl-auto: validate
+  liquibase.change-log: classpath:db/liquibase-changelog.xml
+  cloud:
+    function:
+      definition: finishRegistrationRequest
+    stream:
+      kafka:
+        bindings:
+          finishRegistrationRequest-out-0:
+            producer:
+              configuration:
+                value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
+        binder:
+          brokers: localhost:29092
+      bindings:
+        finishRegistrationRequest-out-0:
+          destination: finishRegistration
+          producer:
+            useNativeEncoding: true
+
+logging:
+  level.root: INFO
+  file.name: logs/deal.log
+
+
