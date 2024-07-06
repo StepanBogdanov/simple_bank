@@ -59,14 +59,26 @@ public class StatementService {
         return statementRepository.save(statement);
     }
 
-    public void calculatedCreditStatement(Statement statement, Credit credit) {
+    public void setCredit(Statement statement, Credit credit) {
         statement.setCredit(credit);
-        statement.setStatus(ApplicationStatus.CC_APPROVED);
-        statement.getStatusHistory().addElement( new StatementStatusHistoryDto(
-                ApplicationStatus.CC_APPROVED,
+        statementRepository.save(statement);
+    }
+
+    public void updateStatementStatus(String statementID, ApplicationStatus status) {
+        var statement = getById(statementID);
+        statement.setStatus(status);
+        statement.getStatusHistory().addElement(new StatementStatusHistoryDto(
+                status,
                 LocalDateTime.now(),
                 ChangeType.AUTOMATIC
         ));
+        statementRepository.save(statement);
+    }
+
+    public void setSesCode(String statementId) {
+        var statement = getById(statementId);
+        var sesCode = String.valueOf((Math.random()*900000) + 100000);
+        statement.setSesCode(sesCode);
         statementRepository.save(statement);
     }
 }

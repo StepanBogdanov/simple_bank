@@ -1,7 +1,6 @@
 package com.bogstepan.simple_bank.deal.controller;
 
 import com.bogstepan.simple_bank.calculator_client.api.DealApi;
-import com.bogstepan.simple_bank.calculator_client.dto.EmailMessageDto;
 import com.bogstepan.simple_bank.calculator_client.dto.FinishRegistrationRequestDto;
 import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
@@ -40,17 +39,20 @@ public class DealController implements DealApi {
     }
 
     @Override
-    public void sendDocs(EmailMessageDto emailMessageDto, String statementId) {
-
+    public void sendDocs(String statementId) {
+        log.info("Create documents request for statement {} was received", statementId);
+        dealService.prepareDocuments(statementId);
     }
 
     @Override
-    public void signDocs(EmailMessageDto emailMessageDto, String statementId) {
-
+    public void signDocs(String statementId) {
+        log.info("Sign documents request for statement {} was received", statementId);
+        dealService.setStatementSesCode(statementId);
     }
 
     @Override
-    public void codeDocs(EmailMessageDto emailMessageDto, String statementId) {
-
+    public void codeDocs(String sesCode, String statementId) {
+        log.info("Verify ses code request fo statement {} was received", statementId);
+        dealService.verifyingSesCode(sesCode, statementId);
     }
 }

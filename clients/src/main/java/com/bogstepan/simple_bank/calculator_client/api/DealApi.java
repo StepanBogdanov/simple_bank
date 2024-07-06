@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -71,16 +72,14 @@ public interface DealApi {
 
     @Operation(summary = "Запрос на отправку документов")
     @PostMapping("/deal/document/{statementId}/send")
-    void sendDocs(@RequestBody EmailMessageDto emailMessageDto,
-                  @Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
+    void sendDocs(@Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
 
     @Operation(summary = "Запрос на подписание документов")
     @PostMapping("/deal/document/{statementId}/sign")
-    void signDocs(@RequestBody EmailMessageDto emailMessageDto,
-                  @Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
+    void signDocs(@Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
 
     @Operation(summary = "Подписание документов")
     @PostMapping("/deal/document/{statementId}/code")
-    void codeDocs(@RequestBody EmailMessageDto emailMessageDto,
+    void codeDocs(@RequestParam String sesCode,
                   @Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
 }

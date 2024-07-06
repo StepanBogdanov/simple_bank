@@ -6,6 +6,7 @@ import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
 import com.bogstepan.simple_bank.deal.exception.RequestException;
 import com.bogstepan.simple_bank.deal.feign.CalculatorFeignClient;
 import com.bogstepan.simple_bank.deal.mapping.ScoringDataMapper;
+import com.bogstepan.simple_bank.deal.model.enums.ApplicationStatus;
 import com.bogstepan.simple_bank.deal.supplier.KafkaSupplier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,8 +56,34 @@ public class DealService {
         }
         var credit = creditService.saveCredit(creditDto.getBody());
         log.info("New credit is saved in DB: {}", credit);
-        statementService.calculatedCreditStatement(statement, credit);
+        statementService.setCredit(statement, credit);
+        statementService.updateStatementStatus(statementId, ApplicationStatus.CC_APPROVED);
         log.info("The statement status with id {} was changed to CC_APPROVED", statement.getStatementId());
         kafkaSupplier.createDocumentsRequest(statementId);
+    }
+
+    public void prepareDocuments(String statementId) {
+        statementService.updateStatementStatus(statementId, ApplicationStatus.PREPARE_DOCUMENTS);
+        log.info("The statement status with id {} was changed to PREPARE_DOCUMENTS", statementId);
+        kafkaSupplier.sendDocumentsRequest(statementId);
+    }
+
+    public void setStatementSesCode(String statementId) {
+        statementService.setSesCode(statementId);
+        log.info("The statement with id {} had a ses code set", statementId);
+        kafkaSupplier.signDocumentsRequest(statementId);
+    }
+
+    public void verifyingSesCode(String requestSesCode, String statementId) {
+        var statementSesCode = statementService.getById(statementId).getSesCode();
+        if (!requestSesCode.equals(statementSesCode)) {
+            log.warn("For statement {}, an incorrect ses code was received", statementId);
+            throw new RequestException("Incorrect ses code");
+        }
+        statementService.updateStatementStatus(statementId, ApplicationStatus.DOCUMENT_SIGNED);
+        log.info("The statement status with id {} was changed to DOCUMENT_SIGNED", statementId);
+        statementService.updateStatementStatus(statementId, ApplicationStatus.CREDIT_ISSUED);
+        log.info("The statement status with id {} was changed to CREDIT_ISSUED", statementId);
+        kafkaSupplier.creditIssueRequest(statementId);
     }
 }
