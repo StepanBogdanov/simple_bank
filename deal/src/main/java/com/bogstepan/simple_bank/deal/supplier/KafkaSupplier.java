@@ -23,4 +23,36 @@ public class KafkaSupplier {
                 Math.abs(UUID.fromString(uuid).getLeastSignificantBits())
         ));
     }
+
+    public void createDocumentsRequest(String uuid) {
+        streamBridge.send("createDocumentsRequest-out-0", new EmailMessageDto(
+                statementService.getById(uuid).getClient().getEmail(),
+                Theme.CREATE_DOCUMENTS,
+                Math.abs(UUID.fromString(uuid).getLeastSignificantBits())
+        ));
+    }
+
+    public void sendDocumentsRequest(String uuid) {
+        streamBridge.send("sendDocumentsRequest-out-0", new EmailMessageDto(
+                statementService.getById(uuid).getClient().getEmail(),
+                Theme.SEND_DOCUMENTS,
+                Math.abs(UUID.fromString(uuid).getLeastSignificantBits())
+        ));
+    }
+
+    public void signDocumentsRequest(String uuid) {
+        streamBridge.send("signDocumentsRequest-out-0", new EmailMessageDto(
+                statementService.getById(uuid).getClient().getEmail(),
+                Theme.SEND_SES,
+                Math.abs(UUID.fromString(uuid).getLeastSignificantBits())
+        ));
+    }
+
+    public void creditIssueRequest(String uuid) {
+        streamBridge.send("creditIssueRequest-out-0", new EmailMessageDto(
+                statementService.getById(uuid).getClient().getEmail(),
+                Theme.CREDIT_ISSUED,
+                Math.abs(UUID.fromString(uuid).getLeastSignificantBits())
+        ));
+    }
 }

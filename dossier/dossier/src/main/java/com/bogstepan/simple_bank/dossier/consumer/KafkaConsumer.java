@@ -13,4 +13,24 @@ public class KafkaConsumer {
     public Consumer<EmailMessageDto> finishRegistrationRequest() {
         return message -> System.out.println("Received: " + message);
     }
+
+    @Bean
+    public Consumer<EmailMessageDto> createDocumentsRequest() {
+        return message -> System.out.println("Received: " + message);
+    }
+
+    @Bean
+    public Consumer<EmailMessageDto> sendDocumentsRequest() {
+        return message -> System.out.println("Received: " + message);
+    }
+
+    @Bean
+    public Consumer<EmailMessageDto> signDocumentsRequest() {
+        return message -> System.out.println("Received: " + message);
+    }
+
+    @Bean
+    public Consumer<EmailMessageDto> creditIssueRequest() {
+        return message -> System.out.println("Received: " + message);
+    }
 }

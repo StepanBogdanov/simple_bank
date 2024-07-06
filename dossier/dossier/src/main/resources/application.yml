@@ -1,0 +1,53 @@
+server.port: 8083
+
+spring:
+  application.name: dossier
+  cloud:
+    function:
+      definition: finishRegistrationRequest, createDocumentsRequest, sendDocumentsRequest, signDocumentsRequest, creditIssueRequest
+    stream:
+      kafka:
+        bindings:
+          finishRegistrationRequest-in-0:
+            consumer:
+              configuration:
+                value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
+          createDocumentsRequest-in-0:
+            consumer:
+              configuration:
+                value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
+          sendDocumentsRequest-in-0:
+            consumer:
+              configuration:
+                value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
+          signDocumentsRequest-in-0:
+            consumer:
+              configuration:
+                value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
+          creditIssueRequest-in-0:
+            consumer:
+              configuration:
+                value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
+        binder:
+          brokers: localhost:29092
+      bindings:
+        finishRegistrationRequest-in-0:
+          destination: finishRegistration
+          consumer:
+            use-native-decoding: true
+        createDocumentsRequest-in-0:
+          destination: createDocuments
+          consumer:
+            use-native-decoding: true
+        sendDocumentsRequest-in-0:
+          destination: sendDocuments
+          consumer:
+            use-native-decoding: true
+        signDocumentsRequest-in-0:
+          destination: sendSes
+          consumer:
+            use-native-decoding: true
+        creditIssueRequest-in-0:
+          destination: creditIssued
+          consumer:
+            use-native-decoding: true

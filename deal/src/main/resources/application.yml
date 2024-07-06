@@ -13,7 +13,7 @@ spring:
   liquibase.change-log: classpath:db/liquibase-changelog.xml
   cloud:
     function:
-      definition: finishRegistrationRequest
+      definition: finishRegistrationRequest, createDocumentsRequest, sendDocumentsRequest, signDocumentsRequest, creditIssueRequest
     stream:
       kafka:
         bindings:
@@ -21,6 +21,22 @@ spring:
             producer:
               configuration:
                 value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
+          createDocumentsRequest-out-0:
+            producer:
+              configuration:
+                value.value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
+          sendDocumentsRequest-out-0:
+            producer:
+              configuration:
+                value.value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
+          signDocumentsRequest-out-0:
+            producer:
+              configuration:
+                value.value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
+          creditIssueRequest-out-0:
+            producer:
+              configuration:
+                value.value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
         binder:
           brokers: localhost:29092
       bindings:
@@ -28,6 +44,22 @@ spring:
           destination: finishRegistration
           producer:
             useNativeEncoding: true
+        createDocumentsRequest-out-0:
+          destination: createDocuments
+          producer:
+            use-native-encoding: true
+        sendDocumentsRequest-out-0:
+          destination: sendDocuments
+          producer:
+            use-native-encoding: true
+        signDocumentsRequest-out-0:
+          destination: sendSes
+          producer:
+            use-native-encoding: true
+        creditIssueRequest-out-0:
+          destination: creditIssued
+          producer:
+            use-native-encoding: true
 
 logging:
   level.root: INFO

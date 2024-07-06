@@ -57,5 +57,6 @@ public class DealService {
         log.info("New credit is saved in DB: {}", credit);
         statementService.calculatedCreditStatement(statement, credit);
         log.info("The statement status with id {} was changed to CC_APPROVED", statement.getStatementId());
+        kafkaSupplier.createDocumentsRequest(statementId);
     }
 }
