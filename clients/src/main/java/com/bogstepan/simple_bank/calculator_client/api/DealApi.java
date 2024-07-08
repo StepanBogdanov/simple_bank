@@ -80,6 +80,6 @@ public interface DealApi {
 
     @Operation(summary = "Подписание документов")
     @PostMapping("/deal/document/{statementId}/code")
-    void codeDocs(@RequestParam String sesCode,
+    void codeDocs(@RequestParam("sesCode") String sesCode,
                   @Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
 }

@@ -1,17 +1,22 @@
 package com.bogstepan.simple_bank.dossier.consumer;
 
 import com.bogstepan.simple_bank.calculator_client.dto.EmailMessageDto;
+import com.bogstepan.simple_bank.dossier.service.MailSenderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.function.Consumer;
 
 @Configuration
+@RequiredArgsConstructor
 public class KafkaConsumer {
+
+    private final MailSenderService mailSenderService;
 
     @Bean
     public Consumer<EmailMessageDto> finishRegistrationRequest() {
-        return message -> System.out.println("Received: " + message);
+        return mailSenderService::sendFinishRegistrationMail;
     }
 
     @Bean

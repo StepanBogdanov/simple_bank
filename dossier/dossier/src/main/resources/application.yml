@@ -4,7 +4,7 @@ spring:
   application.name: dossier
   cloud:
     function:
-      definition: finishRegistrationRequest, createDocumentsRequest, sendDocumentsRequest, signDocumentsRequest, creditIssueRequest
+      definition: finishRegistrationRequest;createDocumentsRequest;sendDocumentsRequest;signDocumentsRequest;creditIssueRequest
     stream:
       kafka:
         bindings:
@@ -32,22 +32,39 @@ spring:
           brokers: localhost:29092
       bindings:
         finishRegistrationRequest-in-0:
+          group: dossier-consumer
           destination: finishRegistration
           consumer:
             use-native-decoding: true
         createDocumentsRequest-in-0:
+          group: dossier-consumer
           destination: createDocuments
           consumer:
             use-native-decoding: true
         sendDocumentsRequest-in-0:
+          group: dossier-consumer
           destination: sendDocuments
           consumer:
             use-native-decoding: true
         signDocumentsRequest-in-0:
+          group: dossier-consumer
           destination: sendSes
           consumer:
             use-native-decoding: true
         creditIssueRequest-in-0:
+          group: dossier-consumer
           destination: creditIssued
           consumer:
             use-native-decoding: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: bogstepan@gmail.com
+    password: njan crex ubsr vpgd
+    test-connection: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
