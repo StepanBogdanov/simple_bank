@@ -8,8 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -22,7 +20,7 @@ public class KafkaSupplier {
         streamBridge.send("finishRegistrationRequest-out-0", new EmailMessageDto(
                 statementService.getById(statementId).getClient().getEmail(),
                 Theme.FINISH_REGISTRATION,
-                Math.abs(UUID.fromString(statementId).getLeastSignificantBits())
+                statementId
         ));
         log.info("Finish registration request for statement with id {} was sent to MS Dossier", statementId);
     }
@@ -31,7 +29,7 @@ public class KafkaSupplier {
         streamBridge.send("createDocumentsRequest-out-0", new EmailMessageDto(
                 statementService.getById(statementId).getClient().getEmail(),
                 Theme.CREATE_DOCUMENTS,
-                Math.abs(UUID.fromString(statementId).getLeastSignificantBits())
+                statementId
         ));
         log.info("Create documents request for statement with id {} was sent to MS Dossier", statementId);
     }
@@ -40,7 +38,7 @@ public class KafkaSupplier {
         streamBridge.send("sendDocumentsRequest-out-0", new EmailMessageDto(
                 statementService.getById(statementId).getClient().getEmail(),
                 Theme.SEND_DOCUMENTS,
-                Math.abs(UUID.fromString(statementId).getLeastSignificantBits())
+                statementId
         ));
         log.info("Send documents request for statement with id {} was sent to MS Dossier", statementId);
     }
@@ -49,7 +47,7 @@ public class KafkaSupplier {
         streamBridge.send("signDocumentsRequest-out-0", new EmailMessageDto(
                 statementService.getById(statementId).getClient().getEmail(),
                 Theme.SEND_SES,
-                Math.abs(UUID.fromString(statementId).getLeastSignificantBits())
+                statementId
         ));
         log.info("Sign document request for statement with id {} was sent to MS Dossier", statementId);
     }
@@ -58,7 +56,7 @@ public class KafkaSupplier {
         streamBridge.send("creditIssueRequest-out-0", new EmailMessageDto(
                 statementService.getById(statementId).getClient().getEmail(),
                 Theme.CREDIT_ISSUED,
-                Math.abs(UUID.fromString(statementId).getLeastSignificantBits())
+                statementId
         ));
         log.info("Credit issue request for statement with id {} was sent to MS Dossier", statementId);
     }

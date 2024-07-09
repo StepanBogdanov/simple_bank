@@ -3,9 +3,11 @@ package com.bogstepan.simple_bank.deal.service;
 import com.bogstepan.simple_bank.calculator_client.dto.FinishRegistrationRequestDto;
 import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.calculator_client.dto.StatementDto;
 import com.bogstepan.simple_bank.deal.exception.RequestException;
 import com.bogstepan.simple_bank.deal.feign.CalculatorFeignClient;
 import com.bogstepan.simple_bank.deal.mapping.ScoringDataMapper;
+import com.bogstepan.simple_bank.deal.mapping.StatementMapper;
 import com.bogstepan.simple_bank.deal.model.enums.ApplicationStatus;
 import com.bogstepan.simple_bank.deal.supplier.KafkaSupplier;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class DealService {
     private final CalculatorFeignClient calculatorFeignClient;
     private final ScoringDataMapper scoringDataMapper;
     private final KafkaSupplier kafkaSupplier;
+    private final StatementMapper statementMapper;
 
     public List<LoanOfferDto> calculateOffers(LoanStatementRequestDto loanStatementRequestDto) {
         var client = clientService.saveNewClient(loanStatementRequestDto);
@@ -68,6 +71,10 @@ public class DealService {
         kafkaSupplier.sendDocumentsRequest(statementId);
     }
 
+    public void updateStatementStatusDocumentsCreated(String statementId) {
+        statementService.updateStatementStatus(statementId, ApplicationStatus.DOCUMENT_CREATED);
+    }
+
     public void setStatementSesCode(String statementId) {
         statementService.setSesCode(statementId);
         log.info("The statement with id {} had a ses code set", statementId);
@@ -75,7 +82,8 @@ public class DealService {
     }
 
     public void verifyingSesCode(String requestSesCode, String statementId) {
-        var statementSesCode = statementService.getById(statementId).getSesCode();
+        var statement = statementService.getById(statementId);
+        var statementSesCode = statement.getSesCode();
         if (!requestSesCode.equals(statementSesCode)) {
             log.warn("For statement {}, an incorrect ses code was received", statementId);
             throw new RequestException("Incorrect ses code");
@@ -84,6 +92,12 @@ public class DealService {
         log.info("The statement status with id {} was changed to DOCUMENT_SIGNED", statementId);
         statementService.updateStatementStatus(statementId, ApplicationStatus.CREDIT_ISSUED);
         log.info("The statement status with id {} was changed to CREDIT_ISSUED", statementId);
+        creditService.updateCreditStatusIssued(statement.getCredit());
+        log.info("The credit status for statement with id {} was changed to ISSUED", statementId);
         kafkaSupplier.creditIssueRequest(statementId);
+    }
+
+    public StatementDto getStatement(String statementId) {
+        return statementMapper.toStatementDto(statementService.getById(statementId));
     }
 }

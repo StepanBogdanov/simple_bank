@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Ses code mail</title>
+</head>
+<body>
+<h3>Здравствуйте, [[${surname}]] [[${name}]]!</h3>
+<p>
+    Длz подписания документов по кредиту введите код <h2>[[${sesCode}]]</h2> по ссылке ниже
+    <a th:href="@{http://localhost/8081/deal/document/{statementId}(statementId = ${statementId})/code}">Поидписание документов</a>.
+<p/>
+<p>С наилучшими пожеланиями,</p>
+<p>Команда Simple_bank</p>
+</body>
+</html>

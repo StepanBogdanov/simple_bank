@@ -4,11 +4,12 @@ import com.bogstepan.simple_bank.calculator_client.api.DealApi;
 import com.bogstepan.simple_bank.calculator_client.dto.FinishRegistrationRequestDto;
 import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.calculator_client.dto.StatementDto;
 import com.bogstepan.simple_bank.deal.service.DealService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -52,7 +53,17 @@ public class DealController implements DealApi {
 
     @Override
     public void codeDocs(String sesCode, String statementId) {
-        log.info("Verify ses code request fo statement {} was received", statementId);
+        log.info("Verify ses code request for statement {} was received", statementId);
         dealService.verifyingSesCode(sesCode, statementId);
+    }
+
+    @Override
+    public StatementDto getStatement(String statementId) {
+        return dealService.getStatement(statementId);
+    }
+
+    @Override
+    public void updateStatementStatus(String statementId) {
+        dealService.updateStatementStatusDocumentsCreated(statementId);
     }
 }

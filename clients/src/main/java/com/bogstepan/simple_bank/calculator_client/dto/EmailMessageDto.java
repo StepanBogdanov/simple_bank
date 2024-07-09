@@ -18,5 +18,5 @@ public class EmailMessageDto {
     private Theme theme;
 
     @Schema(example = "6564709385377260374")
-    private Long statementId;
+    private String statementId;
 }

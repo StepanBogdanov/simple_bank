@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Create documents mail</title>
+</head>
+<body>
+<h1>Здравствуйте, [[${surname}]] [[${name}]]!</h1>
+<p>
+    Кредит по вашей заявке одобрен.
+</p>
+<p>
+    Для получения документов перейдите по ссылке
+    <a th:href="@{http://localhost/8081/deal/document/{statementId}(statementId = ${statementId})/send}">Сформировать документы</a>.
+</p>
+<p>С наилучшими пожеланиями,</p>
+<p>Команда Simple_bank</p>
+</body>
+</html>

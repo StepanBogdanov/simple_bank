@@ -9,10 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -82,4 +79,12 @@ public interface DealApi {
     @PostMapping("/deal/document/{statementId}/code")
     void codeDocs(@RequestParam("sesCode") String sesCode,
                   @Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
+
+    @Operation(summary = "Получить заявку по id")
+    @GetMapping("/deal/admin/statement/{statementId}")
+    StatementDto getStatement(@Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
+
+    @Operation(summary = "Обновить статус заявки")
+    @PutMapping("/deal/admin/statement/{statementId}/status")
+    void updateStatementStatus(@Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
 }
