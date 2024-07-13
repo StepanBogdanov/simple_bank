@@ -5,8 +5,6 @@ import com.bogstepan.simple_bank.dossier.feign.DealFeignClient;
 import com.bogstepan.simple_bank.dossier.service.LoanDocumentsService;
 import com.bogstepan.simple_bank.dossier.service.MailSenderService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,7 +32,6 @@ public class KafkaConsumer {
     public Consumer<EmailMessageDto> sendDocumentsRequest() {
         return message -> {
             loanDocumentsService.createLoanDocuments(message.getStatementId());
-            //todo: реализовать формирование документов
             dealFeignClient.updateStatementStatus(message.getStatementId());
             mailSenderService.sendLoanDocumentsMail(message);
         };

@@ -4,7 +4,7 @@ spring:
   application.name: dossier
   cloud:
     function:
-      definition: finishRegistrationRequest;createDocumentsRequest;sendDocumentsRequest;signDocumentsRequest;creditIssueRequest
+      definition: finishRegistrationRequest;createDocumentsRequest;sendDocumentsRequest;signDocumentsRequest;creditIssueRequest; statementDeniedRequest
     stream:
       kafka:
         bindings:
@@ -25,6 +25,10 @@ spring:
               configuration:
                 value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
           creditIssueRequest-in-0:
+            consumer:
+              configuration:
+                value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
+          statementDeniedRequest-in-0:
             consumer:
               configuration:
                 value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
@@ -56,12 +60,17 @@ spring:
           destination: creditIssued
           consumer:
             use-native-decoding: true
+        statementDeniedRequest-in-0:
+          group: dossier-consumer
+          destination: creditDenied
+          consumer:
+            use-native-decoding: true
   mail:
     host: smtp.gmail.com
     port: 587
     username: bogstepan@gmail.com
     password: njan crex ubsr vpgd
-    test-connection: true
+    test-connection: false
     properties:
       mail:
         smtp:

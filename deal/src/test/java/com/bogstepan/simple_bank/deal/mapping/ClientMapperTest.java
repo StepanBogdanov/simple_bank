@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.*;
 
 class ClientMapperTest {
 
-    private final ClientMapper mapper = new ClientMapperImpl(new EmploymentMapperImpl());
+    private final ClientMapper mapper = new ClientMapperImpl(new EmploymentMapperImpl(), new PassportMapperImpl());
 
     @Test
     public void shouldProperlyMapLoanStatementRequestDtoToNewClient() {

@@ -13,7 +13,7 @@ spring:
   liquibase.change-log: classpath:db/liquibase-changelog.xml
   cloud:
     function:
-      definition: finishRegistrationRequest;createDocumentsRequest;sendDocumentsRequest;signDocumentsRequest;creditIssueRequest
+      definition: finishRegistrationRequest;createDocumentsRequest;sendDocumentsRequest;signDocumentsRequest;creditIssueRequest; statementDeniedRequest
     stream:
       kafka:
         bindings:
@@ -34,6 +34,10 @@ spring:
               configuration:
                 value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
           creditIssueRequest-out-0:
+            producer:
+              configuration:
+                value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
+          statementDeniedRequest-out-0:
             producer:
               configuration:
                 value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
@@ -60,7 +64,10 @@ spring:
           destination: creditIssued
           producer:
             useNativeEncoding: true
-
+        statementDeniedRequest-out-0:
+          destination: creditDenied
+          producer:
+            use-native-encoding: true
 logging:
   level.root: INFO
   file.name: logs/deal.log

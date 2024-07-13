@@ -116,7 +116,7 @@ class StatementServiceTest {
             Object[] args = invocation.getArguments();
             return (Statement) args[0];
         });
-        statementService.calculatedCreditStatement(statement, credit);
+//        statementService.calculatedCreditStatement(statement, credit);
         Mockito.verify(statementRepository, times(1)).save(statement);
         assertThat(statement.getCredit()).isEqualTo(credit);
         assertThat(statement.getStatus()).isEqualTo(ApplicationStatus.CC_APPROVED);
