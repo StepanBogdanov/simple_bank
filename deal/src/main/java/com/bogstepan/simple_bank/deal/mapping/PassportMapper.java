@@ -1,6 +1,6 @@
 package com.bogstepan.simple_bank.deal.mapping;
 
-import com.bogstepan.simple_bank.calculator_client.dto.PassportDto;
+import com.bogstepan.simple_bank.clients.dto.PassportDto;
 import com.bogstepan.simple_bank.deal.model.json.Passport;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

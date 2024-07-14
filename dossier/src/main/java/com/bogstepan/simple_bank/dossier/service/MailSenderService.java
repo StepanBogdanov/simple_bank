@@ -1,6 +1,6 @@
 package com.bogstepan.simple_bank.dossier.service;
 
-import com.bogstepan.simple_bank.calculator_client.dto.EmailMessageDto;
+import com.bogstepan.simple_bank.clients.dto.EmailMessageDto;
 import com.bogstepan.simple_bank.dossier.feign.DealFeignClient;
 import jakarta.activation.FileDataSource;
 import jakarta.mail.MessagingException;

@@ -1,6 +1,6 @@
 package com.bogstepan.simple_bank.dossier.consumer;
 
-import com.bogstepan.simple_bank.calculator_client.dto.EmailMessageDto;
+import com.bogstepan.simple_bank.clients.dto.EmailMessageDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.serialization.Deserializer;
 

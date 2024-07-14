@@ -1,6 +1,6 @@
 package com.bogstepan.simple_bank.deal.mapping;
 
-import com.bogstepan.simple_bank.calculator_client.dto.EmploymentDto;
+import com.bogstepan.simple_bank.clients.dto.EmploymentDto;
 import com.bogstepan.simple_bank.deal.model.json.Employment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

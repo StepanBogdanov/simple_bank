@@ -1,10 +1,10 @@
 package com.bogstepan.simple_bank.deal.controller;
 
-import com.bogstepan.simple_bank.calculator_client.api.DealApi;
-import com.bogstepan.simple_bank.calculator_client.dto.FinishRegistrationRequestDto;
-import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
-import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
-import com.bogstepan.simple_bank.calculator_client.dto.StatementDto;
+import com.bogstepan.simple_bank.clients.api.DealApi;
+import com.bogstepan.simple_bank.clients.dto.FinishRegistrationRequestDto;
+import com.bogstepan.simple_bank.clients.dto.LoanOfferDto;
+import com.bogstepan.simple_bank.clients.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.clients.dto.StatementDto;
 import com.bogstepan.simple_bank.deal.service.DealService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package com.bogstepan.simple_bank.dossier.consumer;
 
-import com.bogstepan.simple_bank.calculator_client.dto.EmailMessageDto;
+import com.bogstepan.simple_bank.clients.dto.EmailMessageDto;
 import com.bogstepan.simple_bank.dossier.feign.DealFeignClient;
 import com.bogstepan.simple_bank.dossier.service.LoanDocumentsService;
 import com.bogstepan.simple_bank.dossier.service.MailSenderService;

@@ -1,8 +1,8 @@
 package com.bogstepan.simple_bank.statement.controller;
 
-import com.bogstepan.simple_bank.calculator_client.api.StatementApi;
-import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
-import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.clients.api.StatementApi;
+import com.bogstepan.simple_bank.clients.dto.LoanOfferDto;
+import com.bogstepan.simple_bank.clients.dto.LoanStatementRequestDto;
 import com.bogstepan.simple_bank.statement.service.StatementService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

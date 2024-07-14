@@ -1,7 +1,7 @@
 package com.bogstepan.simple_bank.deal.model.json;
 
-import com.bogstepan.simple_bank.calculator_client.enums.EmploymentPosition;
-import com.bogstepan.simple_bank.calculator_client.enums.EmploymentStatus;
+import com.bogstepan.simple_bank.clients.enums.EmploymentPosition;
+import com.bogstepan.simple_bank.clients.enums.EmploymentStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

@@ -1,6 +1,6 @@
 package com.bogstepan.simple_bank.deal.supplier;
 
-import com.bogstepan.simple_bank.calculator_client.dto.EmailMessageDto;
+import com.bogstepan.simple_bank.clients.dto.EmailMessageDto;
 import com.bogstepan.simple_bank.deal.exception.RequestException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

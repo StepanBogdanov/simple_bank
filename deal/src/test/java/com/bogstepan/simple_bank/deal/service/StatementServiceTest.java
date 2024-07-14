@@ -1,6 +1,6 @@
 package com.bogstepan.simple_bank.deal.service;
 
-import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
+import com.bogstepan.simple_bank.clients.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.deal.exception.RequestException;
 import com.bogstepan.simple_bank.deal.model.dto.StatementStatusHistoryDto;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -95,32 +95,34 @@ class StatementServiceTest {
     }
 
     @Test
-    public void calculatedCreditStatement() {
-        var credit = new Credit();
-        credit.setCreditId(UUID.randomUUID());
-        var statement = new Statement(
-                null, null, null, ApplicationStatus.APPROVED, null, null, null, null,
-                new StatusHistory()
-        );
-        statement.getStatusHistory().addElement(new StatementStatusHistoryDto(
-                ApplicationStatus.PREAPPROVAL,
-                LocalDateTime.now(),
-                ChangeType.AUTOMATIC
-        ));
-        statement.getStatusHistory().addElement(new StatementStatusHistoryDto(
-                ApplicationStatus.APPROVED,
-                LocalDateTime.now(),
-                ChangeType.AUTOMATIC
-        ));
-        Mockito.when(statementRepository.save(any())).then((Answer<Statement>) invocation -> {
-            Object[] args = invocation.getArguments();
-            return (Statement) args[0];
-        });
-//        statementService.calculatedCreditStatement(statement, credit);
+    public void setCredit() {
+        Statement statement = new Statement();
+        Credit credit = new Credit();
+        statementService.setCredit(statement, credit);
         Mockito.verify(statementRepository, times(1)).save(statement);
-        assertThat(statement.getCredit()).isEqualTo(credit);
-        assertThat(statement.getStatus()).isEqualTo(ApplicationStatus.CC_APPROVED);
-        assertThat(statement.getStatusHistory().getStatusHistory().size()).isEqualTo(3);
     }
 
+    @Test
+    public void updateStatementStatus() {
+        Statement statement = new Statement();
+        UUID id = UUID.randomUUID();
+        statement.setStatementId(id);
+        statement.setStatusHistory(new StatusHistory());
+        Mockito.when(statementRepository.findById(id)).thenReturn(Optional.of(statement));
+        statementService.updateStatementStatus(id.toString(), ApplicationStatus.CC_APPROVED);
+        assertThat(statement.getStatus()).isEqualTo(ApplicationStatus.CC_APPROVED);
+        assertThat(statement.getStatusHistory().getStatusHistory().size()).isEqualTo(1);
+        Mockito.verify(statementRepository, times(1)).save(statement);
+    }
+
+    @Test
+    public void setSesCode() {
+        Statement statement = new Statement();
+        UUID id = UUID.randomUUID();
+        statement.setStatementId(id);
+        Mockito.when(statementRepository.findById(id)).thenReturn(Optional.of(statement));
+        statementService.setSesCode(id.toString());
+        assertThat(statement.getSesCode()).isNotEmpty();
+        assertThat(Integer.valueOf(statement.getSesCode())).isBetween(100000, 999999);
+    }
 }

@@ -1,7 +1,7 @@
 package com.bogstepan.simple_bank.statement.service;
 
-import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
-import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.clients.dto.LoanOfferDto;
+import com.bogstepan.simple_bank.clients.dto.LoanStatementRequestDto;
 import com.bogstepan.simple_bank.statement.exception.RequestException;
 import com.bogstepan.simple_bank.statement.feign.DealFeignClient;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 

@@ -1,6 +1,6 @@
 package com.bogstepan.simple_bank.deal.service;
 
-import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
+import com.bogstepan.simple_bank.clients.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.deal.exception.RequestException;
 import com.bogstepan.simple_bank.deal.model.dto.StatementStatusHistoryDto;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
@@ -77,7 +77,7 @@ public class StatementService {
 
     public void setSesCode(String statementId) {
         var statement = getById(statementId);
-        var sesCode = String.valueOf((Math.random()*900000) + 100000);
+        var sesCode = String.valueOf((int) (Math.random()*900000) + 100000);
         statement.setSesCode(sesCode);
         statementRepository.save(statement);
     }

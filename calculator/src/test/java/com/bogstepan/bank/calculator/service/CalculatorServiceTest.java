@@ -1,7 +1,7 @@
 package com.bogstepan.bank.calculator.service;
 
-import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
-import com.bogstepan.simple_bank.calculator_client.dto.ScoringDataDto;
+import com.bogstepan.simple_bank.clients.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.clients.dto.ScoringDataDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 

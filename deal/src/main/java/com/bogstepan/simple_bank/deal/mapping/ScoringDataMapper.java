@@ -1,6 +1,6 @@
 package com.bogstepan.simple_bank.deal.mapping;
 
-import com.bogstepan.simple_bank.calculator_client.dto.ScoringDataDto;
+import com.bogstepan.simple_bank.clients.dto.ScoringDataDto;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
 import com.bogstepan.simple_bank.deal.model.entity.Statement;
 import org.mapstruct.InjectionStrategy;

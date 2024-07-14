@@ -152,6 +152,7 @@
                         <exclude>com/bogstepan/simple_bank/deal/config/**</exclude>
                         <exclude>com/bogstepan/simple_bank/deal/model/**</exclude>
                         <exclude>com/bogstepan/simple_bank/deal/exception/**</exclude>
+                        <exclude>com/bogstepan/simple_bank/deal/supplier/**</exclude>
                         <exclude>com/bogstepan/simple_bank/deal/DealApplication.class</exclude>
                     </excludes>
                 </configuration>

@@ -1,7 +1,7 @@
 package com.bogstepan.simple_bank.deal.supplier;
 
-import com.bogstepan.simple_bank.calculator_client.dto.EmailMessageDto;
-import com.bogstepan.simple_bank.calculator_client.enums.Theme;
+import com.bogstepan.simple_bank.clients.dto.EmailMessageDto;
+import com.bogstepan.simple_bank.clients.enums.Theme;
 import com.bogstepan.simple_bank.deal.service.StatementService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

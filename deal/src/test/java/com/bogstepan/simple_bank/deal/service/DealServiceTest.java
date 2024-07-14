@@ -1,12 +1,14 @@
 package com.bogstepan.simple_bank.deal.service;
 
-import com.bogstepan.simple_bank.calculator_client.dto.*;
+import com.bogstepan.simple_bank.clients.dto.*;
 import com.bogstepan.simple_bank.deal.exception.RequestException;
 import com.bogstepan.simple_bank.deal.feign.CalculatorFeignClient;
 import com.bogstepan.simple_bank.deal.mapping.ScoringDataMapper;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
 import com.bogstepan.simple_bank.deal.model.entity.Credit;
 import com.bogstepan.simple_bank.deal.model.entity.Statement;
+import com.bogstepan.simple_bank.deal.model.enums.ApplicationStatus;
+import com.bogstepan.simple_bank.deal.supplier.KafkaSupplier;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,7 +21,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -37,6 +39,8 @@ class DealServiceTest {
     CalculatorFeignClient calculatorFeignClient;
     @Mock
     ScoringDataMapper scoringDataMapper;
+    @Mock
+    KafkaSupplier kafkaSupplier;
 
     @InjectMocks
     DealService dealService;
@@ -82,9 +86,11 @@ class DealServiceTest {
     public void selectOffer() {
         var offer = new LoanOfferDto();
         var statement = new Statement();
+        statement.setStatementId(UUID.randomUUID());
         Mockito.when(statementService.approvedStatement(offer)).thenReturn(statement);
         dealService.selectOffer(offer);
         Mockito.verify(statementService, times(1)).approvedStatement(offer);
+        Mockito.verify(kafkaSupplier, times(1)).finishRegistrationRequest(statement.getStatementId().toString());
     }
 
     @Test
@@ -108,8 +114,9 @@ class DealServiceTest {
         Mockito.verify(scoringDataMapper, times(1)).toScoringDataDto(statement, client);
         Mockito.verify(calculatorFeignClient, times(1)).calculateCredit(scoringDataDto);
         Mockito.verify(creditService, times(1)).saveCredit(creditDto);
-//        Mockito.verify(statementService, times(1)).calculatedCreditStatement(statement, credit);
-
+        Mockito.verify(statementService, times(1)).setCredit(statement, credit);
+        Mockito.verify(statementService, times(1)).updateStatementStatus(id, ApplicationStatus.CC_APPROVED);
+        Mockito.verify(kafkaSupplier, times(1)).createDocumentsRequest(id);
     }
 
     @Test
@@ -131,7 +138,9 @@ class DealServiceTest {
         Mockito.verify(scoringDataMapper, times(1)).toScoringDataDto(statement, client);
         Mockito.verify(calculatorFeignClient, times(1)).calculateCredit(scoringDataDto);
         Mockito.verify(creditService, times(0)).saveCredit(any());
-//        Mockito.verify(statementService, times(0)).calculatedCreditStatement(any(), any());
+        Mockito.verify(statementService, times(0)).setCredit(any(), any());
+        Mockito.verify(statementService, times(0)).updateStatementStatus(any(), any());
+        Mockito.verify(kafkaSupplier, times(0)).createDocumentsRequest(any());
         assertThat(exception.getMessage()).isEqualTo(String.format("Failed to calculate credit for statement %s", statement.getStatementId()));
 
     }
