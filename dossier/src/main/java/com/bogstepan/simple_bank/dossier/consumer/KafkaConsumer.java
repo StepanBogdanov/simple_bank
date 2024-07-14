@@ -5,6 +5,7 @@ import com.bogstepan.simple_bank.dossier.feign.DealFeignClient;
 import com.bogstepan.simple_bank.dossier.service.LoanDocumentsService;
 import com.bogstepan.simple_bank.dossier.service.MailSenderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,6 +13,7 @@ import java.util.function.Consumer;
 
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class KafkaConsumer {
 
     private final MailSenderService mailSenderService;
@@ -20,17 +22,24 @@ public class KafkaConsumer {
 
     @Bean
     public Consumer<EmailMessageDto> finishRegistrationRequest() {
-        return mailSenderService::sendFinishRegistrationMail;
+        return message -> {
+            log.info("Finish registration request for statement with id {} received", message.getStatementId());
+            mailSenderService.sendFinishRegistrationMail(message);
+        };
     }
 
     @Bean
     public Consumer<EmailMessageDto> createDocumentsRequest() {
-        return mailSenderService::sendCreateDocumentsMail;
+        return message -> {
+            log.info("Create documents request for statement with id {} received", message.getStatementId());
+            mailSenderService.sendCreateDocumentsMail(message);
+        };
     }
 
     @Bean
     public Consumer<EmailMessageDto> sendDocumentsRequest() {
         return message -> {
+            log.info("Send documents request for statement with id {} received", message.getStatementId());
             loanDocumentsService.createLoanDocuments(message.getStatementId());
             dealFeignClient.updateStatementStatus(message.getStatementId());
             mailSenderService.sendLoanDocumentsMail(message);
@@ -39,11 +48,17 @@ public class KafkaConsumer {
 
     @Bean
     public Consumer<EmailMessageDto> signDocumentsRequest() {
-        return mailSenderService::sendSignDocumentsMail;
+        return message -> {
+            log.info("Sign documents request for statement with id {} received", message.getStatementId());
+            mailSenderService.sendSignDocumentsMail(message);
+        };
     }
 
     @Bean
     public Consumer<EmailMessageDto> creditIssueRequest() {
-        return mailSenderService::sendCreditIssuedMail;
+        return message -> {
+            log.info("Credit issue request for statement with id {} received", message.getStatementId());
+            mailSenderService.sendCreditIssuedMail(message);
+        };
     }
 }

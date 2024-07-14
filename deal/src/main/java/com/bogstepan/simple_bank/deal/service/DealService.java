@@ -55,6 +55,7 @@ public class DealService {
         var scoringDataDto = scoringDataMapper.toScoringDataDto(statement, client);
         var creditDto = calculatorFeignClient.calculateCredit(scoringDataDto);
         if (!creditDto.getStatusCode().is2xxSuccessful()) {
+            //todo: credit denied
             throw new RequestException(String.format("Failed to calculate credit for statement %s", statementId));
         }
         var credit = creditService.saveCredit(creditDto.getBody());
@@ -85,8 +86,7 @@ public class DealService {
         var statement = statementService.getById(statementId);
         var statementSesCode = statement.getSesCode();
         if (!requestSesCode.equals(statementSesCode)) {
-            log.warn("For statement {}, an incorrect ses code was received", statementId);
-            throw new RequestException("Incorrect ses code");
+            throw new RequestException(String.format("For statement %s, an incorrect ses code was received", statementId));
         }
         statementService.updateStatementStatus(statementId, ApplicationStatus.DOCUMENT_SIGNED);
         log.info("The statement status with id {} was changed to DOCUMENT_SIGNED", statementId);

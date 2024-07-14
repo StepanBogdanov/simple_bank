@@ -1,5 +1,6 @@
 package com.bogstepan.simple_bank.dossier.service;
 
+import com.bogstepan.simple_bank.dossier.exception.RequestException;
 import com.bogstepan.simple_bank.dossier.feign.DealFeignClient;
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
@@ -7,6 +8,7 @@ import fr.opensagres.xdocreport.template.IContext;
 import fr.opensagres.xdocreport.template.TemplateEngineKind;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.FileInputStream;
@@ -18,6 +20,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class LoanDocumentsService {
 
     private final DealFeignClient dealFeignClient;
@@ -52,9 +55,9 @@ public class LoanDocumentsService {
                 context.put(entry.getKey(), entry.getValue());
             }
             report.process(context, out);
-
+            log.info("Loan documents for statement with id {} was created", statementId);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RequestException(e.getMessage());
         }
     }
 }
