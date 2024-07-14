@@ -1,6 +1,7 @@
 package com.bogstepan.simple_bank.dossier.consumer;
 
 import com.bogstepan.simple_bank.clients.dto.EmailMessageDto;
+import com.bogstepan.simple_bank.dossier.exception.RequestException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.serialization.Deserializer;
 
@@ -16,8 +17,7 @@ public class EmailMessageDeserializer implements Deserializer<EmailMessageDto> {
         try {
             return mapper.readValue(new String(data), EmailMessageDto.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
-            //todo: добавить свой эксепшн и лог
+            throw new RequestException(e.getMessage());
         }
     }
 }

@@ -55,7 +55,7 @@ public class DealService {
         var scoringDataDto = scoringDataMapper.toScoringDataDto(statement, client);
         var creditDto = calculatorFeignClient.calculateCredit(scoringDataDto);
         if (!creditDto.getStatusCode().is2xxSuccessful()) {
-            //todo: credit denied
+            kafkaSupplier.statementDeniedRequest(statementId);
             throw new RequestException(String.format("Failed to calculate credit for statement %s", statementId));
         }
         var credit = creditService.saveCredit(creditDto.getBody());

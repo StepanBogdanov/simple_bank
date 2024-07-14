@@ -60,4 +60,12 @@ public class KafkaSupplier {
         ));
         log.info("Credit issue request for statement with id {} was sent to MS Dossier", statementId);
     }
+
+    public void statementDeniedRequest(String statementId) {
+        streamBridge.send("statementDeniedRequest-out-0", new EmailMessageDto(
+                statementService.getById(statementId).getClient().getEmail(),
+                Theme.STATEMENT_DENIED,
+                statementId
+        ));
+    }
 }

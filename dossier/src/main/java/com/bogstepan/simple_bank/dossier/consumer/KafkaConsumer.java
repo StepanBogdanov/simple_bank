@@ -61,4 +61,12 @@ public class KafkaConsumer {
             mailSenderService.sendCreditIssuedMail(message);
         };
     }
+
+    @Bean
+    public Consumer<EmailMessageDto> statementDeniedRequest() {
+        return message -> {
+            log.info("Statement denied request for statement with id {} received", message.getStatementId());
+            mailSenderService.sendStatementDeniedMail(message);
+        };
+    }
 }

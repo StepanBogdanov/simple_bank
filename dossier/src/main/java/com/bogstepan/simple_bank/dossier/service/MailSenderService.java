@@ -109,5 +109,18 @@ public class MailSenderService {
                 emailMessageDto.getTheme().toString(),
                 html,
                 null);
+        log.info("Credit issued mail for statement with id {} was sent to client",
+                emailMessageDto.getStatementId());
+    }
+
+    public void sendStatementDeniedMail(EmailMessageDto emailMessageDto) {
+        var context = prepareContext(emailMessageDto.getStatementId());
+        var html = templateEngine.process("statement_denied_email", context);
+        sendMail(emailMessageDto.getAddress(),
+                emailMessageDto.getTheme().toString(),
+                html,
+                null);
+        log.info("Statement denied mail for statement with id {} was sent to client",
+                emailMessageDto.getStatementId());
     }
 }
