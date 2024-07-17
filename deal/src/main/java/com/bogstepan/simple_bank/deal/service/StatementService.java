@@ -72,6 +72,9 @@ public class StatementService {
                 LocalDateTime.now(),
                 ChangeType.AUTOMATIC
         ));
+        if (status == ApplicationStatus.DOCUMENT_SIGNED) {
+            statement.setSignDate(LocalDateTime.now());
+        }
         statementRepository.save(statement);
     }
 

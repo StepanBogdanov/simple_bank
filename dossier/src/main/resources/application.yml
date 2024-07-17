@@ -69,8 +69,8 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: bogstepan@gmail.com
-    password: njan crex ubsr vpgd
-    test-connection: false
+    password: ${GOOGLE_PASSWORD}
+    test-connection: true
     properties:
       mail:
         smtp:
