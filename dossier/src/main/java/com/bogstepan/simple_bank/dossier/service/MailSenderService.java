@@ -3,6 +3,7 @@ package com.bogstepan.simple_bank.dossier.service;
 import com.bogstepan.simple_bank.clients.dto.EmailMessageDto;
 import com.bogstepan.simple_bank.dossier.exception.RequestException;
 import com.bogstepan.simple_bank.dossier.feign.DealFeignClient;
+import com.ibm.icu.text.Transliterator;
 import jakarta.activation.FileDataSource;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +23,22 @@ import java.nio.file.Paths;
 @Slf4j
 public class MailSenderService {
 
+    private final static String LATIN_TO_CYRILLIC = "Latin-Russian/BGN";
+
     @Value("${spring.mail.username}")
     private String from;
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
     private final DealFeignClient dealFeignClient;
-    private final TransliterateService transliterateService;
+
+    private String transliterate(String text) {
+        Transliterator toCyrillicTrans = Transliterator.getInstance(LATIN_TO_CYRILLIC);
+        var rsl = toCyrillicTrans.transliterate(text);
+        if (!rsl.isEmpty()) {
+            rsl = Character.toUpperCase(rsl.charAt(0)) + rsl.substring(1);
+        }
+        return rsl;
+    }
 
     private void sendMail(String to, String subject, String text, String attachmentFilePath) {
         try {
@@ -49,8 +60,10 @@ public class MailSenderService {
     private Context prepareContext(String statementId) {
         var statement = dealFeignClient.getStatement(statementId);
         var context = new Context();
-        context.setVariable("name", transliterateService.transliterate(statement.getClient().getFirstName()));
-        context.setVariable("surname", transliterateService.transliterate(statement.getClient().getLastName()));
+        context.setVariable("name", transliterate(statement.getClient().getFirstName()));
+        context.setVariable("surname", transliterate(statement.getClient().getLastName()));
+        context.setVariable("statementId", statementId);
+        context.setVariable("sesCode", statement.getSesCode());
         return context;
     }
 
@@ -67,7 +80,6 @@ public class MailSenderService {
 
     public void sendCreateDocumentsMail(EmailMessageDto emailMessageDto) {
         var context = prepareContext(emailMessageDto.getStatementId());
-        context.setVariable("statementId", emailMessageDto.getStatementId());
         var html = templateEngine.process("create_documents_email", context);
         sendMail(emailMessageDto.getAddress(),
                 emailMessageDto.getTheme().toString(),
@@ -79,20 +91,17 @@ public class MailSenderService {
 
     public void sendLoanDocumentsMail(EmailMessageDto emailMessageDto) {
         var context = prepareContext(emailMessageDto.getStatementId());
-        context.setVariable("statementId", emailMessageDto.getStatementId());
         var html = templateEngine.process("loan_documents_email", context);
         sendMail(emailMessageDto.getAddress(),
                 emailMessageDto.getTheme().toString(),
                 html,
-                "dossier/src/main/resources/loan_documents/loan_" + emailMessageDto.getStatementId() + ".docx");
+                "tmp/loan_documents/loan_" + emailMessageDto.getStatementId() + ".docx");
         log.info("Your loan documents mail for statement with id {} was sent to client",
                 emailMessageDto.getStatementId());
     }
 
     public void sendSignDocumentsMail(EmailMessageDto emailMessageDto) {
         var context = prepareContext(emailMessageDto.getStatementId());
-        context.setVariable("sesCode", dealFeignClient.getStatement(emailMessageDto.getStatementId()).getSesCode());
-        context.setVariable("statementId", emailMessageDto.getStatementId());
         var html = templateEngine.process("ses_code_email", context);
         sendMail(emailMessageDto.getAddress(),
                 emailMessageDto.getTheme().toString(),
