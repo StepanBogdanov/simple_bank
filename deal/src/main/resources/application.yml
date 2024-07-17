@@ -16,33 +16,10 @@ spring:
       definition: finishRegistrationRequest;createDocumentsRequest;sendDocumentsRequest;signDocumentsRequest;creditIssueRequest; statementDeniedRequest
     stream:
       kafka:
-        bindings:
-          finishRegistrationRequest-out-0:
-            producer:
-              configuration:
-                value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
-          createDocumentsRequest-out-0:
-            producer:
-              configuration:
-                value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
-          sendDocumentsRequest-out-0:
-            producer:
-              configuration:
-                value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
-          signDocumentsRequest-out-0:
-            producer:
-              configuration:
-                value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
-          creditIssueRequest-out-0:
-            producer:
-              configuration:
-                value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
-          statementDeniedRequest-out-0:
-            producer:
-              configuration:
-                value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
         binder:
           brokers: localhost:29092
+          producer-properties:
+            value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
       bindings:
         finishRegistrationRequest-out-0:
           destination: finishRegistration

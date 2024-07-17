@@ -7,33 +7,10 @@ spring:
       definition: finishRegistrationRequest;createDocumentsRequest;sendDocumentsRequest;signDocumentsRequest;creditIssueRequest; statementDeniedRequest
     stream:
       kafka:
-        bindings:
-          finishRegistrationRequest-in-0:
-            consumer:
-              configuration:
-                value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
-          createDocumentsRequest-in-0:
-            consumer:
-              configuration:
-                value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
-          sendDocumentsRequest-in-0:
-            consumer:
-              configuration:
-                value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
-          signDocumentsRequest-in-0:
-            consumer:
-              configuration:
-                value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
-          creditIssueRequest-in-0:
-            consumer:
-              configuration:
-                value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
-          statementDeniedRequest-in-0:
-            consumer:
-              configuration:
-                value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
         binder:
           brokers: localhost:29092
+          consumer-properties:
+            value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
       bindings:
         finishRegistrationRequest-in-0:
           group: dossier-consumer

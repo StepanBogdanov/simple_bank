@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -28,7 +29,7 @@ public class LoanDocumentsService {
 
     private final DealFeignClient dealFeignClient;
 
-    private String transliterate(String text) {
+    protected String transliterate(String text) {
         Transliterator toCyrillicTrans = Transliterator.getInstance(LATIN_TO_CYRILLIC);
         var rsl = toCyrillicTrans.transliterate(text);
         if (!rsl.isEmpty()) {
@@ -39,8 +40,8 @@ public class LoanDocumentsService {
 
     public void createLoanDocuments(String statementId) {
         var statement = dealFeignClient.getStatement(statementId);
-        try (InputStream fileInputStream = ClassLoader.getSystemResourceAsStream("dossier/src/main/resources/templates/loan_documents_template.docx");
-             OutputStream out = new FileOutputStream("tmp/loan_documents/loan_" + statementId + ".docx")) {
+        try (InputStream fileInputStream = ClassLoader.getSystemResourceAsStream("templates/loan_documents_template.docx");
+             OutputStream fileOutputStream = new FileOutputStream(File.createTempFile("loan_" + statementId, ".docx"))) {
             IXDocReport report = XDocReportRegistry.getRegistry().loadReport(fileInputStream, TemplateEngineKind.Freemarker);
             IContext context = report.createContext();
             FieldsMetadata metadata = report.createFieldsMetadata();
@@ -65,7 +66,7 @@ public class LoanDocumentsService {
                 metadata.addFieldAsTextStyling(entry.getKey(), "none");
                 context.put(entry.getKey(), entry.getValue());
             }
-            report.process(context, out);
+            report.process(context, fileOutputStream);
             log.info("Loan documents for statement with id {} was created", statementId);
         } catch (Exception e) {
             throw new RequestException(e.getMessage());

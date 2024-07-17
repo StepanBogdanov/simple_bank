@@ -11,14 +11,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class LoanDocumentsServiceTest {
@@ -30,8 +29,21 @@ class LoanDocumentsServiceTest {
     LoanDocumentsService loanDocumentsService;
 
     @Test
+    public void shouldTransliterateTextCorrectly() {
+        String in = "ivanov";
+        String expected = "Иванов";
+        assertThat(loanDocumentsService.transliterate(in)).isEqualTo(expected);
+    }
+
+    @Test
+    public void shouldTransliterateEmptyTextCorrectly() {
+        String in = "";
+        assertThat(loanDocumentsService.transliterate(in)).isEmpty();
+    }
+
+    @Test
     public void createLoanDocument() {
-        Mockito.when(dealFeignClient.getStatement(any())).thenReturn(new StatementDto(
+        Mockito.when(dealFeignClient.getStatement("test")).thenReturn(new StatementDto(
                 new ClientDto(
                         "Ivan",
                         "Ivanov",
@@ -77,8 +89,7 @@ class LoanDocumentsServiceTest {
 
         loanDocumentsService.createLoanDocuments("test");
 
-        File file = new File("tmp/loan_documents/loan_test.docx");
-        assertThat(file).exists();
+        Mockito.verify(dealFeignClient, times(1)).getStatement("test");
     }
 
 }
