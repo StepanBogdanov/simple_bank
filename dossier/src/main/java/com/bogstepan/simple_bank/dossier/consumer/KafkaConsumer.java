@@ -2,7 +2,6 @@ package com.bogstepan.simple_bank.dossier.consumer;
 
 import com.bogstepan.simple_bank.clients.dto.EmailMessageDto;
 import com.bogstepan.simple_bank.dossier.feign.DealFeignClient;
-import com.bogstepan.simple_bank.dossier.service.LoanDocumentsService;
 import com.bogstepan.simple_bank.dossier.service.MailSenderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +16,6 @@ import java.util.function.Consumer;
 public class KafkaConsumer {
 
     private final MailSenderService mailSenderService;
-    private final LoanDocumentsService loanDocumentsService;
     private final DealFeignClient dealFeignClient;
 
     @Bean
@@ -40,7 +38,6 @@ public class KafkaConsumer {
     public Consumer<EmailMessageDto> sendDocumentsRequest() {
         return message -> {
             log.info("Send documents request for statement with id {} received", message.getStatementId());
-            loanDocumentsService.createLoanDocuments(message.getStatementId());
             dealFeignClient.updateStatementStatus(message.getStatementId());
             mailSenderService.sendLoanDocumentsMail(message);
         };

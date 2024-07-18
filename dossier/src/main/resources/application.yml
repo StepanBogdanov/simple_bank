@@ -54,6 +54,9 @@ spring:
           auth: true
           starttls:
             enable: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
 
 logging:
   level.root: INFO

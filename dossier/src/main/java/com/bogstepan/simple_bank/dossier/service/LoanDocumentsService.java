@@ -38,38 +38,42 @@ public class LoanDocumentsService {
         return rsl;
     }
 
-    public void createLoanDocuments(String statementId) {
+    public File createLoanDocuments(String statementId) {
         var statement = dealFeignClient.getStatement(statementId);
-        try (InputStream fileInputStream = ClassLoader.getSystemResourceAsStream("templates/loan_documents_template.docx");
-             OutputStream fileOutputStream = new FileOutputStream(File.createTempFile("loan_" + statementId, ".docx"))) {
-            IXDocReport report = XDocReportRegistry.getRegistry().loadReport(fileInputStream, TemplateEngineKind.Freemarker);
-            IContext context = report.createContext();
-            FieldsMetadata metadata = report.createFieldsMetadata();
+        File tempFile = null;
+        try (InputStream fileInputStream = ClassLoader.getSystemResourceAsStream("templates/loan_documents_template.docx")) {
+            tempFile = File.createTempFile("loan_" + statementId, ".docx");
+            try (OutputStream fileOutputStream = new FileOutputStream(tempFile)) {
+                IXDocReport report = XDocReportRegistry.getRegistry().loadReport(fileInputStream, TemplateEngineKind.Freemarker);
+                IContext context = report.createContext();
+                FieldsMetadata metadata = report.createFieldsMetadata();
 
-            Map<String, Object> data = new HashMap<>();
-            data.put("statementId", statementId);
-            data.put("statementCreationDate", statement.getCreationDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-            data.put("firstName", transliterate(statement.getClient().getFirstName()));
-            data.put("lastName", transliterate(statement.getClient().getLastName()));
-            data.put("middleName", transliterate(statement.getClient().getMiddleName()));
-            data.put("amount", statement.getCredit().getAmount());
-            data.put("term", statement.getCredit().getTerm());
-            data.put("accountNumber", statement.getClient().getAccountNumber());
-            data.put("rate", statement.getCredit().getRate());
-            data.put("passportSeries", statement.getClient().getPassport().getSeries());
-            data.put("passportNumber", statement.getClient().getPassport().getNumber());
-            data.put("passportIssueDate", statement.getClient().getPassport().getIssueDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
-            data.put("passportIssueBranch", transliterate(statement.getClient().getPassport().getIssueBranch()));
-            data.put("payments", statement.getCredit().getPaymentSchedule());
+                Map<String, Object> data = new HashMap<>();
+                data.put("statementId", statementId);
+                data.put("statementCreationDate", statement.getCreationDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+                data.put("firstName", transliterate(statement.getClient().getFirstName()));
+                data.put("lastName", transliterate(statement.getClient().getLastName()));
+                data.put("middleName", transliterate(statement.getClient().getMiddleName()));
+                data.put("amount", statement.getCredit().getAmount());
+                data.put("term", statement.getCredit().getTerm());
+                data.put("accountNumber", statement.getClient().getAccountNumber());
+                data.put("rate", statement.getCredit().getRate());
+                data.put("passportSeries", statement.getClient().getPassport().getSeries());
+                data.put("passportNumber", statement.getClient().getPassport().getNumber());
+                data.put("passportIssueDate", statement.getClient().getPassport().getIssueDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+                data.put("passportIssueBranch", transliterate(statement.getClient().getPassport().getIssueBranch()));
+                data.put("payments", statement.getCredit().getPaymentSchedule());
 
-            for (Map.Entry<String, Object> entry : data.entrySet()) {
-                metadata.addFieldAsTextStyling(entry.getKey(), "none");
-                context.put(entry.getKey(), entry.getValue());
+                for (Map.Entry<String, Object> entry : data.entrySet()) {
+                    metadata.addFieldAsTextStyling(entry.getKey(), "none");
+                    context.put(entry.getKey(), entry.getValue());
+                }
+                report.process(context, fileOutputStream);
+                log.info("Loan documents for statement with id {} was created", statementId);
             }
-            report.process(context, fileOutputStream);
-            log.info("Loan documents for statement with id {} was created", statementId);
         } catch (Exception e) {
             throw new RequestException(e.getMessage());
         }
+        return tempFile;
     }
 }
