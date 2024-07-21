@@ -1,14 +1,13 @@
 package com.bogstepan.simple_bank.statement.service;
 
-import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
-import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.clients.dto.LoanOfferDto;
+import com.bogstepan.simple_bank.clients.dto.LoanStatementRequestDto;
 import com.bogstepan.simple_bank.statement.exception.RequestException;
 import com.bogstepan.simple_bank.statement.feign.DealFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

@@ -1,14 +1,14 @@
 package com.bogstepan.simple_bank.deal.mapping;
 
-import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
-import com.bogstepan.simple_bank.calculator_client.dto.ScoringDataDto;
-import com.bogstepan.simple_bank.calculator_client.enums.EmploymentPosition;
-import com.bogstepan.simple_bank.calculator_client.enums.EmploymentStatus;
-import com.bogstepan.simple_bank.calculator_client.enums.Gender;
-import com.bogstepan.simple_bank.calculator_client.enums.MaritalStatus;
+import com.bogstepan.simple_bank.clients.dto.LoanOfferDto;
+import com.bogstepan.simple_bank.clients.dto.ScoringDataDto;
+import com.bogstepan.simple_bank.clients.enums.EmploymentPosition;
+import com.bogstepan.simple_bank.clients.enums.EmploymentStatus;
+import com.bogstepan.simple_bank.clients.enums.Gender;
+import com.bogstepan.simple_bank.clients.enums.MaritalStatus;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
 import com.bogstepan.simple_bank.deal.model.entity.Statement;
-import com.bogstepan.simple_bank.deal.model.enums.*;
+import com.bogstepan.simple_bank.deal.model.enums.ApplicationStatus;
 import com.bogstepan.simple_bank.deal.model.json.Employment;
 import com.bogstepan.simple_bank.deal.model.json.Passport;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 class ScoringDataMapperTest {

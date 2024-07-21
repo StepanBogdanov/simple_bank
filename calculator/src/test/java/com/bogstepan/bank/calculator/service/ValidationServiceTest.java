@@ -1,11 +1,11 @@
 package com.bogstepan.bank.calculator.service;
 
-import com.bogstepan.simple_bank.calculator_client.dto.EmploymentDto;
-import com.bogstepan.simple_bank.calculator_client.dto.ScoringDataDto;
-import com.bogstepan.simple_bank.calculator_client.enums.EmploymentPosition;
-import com.bogstepan.simple_bank.calculator_client.enums.EmploymentStatus;
-import com.bogstepan.simple_bank.calculator_client.enums.Gender;
-import com.bogstepan.simple_bank.calculator_client.enums.MaritalStatus;
+import com.bogstepan.simple_bank.clients.dto.EmploymentDto;
+import com.bogstepan.simple_bank.clients.dto.ScoringDataDto;
+import com.bogstepan.simple_bank.clients.enums.EmploymentPosition;
+import com.bogstepan.simple_bank.clients.enums.EmploymentStatus;
+import com.bogstepan.simple_bank.clients.enums.Gender;
+import com.bogstepan.simple_bank.clients.enums.MaritalStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class ValidationServiceTest {

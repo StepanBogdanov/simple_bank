@@ -1,0 +1,63 @@
+server.port: 8083
+
+spring:
+  application.name: dossier
+  cloud:
+    function:
+      definition: finishRegistrationRequest;createDocumentsRequest;sendDocumentsRequest;signDocumentsRequest;creditIssueRequest; statementDeniedRequest
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:29092
+          consumer-properties:
+            value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
+      bindings:
+        finishRegistrationRequest-in-0:
+          group: dossier-consumer
+          destination: finishRegistration
+          consumer:
+            use-native-decoding: true
+        createDocumentsRequest-in-0:
+          group: dossier-consumer
+          destination: createDocuments
+          consumer:
+            use-native-decoding: true
+        sendDocumentsRequest-in-0:
+          group: dossier-consumer
+          destination: sendDocuments
+          consumer:
+            use-native-decoding: true
+        signDocumentsRequest-in-0:
+          group: dossier-consumer
+          destination: sendSes
+          consumer:
+            use-native-decoding: true
+        creditIssueRequest-in-0:
+          group: dossier-consumer
+          destination: creditIssued
+          consumer:
+            use-native-decoding: true
+        statementDeniedRequest-in-0:
+          group: dossier-consumer
+          destination: creditDenied
+          consumer:
+            use-native-decoding: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: bogstepan@gmail.com
+    password: ${GOOGLE_PASSWORD}
+    test-connection: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+
+logging:
+  level.root: INFO
+  file.name: logs/dossier.log

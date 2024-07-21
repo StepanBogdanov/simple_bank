@@ -1,6 +1,6 @@
 package com.bogstepan.bank.calculator.service;
 
-import com.bogstepan.simple_bank.calculator_client.dto.ScoringDataDto;
+import com.bogstepan.simple_bank.clients.dto.ScoringDataDto;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;

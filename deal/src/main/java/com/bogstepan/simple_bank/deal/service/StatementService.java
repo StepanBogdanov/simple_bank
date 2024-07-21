@@ -1,6 +1,6 @@
 package com.bogstepan.simple_bank.deal.service;
 
-import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
+import com.bogstepan.simple_bank.clients.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.deal.exception.RequestException;
 import com.bogstepan.simple_bank.deal.model.dto.StatementStatusHistoryDto;
 import com.bogstepan.simple_bank.deal.model.entity.Client;
@@ -59,14 +59,29 @@ public class StatementService {
         return statementRepository.save(statement);
     }
 
-    public void calculatedCreditStatement(Statement statement, Credit credit) {
+    public void setCredit(Statement statement, Credit credit) {
         statement.setCredit(credit);
-        statement.setStatus(ApplicationStatus.CC_APPROVED);
-        statement.getStatusHistory().addElement( new StatementStatusHistoryDto(
-                ApplicationStatus.CC_APPROVED,
+        statementRepository.save(statement);
+    }
+
+    public void updateStatementStatus(String statementID, ApplicationStatus status) {
+        var statement = getById(statementID);
+        statement.setStatus(status);
+        statement.getStatusHistory().addElement(new StatementStatusHistoryDto(
+                status,
                 LocalDateTime.now(),
                 ChangeType.AUTOMATIC
         ));
+        if (status == ApplicationStatus.DOCUMENT_SIGNED) {
+            statement.setSignDate(LocalDateTime.now());
+        }
+        statementRepository.save(statement);
+    }
+
+    public void setSesCode(String statementId) {
+        var statement = getById(statementId);
+        var sesCode = String.valueOf((int) (Math.random()*900000) + 100000);
+        statement.setSesCode(sesCode);
         statementRepository.save(statement);
     }
 }

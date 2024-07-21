@@ -1,6 +1,6 @@
 package com.bogstepan.bank.calculator.service;
 
-import com.bogstepan.simple_bank.calculator_client.dto.PaymentScheduleElementDto;
+import com.bogstepan.simple_bank.clients.dto.PaymentScheduleElementDto;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

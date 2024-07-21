@@ -2,10 +2,10 @@ package com.bogstepan.bank.calculator.controller;
 
 import com.bogstepan.bank.calculator.exception.InvalidRequestException;
 import com.bogstepan.bank.calculator.service.CalculatorService;
-import com.bogstepan.simple_bank.calculator_client.dto.CreditDto;
-import com.bogstepan.simple_bank.calculator_client.dto.LoanOfferDto;
-import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
-import com.bogstepan.simple_bank.calculator_client.dto.ScoringDataDto;
+import com.bogstepan.simple_bank.clients.dto.CreditDto;
+import com.bogstepan.simple_bank.clients.dto.LoanOfferDto;
+import com.bogstepan.simple_bank.clients.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.clients.dto.ScoringDataDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;

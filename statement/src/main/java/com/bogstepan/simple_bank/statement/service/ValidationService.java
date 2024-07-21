@@ -1,6 +1,6 @@
 package com.bogstepan.simple_bank.statement.service;
 
-import com.bogstepan.simple_bank.calculator_client.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.clients.dto.LoanStatementRequestDto;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;

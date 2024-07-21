@@ -1,14 +1,14 @@
 package com.bogstepan.simple_bank.deal.mapping;
 
-import com.bogstepan.simple_bank.calculator_client.dto.EmploymentDto;
-import com.bogstepan.simple_bank.calculator_client.enums.EmploymentPosition;
-import com.bogstepan.simple_bank.calculator_client.enums.EmploymentStatus;
+import com.bogstepan.simple_bank.clients.dto.EmploymentDto;
+import com.bogstepan.simple_bank.clients.enums.EmploymentPosition;
+import com.bogstepan.simple_bank.clients.enums.EmploymentStatus;
 import com.bogstepan.simple_bank.deal.model.json.Employment;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class EmploymentMapperTest {
 
