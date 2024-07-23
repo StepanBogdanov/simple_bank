@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @Tag(name = "Gateway API")
 public class GatewayController {
 
@@ -46,6 +48,7 @@ public class GatewayController {
     })
     @PostMapping("/statement")
     ResponseEntity<List<LoanOfferDto>> calculateOffers(@RequestBody LoanStatementRequestDto loanStatementRequestDto) {
+        log.info("An statement has been received to Gateway for calculating loan offers {}", loanStatementRequestDto);
         return statementFeignClient.calculateOffers(loanStatementRequestDto);
     }
 
@@ -67,6 +70,7 @@ public class GatewayController {
     })
     @PostMapping("/statement/select")
     void selectOffer(@RequestBody LoanOfferDto loanOfferDto) {
+        log.info("The selected loan offer has been received {} to Gateway", loanOfferDto.getStatementId());
         dealFeignClient.selectOffer(loanOfferDto);
     }
 
@@ -92,6 +96,7 @@ public class GatewayController {
     @PostMapping("/statement/registration/{statementId}")
     void calculateCredit(@RequestBody FinishRegistrationRequestDto finishRegistrationRequestDto,
                          @Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId) {
+        log.info("Finish registration request for statement with Id {} has been received to Gateway: {}", statementId, finishRegistrationRequestDto );
         dealFeignClient.calculateCredit(finishRegistrationRequestDto, statementId);
     }
 
@@ -113,6 +118,7 @@ public class GatewayController {
     })
     @PostMapping("/document/{statementId}")
     void sendDocs(@Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId) {
+        log.info("Create documents request for statement {} has been received to Gateway", statementId);
         dealFeignClient.sendDocs(statementId);
     }
 
@@ -131,6 +137,7 @@ public class GatewayController {
     })
     @PostMapping("/document/{statementId}/sign")
     void signDocs(@Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId) {
+        log.info("Sign documents request for statement {} has been received to Gateway", statementId);
         dealFeignClient.signDocs(statementId);
     }
 
@@ -151,6 +158,7 @@ public class GatewayController {
     @PostMapping("/document/{statementId}/sign/code")
     void codeDocs(@Parameter(example = "123456") @RequestParam("sesCode") String sesCode,
                   @Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId) {
+        log.info("Verify ses code request for statement {} has been received to Gateway", statementId);
         dealFeignClient.codeDocs(sesCode, statementId);
     }
 

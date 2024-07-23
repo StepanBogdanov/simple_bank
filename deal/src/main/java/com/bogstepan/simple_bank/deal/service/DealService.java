@@ -100,4 +100,8 @@ public class DealService {
     public StatementDto getStatement(String statementId) {
         return statementMapper.toStatementDto(statementService.getById(statementId));
     }
+
+    public List<StatementDto> getStatements() {
+        return statementService.getStatements().stream().map(statementMapper::toStatementDto).toList();
+    }
 }

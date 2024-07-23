@@ -123,11 +123,35 @@ public interface DealApi {
     void codeDocs(@Parameter(example = "123456") @RequestParam("sesCode") String sesCode,
                   @Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
 
-    @Operation(summary = "Получить заявку по id")
+    @Operation(summary = "Получить заявку по id", description = """
+            По API приходит параметр statementId(String).
+            Ответ на API - заявка StatementDto с соответсвующим statementId.
+            """)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Заявка найдена и возвращена"),
+            @ApiResponse(responseCode = "400", description = "Ошибка поиска заявки", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = InvalidRequestDataDto.class)) })
+    })
     @GetMapping("/deal/admin/statement/{statementId}")
     StatementDto getStatement(@Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
 
-    @Operation(summary = "Обновить статус заявки")
+    @Operation(summary = "Обновить статус заявки", description = """
+            По API приходит параметр statementId(String).
+            Обновляется статус заявки(DOCUMENT_SIGNED).
+            """)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Заявка успешно обновлена"),
+            @ApiResponse(responseCode = "400", description = "Ошибка обновления заявки", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = InvalidRequestDataDto.class)) })
+    })
     @PutMapping("/deal/admin/statement/{statementId}/status")
     void updateStatementStatus(@Parameter(example = "2fbfeaef-ab99-49fa-951b-aa44bd58d309") @PathVariable("statementId") String statementId);
+
+    @Operation(summary = "Получить все заявки", description = """
+            Ответ на API - список из всех заявок, хранязихся в базе данных.
+            """)
+    @GetMapping("/deal/admin/statement")
+    List<StatementDto> getStatements();
 }

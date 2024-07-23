@@ -59,11 +59,19 @@ public class DealController implements DealApi {
 
     @Override
     public StatementDto getStatement(String statementId) {
+        log.info("Get statement request for statement {} was received", statementId);
         return dealService.getStatement(statementId);
     }
 
     @Override
     public void updateStatementStatus(String statementId) {
+        log.info("Update statement request for statement {} was received", statementId);
         dealService.updateStatementStatusDocumentsCreated(statementId);
+    }
+
+    @Override
+    public List<StatementDto> getStatements() {
+        log.info("Get all statements request was received");
+        return dealService.getStatements();
     }
 }

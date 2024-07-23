@@ -11,13 +11,17 @@ import com.bogstepan.simple_bank.deal.model.enums.ChangeType;
 import com.bogstepan.simple_bank.deal.model.json.StatusHistory;
 import com.bogstepan.simple_bank.deal.repository.StatementRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class StatementService {
 
     private final StatementRepository statementRepository;
@@ -28,6 +32,7 @@ public class StatementService {
         if (statement.isEmpty()) {
             throw new RequestException(String.format("Statement with id %s not found", uuid));
         }
+        log.info("Statement with id {} has been found", uuid);
         return statement.get();
     }
 
@@ -76,6 +81,7 @@ public class StatementService {
             statement.setSignDate(LocalDateTime.now());
         }
         statementRepository.save(statement);
+        log.info("Statement's status wit id {} has been updated to {}", statementID, status.toString());
     }
 
     public void setSesCode(String statementId) {
@@ -83,5 +89,11 @@ public class StatementService {
         var sesCode = String.valueOf((int) (Math.random()*900000) + 100000);
         statement.setSesCode(sesCode);
         statementRepository.save(statement);
+    }
+
+    public List<Statement> getStatements() {
+        List<Statement> statements = new ArrayList<>();
+        statementRepository.findAll().forEach(statements::add);
+        return statements;
     }
 }
