@@ -61,3 +61,7 @@ spring:
 logging:
   level.root: INFO
   file.name: logs/dossier.log
+
+feign:
+  deal:
+    url: "http://127.0.0.1:8081"

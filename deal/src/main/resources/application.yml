@@ -5,7 +5,7 @@ spring:
   application:
     name: deal
   datasource:
-    url: jdbc:postgresql://localhost:5432/simple_bank
+    url: jdbc:postgresql://127.0.0.1:5432/simple_bank
     username: postgres
     password: password
     driver-class-name: org.postgresql.Driver
@@ -49,4 +49,6 @@ logging:
   level.root: INFO
   file.name: logs/deal.log
 
-
+feign:
+  calculator:
+    url: "http://127.0.0.1:8080"
