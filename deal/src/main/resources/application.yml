@@ -1,11 +1,12 @@
 server:
-  port: 8081
+  address: ${APP_ADDRESS:127.0.0.1}
+  port: ${DEAL_PORT:8081}
 
 spring:
   application:
     name: deal
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/simple_bank
+    url: jdbc:postgresql://${APP_ADDRESS:127.0.0.1}:${DB_PORT:5432}/simple_bank
     username: postgres
     password: password
     driver-class-name: org.postgresql.Driver
@@ -17,7 +18,7 @@ spring:
     stream:
       kafka:
         binder:
-          brokers: localhost:29092
+          brokers: ${APP_ADDRESS:127.0.0.1}:${KAFKA_PORT:29092}
           producer-properties:
             value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
       bindings:
@@ -51,4 +52,4 @@ logging:
 
 feign:
   calculator:
-    url: "http://127.0.0.1:8080"
+    url: ${APP_ADDRESS:127.0.0.1}:${CALCULATOR_PORT:8080}
