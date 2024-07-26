@@ -1,5 +1,6 @@
 server:
-  port: 8081
+  address: ${APP_ADDRESS}
+  port: ${DEAL_PORT}
 
 spring:
   application:
@@ -51,4 +52,4 @@ logging:
 
 feign:
   calculator:
-    url: "http://127.0.0.1:8080"
+    url: ${APP_ADDRESS}:${CALCULATOR_PORT}

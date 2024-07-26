@@ -1,4 +1,6 @@
-server.port: 8083
+server:
+  address: ${APP_ADDRESS}
+  port: ${DOSSIER_PORT}
 
 spring:
   application.name: dossier
@@ -64,4 +66,4 @@ logging:
 
 feign:
   deal:
-    url: "http://127.0.0.1:8081"
+    url: ${APP_ADDRESS}:${DEAL_PORT}
