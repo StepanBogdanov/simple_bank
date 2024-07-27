@@ -1,5 +1,5 @@
 server:
-  address: ${APP_ADDRESS:127.0.0.1}
+  address: ${DOSSIER_HOST:127.0.0.1}
   port: ${DOSSIER_PORT:8083}
 
 spring:
@@ -10,7 +10,7 @@ spring:
     stream:
       kafka:
         binder:
-          brokers: ${APP_ADDRESS:127.0.0.1}:${KAFKA_PORT:29092}
+          brokers: ${KAFKA_HOST:127.0.0.1}:${KAFKA_PORT:29092}
           consumer-properties:
             value.deserializer: com.bogstepan.simple_bank.dossier.consumer.EmailMessageDeserializer
       bindings:
@@ -66,4 +66,4 @@ logging:
 
 feign:
   deal:
-    url: ${APP_ADDRESS:127.0.0.1}:${DEAL_PORT:8081}
+    url: ${DEAL_HOST:127.0.0.1}:${DEAL_PORT:8081}
