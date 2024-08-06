@@ -21,7 +21,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build Clients with Maven
-        run: mvn -B package --file ./clients/pom.xml
+        run: mvn -B install --file ./clients/pom.xml
       - name: Build Calculator with Maven
         run: mvn -B package --file ./calculator/pom.xml
       - name: Build Deal with Maven
