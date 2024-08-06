@@ -20,10 +20,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - name: Build Calculator with Maven
-        run: mvn -B package --file ./calculator/pom.xml
       - name: Build Clients with Maven
         run: mvn -B package --file ./clients/pom.xml
+      - name: Build Calculator with Maven
+        run: mvn -B package --file ./calculator/pom.xml
       - name: Build Deal with Maven
         run: mvn -B package --file ./deal/pom.xml
       - name: Build Dossier with Maven
