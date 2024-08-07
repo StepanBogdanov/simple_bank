@@ -50,8 +50,9 @@ jobs:
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2.3.0
         with:
-          sonar-project-key: StepanBogdanov_simple_bank
-          sonar-organization: stepanbogdanov
+          args: >
+            -Dsonar.organization=stepanbogdanov
+            -Dsonar.projectKey=StepanBogdanov_simple_bank
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
