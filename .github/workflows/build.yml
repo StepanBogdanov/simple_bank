@@ -39,6 +39,7 @@ jobs:
             ./calculator/target/site/jacoco/jacoco.xml
             ./deal/target/site/jacoco/jacoco.xml
             ./statement/target/site/jacoco/jacoco.xml
+            ./dossier/target/site/jacoco/jacoco.xml
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2.3.0
