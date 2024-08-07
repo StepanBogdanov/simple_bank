@@ -8,10 +8,9 @@ on:
     branches: [ "develop" ]
 
 jobs:
+
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -41,8 +40,18 @@ jobs:
             ./statement/target/site/jacoco/jacoco.xml
             ./dossier/target/site/jacoco/jacoco.xml
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  sonarcloud:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2.3.0
+        with:
+          sonar-project-key: StepanBogdanov_simple_bank
+          sonar-organization: stepanbogdanov
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
