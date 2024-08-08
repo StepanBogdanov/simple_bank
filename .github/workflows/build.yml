@@ -9,37 +9,37 @@ on:
 
 jobs:
 
-#  build:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: Set up JDK 17
-#        uses: actions/setup-java@v4
-#        with:
-#          java-version: '17'
-#          distribution: 'temurin'
-#          cache: maven
-#      - name: Build Clients with Maven
-#        run: mvn -B install --file ./clients/pom.xml
-#      - name: Build Calculator with Maven
-#        run: mvn -B package --file ./calculator/pom.xml
-#      - name: Build Deal with Maven
-#        run: mvn -B package --file ./deal/pom.xml
-#      - name: Build Dossier with Maven
-#        run: mvn -B package --file ./dossier/pom.xml
-#      - name: Build Gateway with Maven
-#        run: mvn -B package --file ./gateway/pom.xml
-#      - name: Build Statement with Maven
-#        run: mvn -B package --file ./statement/pom.xml
-#      - name: Upload coverage to Codecov
-#        uses: codecov/codecov-action@v4.0.1
-#        with:
-#          file:
-#            ./calculator/target/site/jacoco/jacoco.xml
-#            ./deal/target/site/jacoco/jacoco.xml
-#            ./statement/target/site/jacoco/jacoco.xml
-#            ./dossier/target/site/jacoco/jacoco.xml
-#          token: ${{ secrets.CODECOV_TOKEN }}
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build Clients with Maven
+        run: mvn -B install --file ./clients/pom.xml
+      - name: Build Calculator with Maven
+        run: mvn -B package --file ./calculator/pom.xml
+      - name: Build Deal with Maven
+        run: mvn -B package --file ./deal/pom.xml
+      - name: Build Dossier with Maven
+        run: mvn -B package --file ./dossier/pom.xml
+      - name: Build Gateway with Maven
+        run: mvn -B package --file ./gateway/pom.xml
+      - name: Build Statement with Maven
+        run: mvn -B package --file ./statement/pom.xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          file:
+            ./calculator/target/site/jacoco/jacoco.xml
+            ./deal/target/site/jacoco/jacoco.xml
+            ./statement/target/site/jacoco/jacoco.xml
+            ./dossier/target/site/jacoco/jacoco.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   sonarcloud:
     runs-on: ubuntu-latest
