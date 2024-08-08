@@ -48,6 +48,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: List output files
+        run: ls -R ./calculator/target
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2.3.0
         with:
