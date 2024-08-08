@@ -40,8 +40,9 @@ services:
   calculator:
     build: calculator/.
     hostname: calculator
-    env_file:
-      - .env
+    environment:
+      CALCULATOR_HOST: calculator
+      CALCULATOR_PORT: 8080
     ports:
       - '8080:8080'
 
@@ -50,6 +51,13 @@ services:
     hostname: dossier
     depends_on:
       - kafka
+    environment:
+      DOSSIER_HOST: dossier
+      DOSSIER_PORT: 8083
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 29092
+      DEAL_HOST: deal
+      DEAL_PORT: 8081
     env_file:
       - .env
     ports:
@@ -62,8 +70,15 @@ services:
       - kafka
       - db
       - calculator
-    env_file:
-      - .env
+    environment:
+      DEAL_HOST: deal
+      DEAL_PORT: 8081
+      DB_HOST: db
+      DB_PORT: 5432
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 29092
+      CALCULATOR_HOST: calculator
+      CALCULATOR_PORT: 8080
     ports:
       - '8081:8081'
 
@@ -72,8 +87,11 @@ services:
     hostname: statement
     depends_on:
       - deal
-    env_file:
-      - .env
+    environment:
+      STATEMENT_HOST: statement
+      STATEMENT_PORT: 8082
+      DEAL_HOST: deal
+      DEAL_PORT: 8081
     ports:
       - '8082:8082'
 
@@ -83,7 +101,12 @@ services:
     depends_on:
       - statement
       - deal
-    env_file:
-      - .env
+    environment:
+      GATEWAY_HOST: gateway
+      GATEWAY_PORT: 8000
+      DEAL_HOST: deal
+      DEAL_PORT: 8081
+      STATEMENT_HOST: statement
+      STATEMENT_PORT: 8082
     ports:
       - '8000:8000'
