@@ -71,7 +71,6 @@ public class DealController implements DealApi {
 
     @Override
     public List<StatementDto> getStatements() {
-        log.info("Get all statements request was received");
         return dealService.getStatements();
     }
 }

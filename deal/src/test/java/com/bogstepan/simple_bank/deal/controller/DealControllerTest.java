@@ -3,6 +3,7 @@ package com.bogstepan.simple_bank.deal.controller;
 import com.bogstepan.simple_bank.clients.dto.FinishRegistrationRequestDto;
 import com.bogstepan.simple_bank.clients.dto.LoanOfferDto;
 import com.bogstepan.simple_bank.clients.dto.LoanStatementRequestDto;
+import com.bogstepan.simple_bank.clients.dto.StatementDto;
 import com.bogstepan.simple_bank.deal.service.DealService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,6 +51,55 @@ class DealControllerTest {
         var id = "123456";
         controller.calculateCredit(request, id);
         Mockito.verify(dealService, times(1)).calculateCredit(request, id);
+    }
+
+    @Test
+    public void whenControllerSendDocsThenInvokeDealServicePrepareDocuments() {
+        String id = "123";
+        controller.sendDocs(id);
+        Mockito.verify(dealService, times(1)).prepareDocuments(id);
+    }
+
+    @Test
+    public void whenControllerSignDocsThenInvokeDealServiceSetStatementSesCode() {
+        String id = "123";
+        controller.signDocs(id);
+        Mockito.verify(dealService, times(1)).setStatementSesCode(id);
+    }
+
+    @Test
+    public void whenControllerCodeDocsThenInvokeDealServiceVerifyingSesCode() {
+        String id = "123";
+        String code = "123456";
+        controller.codeDocs(code, id);
+        Mockito.verify(dealService, times(1)).verifyingSesCode(code, id);
+    }
+
+    @Test
+    public void whenControllerUpdateStatementStatusThenInvokeDealServiceUpdateStatementStatus() {
+        String id = "123";
+        controller.updateStatementStatus(id);
+        Mockito.verify(dealService, times(1)).updateStatementStatusDocumentsCreated(id);
+    }
+
+    @Test
+    public void whenControllerGetStatementThenReturnStatementDto() {
+        StatementDto expectedStatement = new StatementDto();
+        String id = "123";
+        Mockito.when(dealService.getStatement(id)).thenReturn(expectedStatement);
+        var statement = controller.getStatement(id);
+        Mockito.verify(dealService, times(1)).getStatement(id);
+        assertThat(statement).isEqualTo(expectedStatement);
+    }
+
+    @Test
+    public void whenControllerGetStatementsThenReturnListOfStatementsDto() {
+        StatementDto statement = new StatementDto();
+        var expectedList = List.of(statement);
+        Mockito.when(dealService.getStatements()).thenReturn(expectedList);
+        var statements = dealService.getStatements();
+        Mockito.verify(dealService, times(1)).getStatements();
+        assertThat(statements).isEqualTo(expectedList);
     }
 
 }
