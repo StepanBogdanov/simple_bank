@@ -54,7 +54,7 @@ jobs:
           args: >
             -Dsonar.organization=stepanbogdanov
             -Dsonar.projectKey=StepanBogdanov_simple_bank
-            -Dsonar.java.binaries=./calculator/target/classes,./clients/target/classes,./deal/target/classes,./dossier/target/classes,./gateway/target/classes,./statement/target/classes
+            -Dsonar.java.binaries=calculator/target/classes,clients/target/classes,deal/target/classes,dossier/target/classes,gateway/target/classes,statement/target/classes
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
