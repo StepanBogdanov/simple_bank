@@ -19,6 +19,19 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+      - name: Cache compiled files
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./calculator/target
+            ./clients/target
+            ./deal/target
+            ./dossier/target
+            ./gateway/target
+            ./statement/target
+          key: ${{ runner.os }}-target-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-target-
       - name: Build Clients with Maven
         run: mvn -B install --file ./clients/pom.xml
       - name: Build Calculator with Maven
