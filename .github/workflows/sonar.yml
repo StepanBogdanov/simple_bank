@@ -36,7 +36,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: cd ./clients/ && mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=StepanBogdanov_simple_bank -Dsonar.organization=stepanbogdanov
+        run: cd ./clients/ && mvn -B install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=StepanBogdanov_simple_bank -Dsonar.organization=stepanbogdanov
 
       - name: sonarsource statement
         env:
