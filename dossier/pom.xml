@@ -29,6 +29,7 @@
     <properties>
         <java.version>17</java.version>
         <spring-cloud.version>2023.0.2</spring-cloud.version>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <dependencies>
         <dependency>
@@ -121,6 +122,33 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.12</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jcc-report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>com/bogstepan/simple_bank/deal/feign/**</exclude>
+                        <exclude>com/bogstepan/simple_bank/deal/exception/**</exclude>
+                        <exclude>com/bogstepan/simple_bank/deal/consumer/**</exclude>
+                        <exclude>com/bogstepan/simple_bank/deal/DossierApplication.class</exclude>
                     </excludes>
                 </configuration>
             </plugin>
