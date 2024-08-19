@@ -13,6 +13,7 @@ services:
       - '5432:5432'
     volumes:
       - ./data/db:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest

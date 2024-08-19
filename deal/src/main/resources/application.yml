@@ -10,7 +10,7 @@ spring:
     username: postgres
     password: password
     driver-class-name: org.postgresql.Driver
-  jpa.hibernate.ddl-auto: validate
+  jpa.hibernate.ddl-auto: update
   liquibase.change-log: classpath:db/liquibase-changelog.xml
   cloud:
     function:
