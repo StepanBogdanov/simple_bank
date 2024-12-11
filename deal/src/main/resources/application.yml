@@ -1,0 +1,55 @@
+server:
+  address: ${DEAL_HOST:127.0.0.1}
+  port: ${DEAL_PORT:8081}
+
+spring:
+  application:
+    name: deal
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:127.0.0.1}:${DB_PORT:5432}/simple_bank
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa.hibernate.ddl-auto: update
+  liquibase.change-log: classpath:db/liquibase-changelog.xml
+  cloud:
+    function:
+      definition: finishRegistrationRequest;createDocumentsRequest;sendDocumentsRequest;signDocumentsRequest;creditIssueRequest; statementDeniedRequest
+    stream:
+      kafka:
+        binder:
+          brokers: ${KAFKA_HOST:127.0.0.1}:${KAFKA_PORT:29092}
+          producer-properties:
+            value.serializer: com.bogstepan.simple_bank.deal.supplier.EmailMessageSerializer
+      bindings:
+        finishRegistrationRequest-out-0:
+          destination: finishRegistration
+          producer:
+            useNativeEncoding: true
+        createDocumentsRequest-out-0:
+          destination: createDocuments
+          producer:
+            useNativeEncoding: true
+        sendDocumentsRequest-out-0:
+          destination: sendDocuments
+          producer:
+            useNativeEncoding: true
+        signDocumentsRequest-out-0:
+          destination: sendSes
+          producer:
+            useNativeEncoding: true
+        creditIssueRequest-out-0:
+          destination: creditIssued
+          producer:
+            useNativeEncoding: true
+        statementDeniedRequest-out-0:
+          destination: creditDenied
+          producer:
+            use-native-encoding: true
+logging:
+  level.root: INFO
+  file.name: logs/deal.log
+
+feign:
+  calculator:
+    url: ${CALCULATOR_HOST:127.0.0.1}:${CALCULATOR_PORT:8080}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Loan documents mail</title>
+</head>
+<body>
+<h3>Здравствуйте, [[${surname}]] [[${name}]]!</h3>
+<p>
+    Ваши документы сформированы и доступны во вложении к письму.
+    Если Вы согласны с условиями кредита перейдите по ссылке:
+    <a th:href="@{http://localhost/8081/deal/document/{statementId}/sign(statementId = ${statementId})}">Согласиться с условиями</a>.
+    Если Вы отказываетесь от кредита перейдите по следующей ссылке:
+    ССЫЛКА НА ОТКАЗ
+</p>
+<p/>
+<p>С наилучшими пожеланиями,</p>
+<p>Команда Simple_bank</p>
+</body>
+</html>
